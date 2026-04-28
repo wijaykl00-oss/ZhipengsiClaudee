@@ -157,7 +157,7 @@ export default function App() {
     <div className="font-sans text-slate-900 bg-white min-h-screen">
       <Navbar isScrolled={isScrolled} />
       <Hero />
-      <Products onSelectProduct={setSelectedProduct} />
+      <Products onSelectProduct={(product, quantity) => setSelectedProduct({ product, quantity })} />
       <Payment />
       <About />
       <Testimonials />
