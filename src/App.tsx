@@ -143,7 +143,7 @@ const products = [
 
 export default function App() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState<any>(null);
+  const [selectedProduct, setSelectedProduct] = useState<{product: any, quantity: number} | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -165,7 +165,11 @@ export default function App() {
       <Footer />
       
       {selectedProduct && (
-        <CheckoutModal product={selectedProduct} onClose={() => setSelectedProduct(null)} />
+        <CheckoutModal 
+          product={selectedProduct.product} 
+          initialQuantity={selectedProduct.quantity} 
+          onClose={() => setSelectedProduct(null)} 
+        />
       )}
       
       <button className="fixed bottom-6 right-6 bg-slate-900 hover:bg-slate-800 text-white rounded-full py-3 px-6 shadow-xl flex items-center gap-2 transition-all hover:scale-105 z-50">
@@ -269,8 +273,8 @@ function Hero() {
                   {products.map((p) => (
                     <div key={p.id} className="group flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-white/10 transition-all duration-300">
                       <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-xl bg-slate-800/80 flex items-center justify-center border border-white/5 group-hover:scale-110 transition-transform duration-300">
-                           {React.cloneElement(p.icon as React.ReactElement, { className: 'w-6 h-6' })}
+                        <div className="w-12 h-12 rounded-xl bg-slate-800/80 flex items-center justify-center border border-white/5 overflow-hidden group-hover:scale-110 transition-transform duration-300">
+                           <img src={p.image} alt={p.name} className="w-full h-full object-cover" />
                         </div>
                         <span className="font-semibold text-lg tracking-wide">{p.name}</span>
                       </div>
@@ -290,7 +294,14 @@ function Hero() {
   )
 }
 
-function Products({ onSelectProduct }: { onSelectProduct: (product: any) => void }) {
+function Products({ onSelectProduct }: { onSelectProduct: (product: any, quantity: number) => void }) {
+  const [quantities, setQuantities] = useState<Record<string, number>>({});
+
+  const getQty = (id: string) => quantities[id] || 1;
+  const updateQty = (id: string, delta: number) => {
+    setQuantities(prev => ({ ...prev, [id]: Math.max(1, (prev[id] || 1) + delta) }));
+  };
+
   return (
     <div id="products" className="py-24 bg-slate-50">
       <div className="container mx-auto px-4 lg:px-8">
@@ -358,11 +369,15 @@ function Products({ onSelectProduct }: { onSelectProduct: (product: any) => void
                 <div className="flex justify-between items-center text-sm mb-2">
                   <span className="font-medium text-slate-700">数量</span>
                   <div className="flex items-center justify-between border border-slate-200 rounded-full w-24 bg-slate-50 p-0.5">
-                     <button className="w-7 h-7 rounded-full bg-transparent flex items-center justify-center text-slate-500 hover:bg-slate-200 transition-colors">
+                     <button 
+                       onClick={(e) => { e.stopPropagation(); updateQty(p.id, -1); }}
+                       className="w-7 h-7 rounded-full bg-transparent flex items-center justify-center text-slate-500 hover:bg-slate-200 transition-colors">
                        <Minus className="w-4 h-4" />
                      </button>
-                     <span className="font-semibold text-slate-900">1</span>
-                     <button className={cn("w-7 h-7 rounded-full flex items-center justify-center text-white transition-colors", p.buttonColor)}>
+                     <span className="font-semibold text-slate-900">{getQty(p.id)}</span>
+                     <button 
+                       onClick={(e) => { e.stopPropagation(); updateQty(p.id, 1); }}
+                       className={cn("w-7 h-7 rounded-full flex items-center justify-center text-white transition-colors", p.buttonColor)}>
                        <Plus className="w-4 h-4" />
                      </button>
                   </div>
@@ -371,7 +386,7 @@ function Products({ onSelectProduct }: { onSelectProduct: (product: any) => void
                   <ShieldCheck className="w-4 h-4" /> 30 天退款保证
                 </div>
                 <button 
-                  onClick={() => onSelectProduct(p)}
+                  onClick={(e) => { e.stopPropagation(); onSelectProduct(p, getQty(p.id)); }}
                   className={cn("w-full py-4 rounded-xl text-white font-bold text-lg shadow-md hover:shadow-lg transition-all", p.buttonColor)}
                 >
                   立即购买
@@ -386,6 +401,8 @@ function Products({ onSelectProduct }: { onSelectProduct: (product: any) => void
 }
 
 function Payment() {
+  const [activeTab, setActiveTab] = useState<'alipay' | 'bep20'>('alipay');
+
   return (
     <div id="payment" className="py-24 bg-[#141624] text-white">
       <div className="container mx-auto px-4 lg:px-8">
@@ -464,42 +481,84 @@ function Payment() {
             </div>
           </div>
 
-          <div className="bg-[#1c1f33] rounded-3xl p-8 lg:p-12 border border-white/10 shadow-2xl relative">
+          <div className="bg-[#1c1f33] rounded-3xl p-8 lg:p-12 border border-white/10 shadow-2xl relative min-h-[500px]">
             <div className="bg-[#141624] p-1.5 rounded-full inline-flex w-full mb-10">
-              <button className="flex-1 py-3 rounded-full bg-blue-500 text-white font-medium text-sm transition-all shadow-md">
+              <button onClick={() => setActiveTab('alipay')} className={cn("flex-1 py-3 rounded-full font-medium text-sm transition-all", activeTab === 'alipay' ? "bg-blue-500 text-white shadow-md" : "text-slate-400 hover:text-white")}>
                 Alipay
               </button>
-              <button className="flex-1 py-3 rounded-full text-slate-400 font-medium text-sm hover:text-white transition-colors">
+              <button onClick={() => setActiveTab('bep20')} className={cn("flex-1 py-3 rounded-full font-medium text-sm transition-all", activeTab === 'bep20' ? "bg-amber-500 text-white shadow-md" : "text-slate-400 hover:text-white")}>
                 BEP20
               </button>
             </div>
 
-            <div className="text-center mb-8">
-              <div className="inline-flex items-center justify-center px-4 py-2 bg-blue-500/10 text-blue-400 rounded-full text-sm font-medium border border-blue-500/20 mb-4 gap-2">
-                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12,2A10,10,0,1,0,22,12,10.011,10.011,0,0,0,12,2Zm1.91,15.11a7.485,7.485,0,0,1-3.82,0V16.5H8v-1.6h2.09V13.3H7.5V11.7h2.59V10H7v-1.6h3.09V6.3h1.6V8.4H14.8v1.6H11.69v1.7h2.61V13.3H11.69v1.6H16.5v1.6H13.91Z"/></svg>
-                Alipay 支付宝
-              </div>
-              <h3 className="text-2xl font-bold text-white mb-2">扫码付款</h3>
-              <p className="text-slate-400 text-sm">使用支付宝扫描下方二维码</p>
-            </div>
+            {activeTab === 'alipay' && (
+              <div className="animate-in fade-in duration-300">
+                <div className="text-center mb-8">
+                  <div className="inline-flex items-center justify-center px-4 py-2 bg-blue-500/10 text-blue-400 rounded-full text-sm font-medium border border-blue-500/20 mb-4 gap-2">
+                    <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12,2A10,10,0,1,0,22,12,10.011,10.011,0,0,0,12,2Zm1.91,15.11a7.485,7.485,0,0,1-3.82,0V16.5H8v-1.6h2.09V13.3H7.5V11.7h2.59V10H7v-1.6h3.09V6.3h1.6V8.4H14.8v1.6H11.69v1.7h2.61V13.3H11.69v1.6H16.5v1.6H13.91Z"/></svg>
+                    Alipay 支付宝 / QRIS
+                  </div>
+                  <h3 className="text-2xl font-bold text-white mb-2">扫码付款</h3>
+                  <p className="text-slate-400 text-sm">使用支付宝或扫描 QRIS 二维码</p>
+                </div>
 
-            <div className="bg-white p-6 rounded-2xl mx-auto w-64 h-64 flex items-center justify-center mb-8 shadow-inner shadow-slate-200/50 relative group">
-              {/* Fake QR code for mockup */}
-              <div className="w-full h-full relative">
-                <div className="absolute inset-0 bg-cover bg-center rounded-lg opacity-100 transition-opacity" style={{ backgroundImage: `url(${qrisImg})` }}></div>
-                <div className="absolute inset-0 border-4 border-blue-500/20 rounded-lg pointer-events-none"></div>
-                {/* Corner markers */}
-                <div className="absolute top-0 left-0 w-4 h-4 border-t-4 border-l-4 border-blue-500 rounded-tl-lg"></div>
-                <div className="absolute top-0 right-0 w-4 h-4 border-t-4 border-r-4 border-blue-500 rounded-tr-lg"></div>
-                <div className="absolute bottom-0 left-0 w-4 h-4 border-b-4 border-l-4 border-blue-500 rounded-bl-lg"></div>
-                <div className="absolute bottom-0 right-0 w-4 h-4 border-b-4 border-r-4 border-blue-500 rounded-br-lg"></div>
-              </div>
-            </div>
+                <div className="bg-white p-6 rounded-2xl mx-auto w-64 h-64 flex items-center justify-center mb-8 shadow-inner shadow-slate-200/50 relative group">
+                  <div className="w-full h-full relative">
+                    <div className="absolute inset-0 bg-cover bg-center rounded-lg opacity-100 transition-opacity" style={{ backgroundImage: `url(${qrisImg})` }}></div>
+                    <div className="absolute inset-0 border-4 border-blue-500/20 rounded-lg pointer-events-none"></div>
+                    <div className="absolute top-0 left-0 w-4 h-4 border-t-4 border-l-4 border-blue-500 rounded-tl-lg"></div>
+                    <div className="absolute top-0 right-0 w-4 h-4 border-t-4 border-r-4 border-blue-500 rounded-tr-lg"></div>
+                    <div className="absolute bottom-0 left-0 w-4 h-4 border-b-4 border-l-4 border-blue-500 rounded-bl-lg"></div>
+                    <div className="absolute bottom-0 right-0 w-4 h-4 border-b-4 border-r-4 border-blue-500 rounded-br-lg"></div>
+                  </div>
+                </div>
 
-            <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-xl p-4 flex gap-3">
-              <ShieldCheck className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
-              <p className="text-emerald-200/80 text-sm">如商品与描述不符、损坏或丢失，请联系在线客服申请售后保障。</p>
-            </div>
+                <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-xl p-4 flex gap-3">
+                  <ShieldCheck className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
+                  <p className="text-emerald-200/80 text-sm">如商品与描述不符、损坏或丢失，请联系在线客服申请售后保障。</p>
+                </div>
+              </div>
+            )}
+
+            {activeTab === 'bep20' && (
+              <div className="animate-in fade-in duration-300">
+                <div className="text-center mb-8">
+                  <div className="inline-flex items-center justify-center px-4 py-2 bg-amber-500/10 text-amber-500 rounded-full text-sm font-medium border border-amber-500/20 mb-4 gap-2">
+                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                    BEP20 Binance
+                  </div>
+                  <h3 className="text-2xl font-bold text-white mb-2">通过 BEP20 支付</h3>
+                  <p className="text-slate-400 text-sm">联系客服获取钱包地址后转账</p>
+                </div>
+
+                <div className="bg-[#2a2b36] border border-white/5 rounded-3xl p-6 mx-auto w-48 h-48 flex flex-col items-center justify-center mb-8 shadow-inner shadow-black/20">
+                  <div className="w-16 h-16 bg-amber-500 rounded-2xl flex items-center justify-center mb-4 shadow-lg shadow-amber-500/20">
+                    <svg className="w-8 h-8 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                  </div>
+                  <div className="text-amber-500 font-bold tracking-wider">USDT / BEP20</div>
+                </div>
+
+                <div className="space-y-3 mb-8">
+                  <div className="bg-white/5 border border-white/10 rounded-xl p-4 flex justify-between items-center">
+                    <span className="text-slate-400 text-sm">网络</span>
+                    <span className="text-amber-500 font-bold text-sm">Binance Smart Chain (BEP20)</span>
+                  </div>
+                  <div className="bg-white/5 border border-white/10 rounded-xl p-4 flex justify-between items-center">
+                    <span className="text-slate-400 text-sm">代币</span>
+                    <span className="text-white font-bold text-sm">USDT</span>
+                  </div>
+                  <div className="bg-white/5 border border-white/10 rounded-xl p-4 flex justify-between items-center">
+                    <span className="text-slate-400 text-sm">Address</span>
+                    <span className="text-white font-mono text-xs break-all ml-4">0x36152b220b1b1b3b436124d21847d9f89fba7118</span>
+                  </div>
+                </div>
+
+                <a href="https://t.me/ZhipengsiSupport" target="_blank" className="w-full py-4 bg-amber-500 hover:bg-amber-600 text-slate-900 rounded-xl font-bold flex items-center justify-center gap-2 transition-all shadow-lg shadow-amber-500/25">
+                  <Send className="w-5 h-5" />
+                  联系 Telegram 获取地址
+                </a>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -792,8 +851,8 @@ function Footer() {
   )
 }
 
-function CheckoutModal({ product, onClose }: { product: any, onClose: () => void }) {
-  const [quantity, setQuantity] = useState(1);
+function CheckoutModal({ product, initialQuantity, onClose }: { product: any, initialQuantity: number, onClose: () => void }) {
+  const [quantity, setQuantity] = useState(initialQuantity);
   const EXCHANGE_RATE = 2532;
 
   const handleOverlayClick = (e: React.MouseEvent) => {
