@@ -21,6 +21,12 @@ import {
   Globe2
 } from 'lucide-react';
 
+import geminiImg from '../foto/gemini.jpg';
+import claudeImg from '../foto/claude.jpg';
+import cursorImg from '../foto/cursor.jpg';
+import gptImg from '../foto/gpt.png';
+import backgroundImg from '../foto/Background.png';
+
 const products = [
   {
     id: 'gemini-ultra',
@@ -38,7 +44,7 @@ const products = [
       '2.5M tokens 上下文窗口'
     ],
     buttonColor: 'bg-blue-500 hover:bg-blue-600',
-    image: 'https://images.unsplash.com/photo-1697577418970-95d99b5a55cf?auto=format&fit=crop&q=80&w=400&h=300'
+    image: geminiImg
   },
   {
     id: 'claude-5x',
@@ -56,7 +62,7 @@ const products = [
       '高级推理与编程'
     ],
     buttonColor: 'bg-orange-500 hover:bg-orange-600',
-    image: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80&w=400&h=300'
+    image: claudeImg
   },
   {
     id: 'claude-20x',
@@ -74,7 +80,7 @@ const products = [
       '企业级安全防护'
     ],
     buttonColor: 'bg-slate-900 hover:bg-slate-800',
-    image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=400&h=300'
+    image: claudeImg
   },
   {
     id: 'cursor-ultra',
@@ -93,7 +99,7 @@ const products = [
     ],
     buttonColor: 'bg-emerald-500 hover:bg-emerald-600',
     highlighted: true,
-    image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=400&h=300'
+    image: cursorImg
   },
   {
     id: 'gpt-pro-5x',
@@ -111,7 +117,7 @@ const products = [
       '插件与实时联网'
     ],
     buttonColor: 'bg-purple-600 hover:bg-purple-700',
-    image: 'https://images.unsplash.com/photo-1678911820864-e2c567c655d7?auto=format&fit=crop&q=80&w=400&h=300'
+    image: gptImg
   },
   {
     id: 'gpt-pro-20x',
@@ -129,7 +135,7 @@ const products = [
       '企业级高级接口'
     ],
     buttonColor: 'bg-indigo-600 hover:bg-indigo-700',
-    image: 'https://images.unsplash.com/photo-1684369176136-1e095dbdc225?auto=format&fit=crop&q=80&w=400&h=300'
+    image: gptImg
   }
 ];
 
@@ -218,7 +224,7 @@ function Hero() {
       <div className="absolute inset-0 z-0">
         <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-blue-600/10 rounded-full blur-[120px] mix-blend-screen opacity-50 transform translate-x-1/3 -translate-y-1/3"></div>
         <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-rose-600/10 rounded-full blur-[100px] mix-blend-screen opacity-50 transform -translate-x-1/4 translate-y-1/4"></div>
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2672&auto=format&fit=crop')] bg-cover bg-center opacity-10 mix-blend-overlay"></div>
+        <div className="absolute inset-0 bg-cover bg-center opacity-30 mix-blend-overlay" style={{ backgroundImage: `url(${backgroundImg})` }}></div>
         {/* Network connections simulation base overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-[#0c0e1a] to-transparent"></div>
       </div>
@@ -300,7 +306,7 @@ function Products() {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {products.map((p) => (
             <div key={p.id} className={cn(
-              "bg-white rounded-3xl p-8 transition-all duration-300 hover:shadow-2xl relative flex flex-col group",
+              "bg-white rounded-3xl p-8 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 hover:scale-[1.02] cursor-pointer relative flex flex-col group",
               p.highlighted ? "ring-2 ring-rose-500 shadow-xl" : "border border-slate-100 shadow-sm"
             )}>
               {/* Badge */}
