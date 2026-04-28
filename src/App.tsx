@@ -18,7 +18,8 @@ import {
   BrainCircuit,
   MessageSquare,
   Lock,
-  Globe2
+  Globe2,
+  ShoppingCart
 } from 'lucide-react';
 
 import geminiImg from '../foto/gemini.jpg';
@@ -26,6 +27,7 @@ import claudeImg from '../foto/claude.jpg';
 import cursorImg from '../foto/cursor.jpg';
 import gptImg from '../foto/gpt.png';
 import backgroundImg from '../foto/Background.png';
+import qrisImg from '../foto/qris.jpeg';
 
 const products = [
   {
@@ -141,6 +143,7 @@ const products = [
 
 export default function App() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<any>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -154,12 +157,16 @@ export default function App() {
     <div className="font-sans text-slate-900 bg-white min-h-screen">
       <Navbar isScrolled={isScrolled} />
       <Hero />
-      <Products />
+      <Products onSelectProduct={setSelectedProduct} />
       <Payment />
       <About />
       <Testimonials />
       <Contact />
       <Footer />
+      
+      {selectedProduct && (
+        <CheckoutModal product={selectedProduct} onClose={() => setSelectedProduct(null)} />
+      )}
       
       <button className="fixed bottom-6 right-6 bg-slate-900 hover:bg-slate-800 text-white rounded-full py-3 px-6 shadow-xl flex items-center gap-2 transition-all hover:scale-105 z-50">
         <Headphones className="w-5 h-5 text-rose-500" />
@@ -283,7 +290,7 @@ function Hero() {
   )
 }
 
-function Products() {
+function Products({ onSelectProduct }: { onSelectProduct: (product: any) => void }) {
   return (
     <div id="products" className="py-24 bg-slate-50">
       <div className="container mx-auto px-4 lg:px-8">
@@ -363,7 +370,10 @@ function Products() {
                 <div className="flex items-center gap-2 text-emerald-600 text-sm font-medium mb-4">
                   <ShieldCheck className="w-4 h-4" /> 30 天退款保证
                 </div>
-                <button className={cn("w-full py-4 rounded-xl text-white font-bold text-lg shadow-md hover:shadow-lg transition-all", p.buttonColor)}>
+                <button 
+                  onClick={() => onSelectProduct(p)}
+                  className={cn("w-full py-4 rounded-xl text-white font-bold text-lg shadow-md hover:shadow-lg transition-all", p.buttonColor)}
+                >
                   立即购买
                 </button>
               </div>
@@ -421,8 +431,8 @@ function Payment() {
                     <svg className="w-7 h-7 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-white">BEP20 Binance (USDT/Crypto)</h3>
-                    <p className="text-slate-400 text-sm">点击获取 BEP20 钱包地址，通过 Telegram 联系客服</p>
+                    <h3 className="text-xl font-bold text-white">BEP20 (USDT)</h3>
+                    <p className="text-slate-400 text-sm break-all font-mono mt-1">0x36152b220b1b1b3b436124d21847d9f89fba7118</p>
                   </div>
                 </div>
               </div>
@@ -476,8 +486,8 @@ function Payment() {
             <div className="bg-white p-6 rounded-2xl mx-auto w-64 h-64 flex items-center justify-center mb-8 shadow-inner shadow-slate-200/50 relative group">
               {/* Fake QR code for mockup */}
               <div className="w-full h-full relative">
-                <div className="absolute inset-0 bg-[url('https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg')] bg-cover bg-center rounded-lg opacity-90 group-hover:opacity-100 transition-opacity"></div>
-                <div className="absolute inset-0 border-4 border-blue-500/20 rounded-lg"></div>
+                <div className="absolute inset-0 bg-cover bg-center rounded-lg opacity-100 transition-opacity" style={{ backgroundImage: `url(${qrisImg})` }}></div>
+                <div className="absolute inset-0 border-4 border-blue-500/20 rounded-lg pointer-events-none"></div>
                 {/* Corner markers */}
                 <div className="absolute top-0 left-0 w-4 h-4 border-t-4 border-l-4 border-blue-500 rounded-tl-lg"></div>
                 <div className="absolute top-0 right-0 w-4 h-4 border-t-4 border-r-4 border-blue-500 rounded-tr-lg"></div>
@@ -780,5 +790,95 @@ function Footer() {
       </div>
     </footer>
   )
+}
+
+function CheckoutModal({ product, onClose }: { product: any, onClose: () => void }) {
+  const [quantity, setQuantity] = useState(1);
+  const EXCHANGE_RATE = 2532;
+
+  const handleOverlayClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) onClose();
+  };
+
+  const idrPrice = product.price * EXCHANGE_RATE;
+  const totalPrice = product.price * quantity;
+  const totalIdr = totalPrice * EXCHANGE_RATE;
+
+  const formatIdr = (num: number) => {
+    return new Intl.NumberFormat('id-ID').format(num);
+  };
+
+  return (
+    <div className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4" onClick={handleOverlayClick}>
+      <div className="w-full max-w-md bg-slate-50 sm:rounded-3xl rounded-t-3xl overflow-hidden relative shadow-2xl transition-all">
+        
+        <div className="bg-[#1ea1f1] pt-10 pb-20 px-6 text-center text-white relative">
+          <button onClick={onClose} className="absolute top-4 right-4 w-8 h-8 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-colors">
+            <X className="w-5 h-5 text-white" />
+          </button>
+          
+          <div className="w-16 h-16 bg-white rounded-2xl mx-auto flex items-center justify-center mb-4 shadow-sm">
+             <ShoppingCart className="w-8 h-8 text-[#1ea1f1]" />
+          </div>
+          <h2 className="text-2xl font-bold mb-1 tracking-wide">确认订单</h2>
+          <p className="text-sm text-white/90">核对信息后前往 Telegram 付款</p>
+        </div>
+
+        <div className="relative -mt-12 px-4 pb-8 max-h-[75vh] overflow-y-auto">
+          
+          <div className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+            <div className="flex justify-between items-start mb-4">
+               <div>
+                 <div className="text-xs text-slate-500 mb-1">购买产品</div>
+                 <div className="font-bold text-slate-900 text-lg">{product.name}</div>
+               </div>
+               <div className="text-right">
+                 <div className="text-xs text-slate-500 mb-1">单价</div>
+                 <div className="font-bold text-slate-900 text-lg leading-none">¥{product.price}</div>
+                 <div className="text-xs text-slate-400 mt-1">≈ IDR {formatIdr(idrPrice)}</div>
+               </div>
+            </div>
+
+            <div className="h-px bg-slate-100 my-4"></div>
+
+            <div className="flex justify-between items-center mb-4">
+              <div className="text-sm text-slate-600 font-medium">购买数量</div>
+              <div className="flex items-center gap-4">
+                 <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="w-7 h-7 rounded-full border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-50">
+                   <Minus className="w-4 h-4" />
+                 </button>
+                 <span className="font-bold text-lg w-4 text-center">{quantity}</span>
+                 <button onClick={() => setQuantity(quantity + 1)} className="w-7 h-7 rounded-full bg-[#1ea1f1] flex items-center justify-center text-white hover:bg-blue-500 shadow-sm shadow-blue-500/30">
+                   <Plus className="w-4 h-4" />
+                 </button>
+              </div>
+            </div>
+
+            <div className="h-px bg-slate-100 my-4"></div>
+
+            <div className="flex justify-between items-end">
+              <div className="text-sm text-slate-600 font-medium">总金额</div>
+              <div className="text-right">
+                <div className="text-[#1ea1f1] font-bold text-2xl leading-none mb-1">¥{totalPrice}</div>
+                <div className="text-xs text-slate-400">≈ IDR {formatIdr(totalIdr)} <span className="text-amber-500">*</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-2xl p-5 mt-4 shadow-sm border-2 border-blue-50 text-center">
+            <div className="bg-slate-50 p-2 rounded-xl mb-4 border border-slate-100 inline-block">
+               <img src={qrisImg} alt="QRIS Payment" className="w-[200px] h-auto rounded-lg" />
+            </div>
+            
+            <a href="https://t.me/ZhipengsiSupport" target="_blank" className="w-full py-3.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-bold flex items-center justify-center gap-2 transition-colors">
+              <Send className="w-4 h-4" />
+              已付款，联系客服确认
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  );
 }
 
