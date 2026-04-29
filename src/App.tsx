@@ -23,7 +23,7 @@ import {
 } from 'lucide-react';
 
 import geminiImg from '../foto/gemini.jpg';
-import claudeImg from '../foto/claude.jpg';
+import claudeImg from '../foto/claudes.jpeg';
 import cursorImg from '../foto/cursor.jpg';
 import gptImg from '../foto/gpt.png';
 import backgroundImg from '../foto/Background.png';
