@@ -195,10 +195,11 @@ export default function App() {
 function LoginModal({ onClose, onLogin }: { onClose: () => void, onLogin: (name: string) => void }) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (name.trim() && email.trim()) {
+    if (name.trim() && email.trim() && password.trim()) {
       onLogin(name.trim());
     }
   };
@@ -208,7 +209,7 @@ function LoginModal({ onClose, onLogin }: { onClose: () => void, onLogin: (name:
       <div className="bg-white rounded-3xl w-full max-w-md overflow-hidden shadow-2xl animate-in fade-in zoom-in duration-300">
         <div className="p-8">
           <div className="flex justify-between items-center mb-8">
-            <h2 className="text-3xl font-bold text-slate-900">登录账号</h2>
+            <h2 className="text-3xl font-bold text-slate-900">登录账号 / Login</h2>
             <button type="button" onClick={onClose} className="p-2 hover:bg-slate-100 rounded-full transition-colors cursor-pointer">
               <X className="w-6 h-6 text-slate-500" />
             </button>
@@ -239,12 +240,24 @@ function LoginModal({ onClose, onLogin }: { onClose: () => void, onLogin: (name:
                 required
               />
             </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-slate-900 mb-2">密码 / Password</label>
+              <input 
+                type="password" 
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="请输入您的密码" 
+                className="w-full px-5 py-4 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-rose-500/50 focus:border-rose-500 transition-all"
+                required
+              />
+            </div>
             
             <button 
               type="submit" 
               className="w-full py-4 rounded-xl bg-rose-500 hover:bg-rose-600 text-white font-bold text-lg shadow-md hover:shadow-xl hover:shadow-rose-500/20 transition-all active:scale-95 flex items-center justify-center gap-2 cursor-pointer"
             >
-              登录
+              继续 / Lanjut
             </button>
           </form>
         </div>
@@ -297,14 +310,9 @@ function Navbar({ isScrolled, user, onLoginClick }: { isScrolled: boolean, user:
                  <span className="hidden md:block">{user}</span>
                </div>
              ) : (
-               <>
-                 <button type="button" onClick={onLoginClick} className={cn("font-medium transition-colors cursor-pointer", isScrolled ? "text-slate-700 hover:text-slate-900" : "text-white hover:text-white/80")}>
-                   登录
-                 </button>
-                 <button type="button" className="bg-rose-500 hover:bg-rose-600 text-white px-5 py-2.5 rounded-lg font-medium transition-colors cursor-pointer">
-                   注册
-                 </button>
-               </>
+               <button type="button" onClick={onLoginClick} className="bg-rose-500 hover:bg-rose-600 text-white px-6 py-2.5 rounded-lg font-bold transition-colors cursor-pointer shadow-md">
+                 登录 / Login
+               </button>
              )}
           </div>
         </div>
