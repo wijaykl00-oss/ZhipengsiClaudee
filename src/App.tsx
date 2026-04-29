@@ -209,7 +209,7 @@ function LoginModal({ onClose, onLogin }: { onClose: () => void, onLogin: (name:
       <div className="bg-white rounded-3xl w-full max-w-md overflow-hidden shadow-2xl animate-in fade-in zoom-in duration-300">
         <div className="p-8">
           <div className="flex justify-between items-center mb-8">
-            <h2 className="text-3xl font-bold text-slate-900">登录账号 / Login</h2>
+            <h2 className="text-3xl font-bold text-slate-900">登录账号</h2>
             <button type="button" onClick={onClose} className="p-2 hover:bg-slate-100 rounded-full transition-colors cursor-pointer">
               <X className="w-6 h-6 text-slate-500" />
             </button>
@@ -217,7 +217,7 @@ function LoginModal({ onClose, onLogin }: { onClose: () => void, onLogin: (name:
           
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label className="block text-sm font-semibold text-slate-900 mb-2">用户名 / Username</label>
+              <label className="block text-sm font-semibold text-slate-900 mb-2">用户名</label>
               <input 
                 type="text" 
                 value={name}
@@ -230,7 +230,7 @@ function LoginModal({ onClose, onLogin }: { onClose: () => void, onLogin: (name:
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-slate-900 mb-2">邮箱 / Gmail</label>
+              <label className="block text-sm font-semibold text-slate-900 mb-2">邮箱</label>
               <input 
                 type="email" 
                 value={email}
@@ -242,7 +242,7 @@ function LoginModal({ onClose, onLogin }: { onClose: () => void, onLogin: (name:
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-slate-900 mb-2">密码 / Password</label>
+              <label className="block text-sm font-semibold text-slate-900 mb-2">密码</label>
               <input 
                 type="password" 
                 value={password}
@@ -257,7 +257,7 @@ function LoginModal({ onClose, onLogin }: { onClose: () => void, onLogin: (name:
               type="submit" 
               className="w-full py-4 rounded-xl bg-rose-500 hover:bg-rose-600 text-white font-bold text-lg shadow-md hover:shadow-xl hover:shadow-rose-500/20 transition-all active:scale-95 flex items-center justify-center gap-2 cursor-pointer"
             >
-              继续 / Lanjut
+              继续
             </button>
           </form>
         </div>
@@ -311,7 +311,7 @@ function Navbar({ isScrolled, user, onLoginClick }: { isScrolled: boolean, user:
                </div>
              ) : (
                <button type="button" onClick={onLoginClick} className="bg-rose-500 hover:bg-rose-600 text-white px-6 py-2.5 rounded-lg font-bold transition-colors cursor-pointer shadow-md">
-                 登录 / Login
+                 登录
                </button>
              )}
           </div>
