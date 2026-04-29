@@ -144,6 +144,8 @@ const products = [
 export default function App() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<{product: any, quantity: number} | null>(null);
+  const [username, setUsername] = useState<string | null>(null);
+  const [showLoginModal, setShowLoginModal] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -155,7 +157,7 @@ export default function App() {
 
   return (
     <div className="font-sans text-slate-900 bg-white min-h-screen">
-      <Navbar isScrolled={isScrolled} />
+      <Navbar isScrolled={isScrolled} user={username} onLoginClick={() => setShowLoginModal(true)} />
       <Hero />
       <Products onSelectProduct={(product, quantity) => setSelectedProduct({ product, quantity })} />
       <Payment />
@@ -172,6 +174,16 @@ export default function App() {
         />
       )}
       
+      {showLoginModal && (
+        <LoginModal 
+          onClose={() => setShowLoginModal(false)}
+          onLogin={(name) => {
+            setUsername(name);
+            setShowLoginModal(false);
+          }}
+        />
+      )}
+      
       <button className="fixed bottom-6 right-6 bg-slate-900 hover:bg-slate-800 text-white rounded-full py-3 px-6 shadow-xl flex items-center gap-2 transition-all hover:scale-105 z-50">
         <Headphones className="w-5 h-5 text-rose-500" />
         <span className="font-medium">Talk with Us</span>
@@ -180,7 +192,68 @@ export default function App() {
   );
 }
 
-function Navbar({ isScrolled }: { isScrolled: boolean }) {
+function LoginModal({ onClose, onLogin }: { onClose: () => void, onLogin: (name: string) => void }) {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (name.trim() && email.trim()) {
+      onLogin(name.trim());
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4" onClick={(e) => e.target === e.currentTarget && onClose()}>
+      <div className="bg-white rounded-3xl w-full max-w-md overflow-hidden shadow-2xl animate-in fade-in zoom-in duration-300">
+        <div className="p-8">
+          <div className="flex justify-between items-center mb-8">
+            <h2 className="text-3xl font-bold text-slate-900">登录账号</h2>
+            <button type="button" onClick={onClose} className="p-2 hover:bg-slate-100 rounded-full transition-colors cursor-pointer">
+              <X className="w-6 h-6 text-slate-500" />
+            </button>
+          </div>
+          
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div>
+              <label className="block text-sm font-semibold text-slate-900 mb-2">用户名 / Username</label>
+              <input 
+                type="text" 
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="请输入您的用户名" 
+                className="w-full px-5 py-4 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-rose-500/50 focus:border-rose-500 transition-all"
+                autoFocus
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-slate-900 mb-2">邮箱 / Gmail</label>
+              <input 
+                type="email" 
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="example@gmail.com" 
+                className="w-full px-5 py-4 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-rose-500/50 focus:border-rose-500 transition-all"
+                required
+              />
+            </div>
+            
+            <button 
+              type="submit" 
+              className="w-full py-4 rounded-xl bg-rose-500 hover:bg-rose-600 text-white font-bold text-lg shadow-md hover:shadow-xl hover:shadow-rose-500/20 transition-all active:scale-95 flex items-center justify-center gap-2 cursor-pointer"
+            >
+              登录
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Navbar({ isScrolled, user, onLoginClick }: { isScrolled: boolean, user: string | null, onLoginClick: () => void }) {
   return (
     <nav className={cn(
       "fixed top-0 inset-x-0 z-50 transition-all duration-300",
@@ -216,12 +289,23 @@ function Navbar({ isScrolled }: { isScrolled: boolean }) {
              )}>
                <Globe2 className="w-4 h-4" /> CN ZH <ChevronDown className="w-4 h-4" />
              </button>
-             <button className={cn("hidden md:block font-medium transition-colors", isScrolled ? "text-slate-700 hover:text-slate-900" : "text-white hover:text-white/80")}>
-               登录
-             </button>
-             <button className="bg-rose-500 hover:bg-rose-600 text-white px-5 py-2.5 rounded-lg font-medium transition-colors">
-               注册
-             </button>
+             {user ? (
+               <div className={cn("font-medium transition-colors flex items-center gap-2", isScrolled ? "text-slate-900" : "text-white")}>
+                 <div className="w-8 h-8 bg-rose-500 rounded-full flex items-center justify-center text-white font-bold shadow-sm">
+                   {user.charAt(0).toUpperCase()}
+                 </div>
+                 <span className="hidden md:block">{user}</span>
+               </div>
+             ) : (
+               <>
+                 <button type="button" onClick={onLoginClick} className={cn("font-medium transition-colors cursor-pointer", isScrolled ? "text-slate-700 hover:text-slate-900" : "text-white hover:text-white/80")}>
+                   登录
+                 </button>
+                 <button type="button" className="bg-rose-500 hover:bg-rose-600 text-white px-5 py-2.5 rounded-lg font-medium transition-colors cursor-pointer">
+                   注册
+                 </button>
+               </>
+             )}
           </div>
         </div>
       </div>
@@ -553,7 +637,7 @@ function Payment() {
                   </div>
                 </div>
 
-                <a href="https://t.me/ZhipengsiSupport" target="_blank" className="w-full py-4 bg-amber-500 hover:bg-amber-600 text-slate-900 rounded-xl font-bold flex items-center justify-center gap-2 transition-all shadow-lg shadow-amber-500/25">
+                <a href="https://t.me/ZhipengsiClaudee" target="_blank" className="w-full py-4 bg-amber-500 hover:bg-amber-600 text-slate-900 rounded-xl font-bold flex items-center justify-center gap-2 transition-all shadow-lg shadow-amber-500/25">
                   <Send className="w-5 h-5" />
                   联系 Telegram 获取地址
                 </a>
@@ -715,7 +799,7 @@ function Contact() {
                 </div>
                 <div>
                   <h4 className="font-bold text-slate-900">电报</h4>
-                  <p className="text-rose-500 group-hover:underline">@ZhipengsiSupport</p>
+                  <p className="text-rose-500 group-hover:underline">@ZhipengsiClaudee</p>
                 </div>
               </a>
               <a href="#" className="flex items-center gap-4 group">
@@ -929,7 +1013,7 @@ function CheckoutModal({ product, initialQuantity, onClose }: { product: any, in
                <img src={qrisImg} alt="QRIS Payment" className="w-[200px] h-auto rounded-lg" />
             </div>
             
-            <a href="https://t.me/ZhipengsiSupport" target="_blank" className="w-full py-3.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-bold flex items-center justify-center gap-2 transition-colors">
+            <a href="https://t.me/ZhipengsiClaudee" target="_blank" className="w-full py-3.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-bold flex items-center justify-center gap-2 transition-colors">
               <Send className="w-4 h-4" />
               已付款，联系客服确认
             </a>
