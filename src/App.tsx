@@ -19,7 +19,8 @@ import {
   MessageSquare,
   Lock,
   Globe2,
-  ShoppingCart
+  ShoppingCart,
+  Upload
 } from 'lucide-react';
 
 import geminiImg from '../foto/gemini.jpg';
@@ -947,7 +948,23 @@ function CheckoutModal({ product, initialQuantity, onClose }: { product: any, in
   const [quantity, setQuantity] = useState(initialQuantity);
   const [paymentMethod, setPaymentMethod] = useState<'qris' | 'bep20'>('qris');
   const [isSuccess, setIsSuccess] = useState(false);
+  const [proofFile, setProofFile] = useState<File | null>(null);
+  const [transactionCode] = useState(() => 'TRX-' + Math.random().toString(36).substring(2, 11).toUpperCase());
   const EXCHANGE_RATE = 2532;
+
+  const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setProofFile(e.target.files[0]);
+    }
+  };
+
+  const handleSubmit = () => {
+    if (!proofFile) {
+      alert('请先上传付款凭证！');
+      return;
+    }
+    setIsSuccess(true);
+  };
 
   const handleOverlayClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) onClose();
@@ -975,15 +992,19 @@ function CheckoutModal({ product, initialQuantity, onClose }: { product: any, in
             <CheckCircle2 className="w-12 h-12 text-emerald-500" />
           </div>
           <h2 className="text-2xl font-bold text-slate-900 mb-2">订单成功</h2>
-          <p className="text-slate-500 mb-8">请前往 Telegram 确认付款。</p>
+          <p className="text-slate-500 mb-4">请前往 Telegram 确认付款并发送凭证。</p>
+          <div className="bg-slate-50 p-3 rounded-lg border border-slate-100 mb-6 w-full text-left">
+            <p className="text-xs text-slate-500 mb-1">交易编号</p>
+            <p className="font-mono font-bold text-slate-800">{transactionCode}</p>
+          </div>
           <a 
-            href="https://t.me/ZhipengsiClaudee" 
+            href={`https://t.me/ZhipengsiClaudee?text=${encodeURIComponent(`交易编号: ${transactionCode}\n我已完成付款，这是我的付款凭证：`)}`} 
             target="_blank" 
             rel="noreferrer"
             onClick={onClose} 
             className="w-full py-3 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-bold transition-colors block"
           >
-            前往 Telegram
+            前往 Telegram 并发送凭证
           </a>
         </div>
       </div>
@@ -1094,8 +1115,31 @@ function CheckoutModal({ product, initialQuantity, onClose }: { product: any, in
               </div>
             )}
             
+            <div className="mb-4">
+              <label className={cn(
+                "flex flex-col items-center justify-center w-full h-24 border-2 border-dashed rounded-xl cursor-pointer transition-colors",
+                proofFile ? "border-emerald-500 bg-emerald-50" : (paymentMethod === 'bep20' ? "border-amber-300 hover:bg-amber-50" : "border-blue-300 hover:bg-blue-50")
+              )}>
+                <div className="flex flex-col items-center justify-center pt-5 pb-6 px-4 text-center">
+                  {proofFile ? (
+                    <>
+                      <CheckCircle2 className="w-6 h-6 text-emerald-500 mb-1" />
+                      <p className="text-sm text-emerald-600 font-bold truncate max-w-full">已上传: {proofFile.name}</p>
+                    </>
+                  ) : (
+                    <>
+                      <Upload className={cn("w-6 h-6 mb-1", paymentMethod === 'bep20' ? "text-amber-500" : "text-[#1ea1f1]")} />
+                      <p className={cn("text-sm font-bold", paymentMethod === 'bep20' ? "text-amber-600" : "text-[#1ea1f1]")}>上传付款凭证</p>
+                      <p className="text-xs text-slate-400 mt-1">支持 JPG, PNG</p>
+                    </>
+                  )}
+                </div>
+                <input type="file" className="hidden" accept="image/*" onChange={handleUpload} />
+              </label>
+            </div>
+            
             <button 
-              onClick={() => setIsSuccess(true)}
+              onClick={handleSubmit}
               className={cn(
                 "w-full py-3.5 text-white rounded-xl font-bold flex items-center justify-center gap-2 transition-colors",
                 paymentMethod === 'bep20' ? "bg-amber-500 hover:bg-amber-600" : "bg-[#1ea1f1] hover:bg-blue-500"
