@@ -967,15 +967,24 @@ function CheckoutModal({ product, initialQuantity, onClose }: { product: any, in
   if (isSuccess) {
     return (
       <div className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4" onClick={handleOverlayClick}>
-        <div className="bg-white rounded-3xl p-10 flex flex-col items-center justify-center animate-in zoom-in duration-300 max-w-sm w-full text-center shadow-2xl">
+        <div className="bg-white rounded-3xl p-10 flex flex-col items-center justify-center animate-in zoom-in duration-300 max-w-sm w-full text-center shadow-2xl relative">
+          <button onClick={onClose} className="absolute top-4 right-4 w-8 h-8 bg-slate-100 hover:bg-slate-200 rounded-full flex items-center justify-center transition-colors">
+            <X className="w-5 h-5 text-slate-500" />
+          </button>
           <div className="w-24 h-24 bg-emerald-100 rounded-full flex items-center justify-center mb-6 shadow-inner">
             <CheckCircle2 className="w-12 h-12 text-emerald-500" />
           </div>
-          <h2 className="text-2xl font-bold text-slate-900 mb-2">Pesanan Berhasil</h2>
-          <p className="text-slate-500 mb-8">Silakan lanjutkan ke Telegram untuk konfirmasi pembayaran.</p>
-          <button onClick={onClose} className="w-full py-3 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-bold transition-colors">
-            Tutup
-          </button>
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">订单成功</h2>
+          <p className="text-slate-500 mb-8">请前往 Telegram 确认付款。</p>
+          <a 
+            href="https://t.me/ZhipengsiClaudee" 
+            target="_blank" 
+            rel="noreferrer"
+            onClick={onClose} 
+            className="w-full py-3 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-bold transition-colors block"
+          >
+            前往 Telegram
+          </a>
         </div>
       </div>
     );
@@ -1085,19 +1094,16 @@ function CheckoutModal({ product, initialQuantity, onClose }: { product: any, in
               </div>
             )}
             
-            <a 
-              href="https://t.me/ZhipengsiClaudee" 
-              target="_blank" 
-              rel="noreferrer"
-              onClick={() => setTimeout(() => setIsSuccess(true), 200)}
+            <button 
+              onClick={() => setIsSuccess(true)}
               className={cn(
                 "w-full py-3.5 text-white rounded-xl font-bold flex items-center justify-center gap-2 transition-colors",
                 paymentMethod === 'bep20' ? "bg-amber-500 hover:bg-amber-600" : "bg-[#1ea1f1] hover:bg-blue-500"
               )}
             >
               <Send className="w-4 h-4" />
-              Lanjut
-            </a>
+              如果您已付款，请继续。
+            </button>
           </div>
 
         </div>
