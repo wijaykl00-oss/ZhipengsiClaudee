@@ -588,7 +588,7 @@ function Payment() {
                 <div className="text-center mb-8">
                   <div className="inline-flex items-center justify-center px-4 py-2 bg-blue-500/10 text-blue-400 rounded-full text-sm font-medium border border-blue-500/20 mb-4 gap-2">
                     <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12,2A10,10,0,1,0,22,12,10.011,10.011,0,0,0,12,2Zm1.91,15.11a7.485,7.485,0,0,1-3.82,0V16.5H8v-1.6h2.09V13.3H7.5V11.7h2.59V10H7v-1.6h3.09V6.3h1.6V8.4H14.8v1.6H11.69v1.7h2.61V13.3H11.69v1.6H16.5v1.6H13.91Z"/></svg>
-                    Alipay 支付宝 / QRIS
+                    支付宝/Qris & bep20
                   </div>
                   <h3 className="text-2xl font-bold text-white mb-2">扫码付款</h3>
                   <p className="text-slate-400 text-sm">使用支付宝或扫描 QRIS 二维码</p>
@@ -945,6 +945,8 @@ function Footer() {
 
 function CheckoutModal({ product, initialQuantity, onClose }: { product: any, initialQuantity: number, onClose: () => void }) {
   const [quantity, setQuantity] = useState(initialQuantity);
+  const [paymentMethod, setPaymentMethod] = useState<'qris' | 'bep20'>('qris');
+  const [isSuccess, setIsSuccess] = useState(false);
   const EXCHANGE_RATE = 2532;
 
   const handleOverlayClick = (e: React.MouseEvent) => {
@@ -959,17 +961,37 @@ function CheckoutModal({ product, initialQuantity, onClose }: { product: any, in
     return new Intl.NumberFormat('id-ID').format(num);
   };
 
+  const themeColor = paymentMethod === 'bep20' ? 'bg-amber-500' : 'bg-[#1ea1f1]';
+  const textColor = paymentMethod === 'bep20' ? 'text-amber-500' : 'text-[#1ea1f1]';
+
+  if (isSuccess) {
+    return (
+      <div className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4" onClick={handleOverlayClick}>
+        <div className="bg-white rounded-3xl p-10 flex flex-col items-center justify-center animate-in zoom-in duration-300 max-w-sm w-full text-center shadow-2xl">
+          <div className="w-24 h-24 bg-emerald-100 rounded-full flex items-center justify-center mb-6 shadow-inner">
+            <CheckCircle2 className="w-12 h-12 text-emerald-500" />
+          </div>
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">Pesanan Berhasil</h2>
+          <p className="text-slate-500 mb-8">Silakan lanjutkan ke Telegram untuk konfirmasi pembayaran.</p>
+          <button onClick={onClose} className="w-full py-3 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-bold transition-colors">
+            Tutup
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4" onClick={handleOverlayClick}>
       <div className="w-full max-w-md bg-slate-50 sm:rounded-3xl rounded-t-3xl overflow-hidden relative shadow-2xl transition-all">
         
-        <div className="bg-[#1ea1f1] pt-10 pb-20 px-6 text-center text-white relative">
+        <div className={cn("pt-10 pb-20 px-6 text-center text-white relative transition-colors duration-500", themeColor)}>
           <button onClick={onClose} className="absolute top-4 right-4 w-8 h-8 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-colors">
             <X className="w-5 h-5 text-white" />
           </button>
           
           <div className="w-16 h-16 bg-white rounded-2xl mx-auto flex items-center justify-center mb-4 shadow-sm">
-             <ShoppingCart className="w-8 h-8 text-[#1ea1f1]" />
+             <ShoppingCart className={cn("w-8 h-8 transition-colors duration-500", textColor)} />
           </div>
           <h2 className="text-2xl font-bold mb-1 tracking-wide">确认订单</h2>
           <p className="text-sm text-white/90">核对信息后前往 Telegram 付款</p>
@@ -999,7 +1021,7 @@ function CheckoutModal({ product, initialQuantity, onClose }: { product: any, in
                    <Minus className="w-4 h-4" />
                  </button>
                  <span className="font-bold text-lg w-4 text-center">{quantity}</span>
-                 <button onClick={() => setQuantity(quantity + 1)} className="w-7 h-7 rounded-full bg-[#1ea1f1] flex items-center justify-center text-white hover:bg-blue-500 shadow-sm shadow-blue-500/30">
+                 <button onClick={() => setQuantity(quantity + 1)} className={cn("w-7 h-7 rounded-full flex items-center justify-center text-white shadow-sm transition-colors duration-500", themeColor)}>
                    <Plus className="w-4 h-4" />
                  </button>
               </div>
@@ -1010,20 +1032,71 @@ function CheckoutModal({ product, initialQuantity, onClose }: { product: any, in
             <div className="flex justify-between items-end">
               <div className="text-sm text-slate-600 font-medium">总金额</div>
               <div className="text-right">
-                <div className="text-[#1ea1f1] font-bold text-2xl leading-none mb-1">¥{totalPrice}</div>
+                <div className={cn("font-bold text-2xl leading-none mb-1 transition-colors duration-500", textColor)}>¥{totalPrice}</div>
                 <div className="text-xs text-slate-400">≈ IDR {formatIdr(totalIdr)} <span className="text-amber-500">*</span></div>
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl p-5 mt-4 shadow-sm border-2 border-blue-50 text-center">
-            <div className="bg-slate-50 p-2 rounded-xl mb-4 border border-slate-100 inline-block">
-               <img src={qrisImg} alt="QRIS Payment" className="w-[200px] h-auto rounded-lg" />
-            </div>
+          <div className="mt-4 mb-4 grid grid-cols-2 gap-3">
+             <div 
+               onClick={() => setPaymentMethod('qris')}
+               className={cn(
+                 "p-3 rounded-xl border-2 cursor-pointer transition-all duration-300 relative overflow-hidden group hover:-translate-y-1 hover:shadow-md",
+                 paymentMethod === 'qris' ? "border-[#1ea1f1] bg-blue-50" : "border-slate-200 bg-white"
+               )}
+             >
+                <div className="flex items-center gap-2 relative z-10">
+                  <div className={cn("w-4 h-4 rounded-full border flex items-center justify-center transition-colors", paymentMethod === 'qris' ? "border-[#1ea1f1]" : "border-slate-300")}>
+                     {paymentMethod === 'qris' && <div className="w-2 h-2 rounded-full bg-[#1ea1f1]"></div>}
+                  </div>
+                  <span className={cn("font-bold text-sm transition-colors", paymentMethod === 'qris' ? "text-[#1ea1f1]" : "text-slate-600")}>QRIS / Alipay</span>
+                </div>
+             </div>
+
+             <div 
+               onClick={() => setPaymentMethod('bep20')}
+               className={cn(
+                 "p-3 rounded-xl border-2 cursor-pointer transition-all duration-300 relative overflow-hidden group hover:-translate-y-1 hover:shadow-md",
+                 paymentMethod === 'bep20' ? "border-amber-500 bg-amber-50" : "border-slate-200 bg-white"
+               )}
+             >
+                <div className="flex items-center gap-2 relative z-10">
+                  <div className={cn("w-4 h-4 rounded-full border flex items-center justify-center transition-colors", paymentMethod === 'bep20' ? "border-amber-500" : "border-slate-300")}>
+                     {paymentMethod === 'bep20' && <div className="w-2 h-2 rounded-full bg-amber-500"></div>}
+                  </div>
+                  <span className={cn("font-bold text-sm transition-colors", paymentMethod === 'bep20' ? "text-amber-500" : "text-slate-600")}>BEP20 (USDT)</span>
+                </div>
+             </div>
+          </div>
+
+          <div className={cn("bg-white rounded-2xl p-5 mt-4 shadow-sm border-2 text-center transition-colors duration-500", paymentMethod === 'bep20' ? 'border-amber-100' : 'border-blue-50')}>
+            {paymentMethod === 'qris' ? (
+              <div className="bg-slate-50 p-2 rounded-xl mb-4 border border-slate-100 inline-block">
+                 <img src={qrisImg} alt="QRIS Payment" className="w-[200px] h-auto rounded-lg" />
+              </div>
+            ) : (
+              <div className="bg-slate-50 p-4 rounded-xl mb-4 border border-slate-100">
+                 <div className="w-16 h-16 bg-amber-500 rounded-2xl mx-auto flex items-center justify-center mb-3 shadow-md shadow-amber-500/20">
+                    <svg className="w-8 h-8 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                 </div>
+                 <div className="text-sm font-bold text-amber-600 mb-1">USDT (BEP20)</div>
+                 <div className="text-xs text-slate-500 font-mono bg-white p-2 rounded border break-all select-all">0x36152b220b1b1b3b436124d21847d9f89fba7118</div>
+              </div>
+            )}
             
-            <a href="https://t.me/ZhipengsiClaudee" target="_blank" className="w-full py-3.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-bold flex items-center justify-center gap-2 transition-colors">
+            <a 
+              href="https://t.me/ZhipengsiClaudee" 
+              target="_blank" 
+              rel="noreferrer"
+              onClick={() => setTimeout(() => setIsSuccess(true), 200)}
+              className={cn(
+                "w-full py-3.5 text-white rounded-xl font-bold flex items-center justify-center gap-2 transition-colors",
+                paymentMethod === 'bep20' ? "bg-amber-500 hover:bg-amber-600" : "bg-[#1ea1f1] hover:bg-blue-500"
+              )}
+            >
               <Send className="w-4 h-4" />
-              已付款，联系客服确认
+              Lanjut
             </a>
           </div>
 
