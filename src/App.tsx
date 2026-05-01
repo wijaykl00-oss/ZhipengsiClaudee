@@ -28,7 +28,7 @@ import claudeImg from '../foto/claudes.jpeg';
 import cursorImg from '../foto/cursor.jpg';
 import gptImg from '../foto/gpt.png';
 import backgroundImg from '../foto/Background.png';
-import qrisImg from '../foto/qrisjy.jpeg';
+import qrisImg from '../foto/qrisjyy.jpeg';
 
 const products = [
   {
