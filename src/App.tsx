@@ -646,7 +646,7 @@ function Payment() {
                   </div>
                 </div>
 
-                <a href="https://t.me/ZhipengsiClaudee" target="_blank" className="w-full py-4 bg-amber-500 hover:bg-amber-600 text-slate-900 rounded-xl font-bold flex items-center justify-center gap-2 transition-all shadow-lg shadow-amber-500/25">
+                <a href="https://t.me/zhipengsi" target="_blank" className="w-full py-4 bg-amber-500 hover:bg-amber-600 text-slate-900 rounded-xl font-bold flex items-center justify-center gap-2 transition-all shadow-lg shadow-amber-500/25">
                   <Send className="w-5 h-5" />
                   联系 Telegram 获取地址
                 </a>
@@ -808,7 +808,7 @@ function Contact() {
                 </div>
                 <div>
                   <h4 className="font-bold text-slate-900">电报</h4>
-                  <p className="text-rose-500 group-hover:underline">@ZhipengsiClaudee</p>
+                  <p className="text-rose-500 group-hover:underline">@zhipengsi</p>
                 </div>
               </a>
               <a href="#" className="flex items-center gap-4 group">
@@ -998,7 +998,7 @@ function CheckoutModal({ product, initialQuantity, onClose }: { product: any, in
             <p className="font-mono font-bold text-slate-800">{transactionCode}</p>
           </div>
           <a 
-            href={`https://t.me/ZhipengsiClaudee?text=${encodeURIComponent(`交易编号: ${transactionCode}\n我已完成付款，这是我的付款凭证：`)}`} 
+            href={`https://t.me/zhipengsi?text=${encodeURIComponent(`交易编号: ${transactionCode}\n我已完成付款，这是我的付款凭证：`)}`} 
             target="_blank" 
             rel="noreferrer"
             onClick={onClose} 
