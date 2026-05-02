@@ -28,7 +28,7 @@ import claudeImg from '../foto/claudes.jpeg';
 import cursorImg from '../foto/cursor.jpg';
 import gptImg from '../foto/gpt.png';
 import backgroundImg from '../foto/Background.png';
-import qrisImg from '../foto/qrisw.png';
+import qrisImg from '../foto/qris.jpeg';
 
 const products = [
   {
@@ -542,7 +542,7 @@ function Payment() {
                   </div>
                   <div>
                     <h3 className="text-xl font-bold text-white">BEP20 (USDT)</h3>
-                    <p className="text-slate-400 text-sm break-all font-mono mt-1">0x43c6ba1c6f82a2e8d8bafe985b19c3364a80b77d</p>
+                    <p className="text-slate-400 text-sm break-all font-mono mt-1">0x36152b220b1b1b3b436124d21847d9f89fba7118</p>
                   </div>
                 </div>
               </div>
@@ -642,7 +642,7 @@ function Payment() {
                   </div>
                   <div className="bg-white/5 border border-white/10 rounded-xl p-4 flex justify-between items-center">
                     <span className="text-slate-400 text-sm">Address</span>
-                    <span className="text-white font-mono text-xs break-all ml-4">0x43c6ba1c6f82a2e8d8bafe985b19c3364a80b77d</span>
+                    <span className="text-white font-mono text-xs break-all ml-4">0x36152b220b1b1b3b436124d21847d9f89fba7118</span>
                   </div>
                 </div>
 
