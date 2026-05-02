@@ -542,7 +542,7 @@ function Payment() {
                   </div>
                   <div>
                     <h3 className="text-xl font-bold text-white">BEP20 (USDT)</h3>
-                    <p className="text-slate-400 text-sm break-all font-mono mt-1">0x36152b220b1b1b3b436124d21847d9f89fba7118</p>
+                    <p className="text-slate-400 text-sm break-all font-mono mt-1">0x43c6ba1c6f82a2e8d8bafe985b19c3364a80b77d</p>
                   </div>
                 </div>
               </div>
@@ -642,7 +642,7 @@ function Payment() {
                   </div>
                   <div className="bg-white/5 border border-white/10 rounded-xl p-4 flex justify-between items-center">
                     <span className="text-slate-400 text-sm">Address</span>
-                    <span className="text-white font-mono text-xs break-all ml-4">0x36152b220b1b1b3b436124d21847d9f89fba7118</span>
+                    <span className="text-white font-mono text-xs break-all ml-4">0x43c6ba1c6f82a2e8d8bafe985b19c3364a80b77d</span>
                   </div>
                 </div>
 
@@ -1111,7 +1111,7 @@ function CheckoutModal({ product, initialQuantity, onClose }: { product: any, in
                     <svg className="w-8 h-8 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
                  </div>
                  <div className="text-sm font-bold text-amber-600 mb-1">USDT (BEP20)</div>
-                 <div className="text-xs text-slate-500 font-mono bg-white p-2 rounded border break-all select-all">0x36152b220b1b1b3b436124d21847d9f89fba7118</div>
+                 <div className="text-xs text-slate-500 font-mono bg-white p-2 rounded border break-all select-all">0x43c6ba1c6f82a2e8d8bafe985b19c3364a80b77d</div>
               </div>
             )}
             
