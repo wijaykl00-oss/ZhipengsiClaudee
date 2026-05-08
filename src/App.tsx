@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { cn } from './lib/utils';
-import { 
-  Bot, 
-  CheckCircle2, 
-  ChevronDown, 
-  Menu, 
-  X, 
-  Minus, 
+import {
+  Bot,
+  CheckCircle2,
+  ChevronDown,
+  Menu,
+  X,
+  Minus,
   Plus,
   ShieldCheck,
   Zap,
@@ -28,7 +28,7 @@ import claudeImg from '../foto/claudes.jpeg';
 import cursorImg from '../foto/cursor.jpg';
 import gptImg from '../foto/gpt.png';
 import backgroundImg from '../foto/Background.png';
-import qrisImg from '../foto/qris.jpeg';
+import qrisImg from '../foto/Qrisbaru.jpeg';
 
 const products = [
   {
@@ -144,7 +144,7 @@ const products = [
 
 export default function App() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState<{product: any, quantity: number} | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState<{ product: any, quantity: number } | null>(null);
   const [username, setUsername] = useState<string | null>(null);
   const [showLoginModal, setShowLoginModal] = useState(false);
 
@@ -166,17 +166,17 @@ export default function App() {
       <Testimonials />
       <Contact />
       <Footer />
-      
+
       {selectedProduct && (
-        <CheckoutModal 
-          product={selectedProduct.product} 
-          initialQuantity={selectedProduct.quantity} 
-          onClose={() => setSelectedProduct(null)} 
+        <CheckoutModal
+          product={selectedProduct.product}
+          initialQuantity={selectedProduct.quantity}
+          onClose={() => setSelectedProduct(null)}
         />
       )}
-      
+
       {showLoginModal && (
-        <LoginModal 
+        <LoginModal
           onClose={() => setShowLoginModal(false)}
           onLogin={(name) => {
             setUsername(name);
@@ -184,7 +184,7 @@ export default function App() {
           }}
         />
       )}
-      
+
       <button className="fixed bottom-6 right-6 bg-slate-900 hover:bg-slate-800 text-white rounded-full py-3 px-6 shadow-xl flex items-center gap-2 transition-all hover:scale-105 z-50">
         <Headphones className="w-5 h-5 text-rose-500" />
         <span className="font-medium">Talk with Us</span>
@@ -215,15 +215,15 @@ function LoginModal({ onClose, onLogin }: { onClose: () => void, onLogin: (name:
               <X className="w-6 h-6 text-slate-500" />
             </button>
           </div>
-          
+
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label className="block text-sm font-semibold text-slate-900 mb-2">用户名</label>
-              <input 
-                type="text" 
+              <input
+                type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="请输入您的用户名" 
+                placeholder="请输入您的用户名"
                 className="w-full px-5 py-4 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-rose-500/50 focus:border-rose-500 transition-all"
                 autoFocus
                 required
@@ -232,11 +232,11 @@ function LoginModal({ onClose, onLogin }: { onClose: () => void, onLogin: (name:
 
             <div>
               <label className="block text-sm font-semibold text-slate-900 mb-2">邮箱</label>
-              <input 
-                type="email" 
+              <input
+                type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="example@gmail.com" 
+                placeholder="example@gmail.com"
                 className="w-full px-5 py-4 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-rose-500/50 focus:border-rose-500 transition-all"
                 required
               />
@@ -244,18 +244,18 @@ function LoginModal({ onClose, onLogin }: { onClose: () => void, onLogin: (name:
 
             <div>
               <label className="block text-sm font-semibold text-slate-900 mb-2">密码</label>
-              <input 
-                type="password" 
+              <input
+                type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="请输入您的密码" 
+                placeholder="请输入您的密码"
                 className="w-full px-5 py-4 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-rose-500/50 focus:border-rose-500 transition-all"
                 required
               />
             </div>
-            
-            <button 
-              type="submit" 
+
+            <button
+              type="submit"
               className="w-full py-4 rounded-xl bg-rose-500 hover:bg-rose-600 text-white font-bold text-lg shadow-md hover:shadow-xl hover:shadow-rose-500/20 transition-all active:scale-95 flex items-center justify-center gap-2 cursor-pointer"
             >
               继续
@@ -277,7 +277,7 @@ function Navbar({ isScrolled, user, onLoginClick }: { isScrolled: boolean, user:
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="w-10 h-10 bg-slate-900 rounded-lg flex items-center justify-center">
-               <Bot className="w-6 h-6 text-white" />
+              <Bot className="w-6 h-6 text-white" />
             </div>
             <span className={cn("text-xl font-bold transition-colors", isScrolled ? "text-slate-900" : "text-white")}>
               ZhipengsiClaudee
@@ -297,24 +297,24 @@ function Navbar({ isScrolled, user, onLoginClick }: { isScrolled: boolean, user:
           </div>
 
           <div className="flex items-center gap-4">
-             <button className={cn(
-               "hidden md:flex items-center gap-1 px-3 py-1.5 rounded-full border text-sm transition-colors",
-               isScrolled ? "border-slate-200 text-slate-700 bg-slate-50" : "border-white/20 text-white bg-white/10"
-             )}>
-               <Globe2 className="w-4 h-4" /> CN ZH <ChevronDown className="w-4 h-4" />
-             </button>
-             {user ? (
-               <div className={cn("font-medium transition-colors flex items-center gap-2", isScrolled ? "text-slate-900" : "text-white")}>
-                 <div className="w-8 h-8 bg-rose-500 rounded-full flex items-center justify-center text-white font-bold shadow-sm">
-                   {user.charAt(0).toUpperCase()}
-                 </div>
-                 <span className="hidden md:block">{user}</span>
-               </div>
-             ) : (
-               <button type="button" onClick={onLoginClick} className="bg-rose-500 hover:bg-rose-600 text-white px-6 py-2.5 rounded-lg font-bold transition-colors cursor-pointer shadow-md">
-                 登录
-               </button>
-             )}
+            <button className={cn(
+              "hidden md:flex items-center gap-1 px-3 py-1.5 rounded-full border text-sm transition-colors",
+              isScrolled ? "border-slate-200 text-slate-700 bg-slate-50" : "border-white/20 text-white bg-white/10"
+            )}>
+              <Globe2 className="w-4 h-4" /> CN ZH <ChevronDown className="w-4 h-4" />
+            </button>
+            {user ? (
+              <div className={cn("font-medium transition-colors flex items-center gap-2", isScrolled ? "text-slate-900" : "text-white")}>
+                <div className="w-8 h-8 bg-rose-500 rounded-full flex items-center justify-center text-white font-bold shadow-sm">
+                  {user.charAt(0).toUpperCase()}
+                </div>
+                <span className="hidden md:block">{user}</span>
+              </div>
+            ) : (
+              <button type="button" onClick={onLoginClick} className="bg-rose-500 hover:bg-rose-600 text-white px-6 py-2.5 rounded-lg font-bold transition-colors cursor-pointer shadow-md">
+                登录
+              </button>
+            )}
           </div>
         </div>
       </div>
@@ -342,9 +342,9 @@ function Hero() {
             </div>
             <h1 className="text-5xl lg:text-[5.5rem] font-bold font-sans tracking-tight leading-[1.1] mb-8">
               以实惠价格
-              <br/>
+              <br />
               使用 <span className="text-rose-500 drop-shadow-sm">高级 AI</span>
-              <br/>
+              <br />
               工具
             </h1>
             <p className="text-xl text-slate-300/90 mb-10 max-w-2xl font-light leading-relaxed">
@@ -359,27 +359,27 @@ function Hero() {
               </a>
             </div>
           </div>
-          
+
           <div className="lg:col-span-5 relative">
-             <div className="relative z-10 bg-slate-900/60 backdrop-blur-2xl border border-white/10 rounded-3xl p-6 shadow-[0_0_40px_rgba(0,0,0,0.5)]">
-                <div className="space-y-4">
-                  {products.map((p) => (
-                    <div key={p.id} className="group flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-white/10 transition-all duration-300">
-                      <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-xl bg-slate-800/80 flex items-center justify-center border border-white/5 overflow-hidden group-hover:scale-110 transition-transform duration-300">
-                           <img src={p.image} alt={p.name} className="w-full h-full object-cover" />
-                        </div>
-                        <span className="font-semibold text-lg tracking-wide">{p.name}</span>
+            <div className="relative z-10 bg-slate-900/60 backdrop-blur-2xl border border-white/10 rounded-3xl p-6 shadow-[0_0_40px_rgba(0,0,0,0.5)]">
+              <div className="space-y-4">
+                {products.map((p) => (
+                  <div key={p.id} className="group flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-white/10 transition-all duration-300">
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 rounded-xl bg-slate-800/80 flex items-center justify-center border border-white/5 overflow-hidden group-hover:scale-110 transition-transform duration-300">
+                        <img src={p.image} alt={p.name} className="w-full h-full object-cover" />
                       </div>
-                      <span className="font-bold text-xl drop-shadow-sm">¥{p.price}</span>
+                      <span className="font-semibold text-lg tracking-wide">{p.name}</span>
                     </div>
-                  ))}
-                </div>
-             </div>
-             
-             {/* Decorative glowing orbs behind cards */}
-             <div className="absolute -top-10 -right-10 w-32 h-32 bg-blue-500/20 rounded-full blur-2xl"></div>
-             <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-purple-500/20 rounded-full blur-2xl"></div>
+                    <span className="font-bold text-xl drop-shadow-sm">¥{p.price}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Decorative glowing orbs behind cards */}
+            <div className="absolute -top-10 -right-10 w-32 h-32 bg-blue-500/20 rounded-full blur-2xl"></div>
+            <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-purple-500/20 rounded-full blur-2xl"></div>
           </div>
         </div>
       </div>
@@ -409,7 +409,7 @@ function Products({ onSelectProduct }: { onSelectProduct: (product: any, quantit
             以实惠价格完整访问高级 AI 工具。所有套餐包含支持和更新。
           </p>
           <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-emerald-50 border border-emerald-100 text-emerald-600 font-medium shadow-sm">
-            <ShieldCheck className="w-5 h-5" /> 
+            <ShieldCheck className="w-5 h-5" />
             所有产品 30 天退款保证
           </div>
         </div>
@@ -437,15 +437,15 @@ function Products({ onSelectProduct }: { onSelectProduct: (product: any, quantit
               <div className="flex-1">
                 <h3 className="text-2xl font-bold mb-2">{p.name}</h3>
                 <p className="text-slate-500 text-sm mb-6 line-clamp-2 h-10">{p.desc}</p>
-                
+
                 <div className="flex items-baseline gap-1 mb-6">
                   <span className="text-4xl font-bold">¥{p.price}</span>
                   <span className="text-slate-500 font-medium">{p.unit}</span>
                 </div>
 
                 <div className="flex items-center gap-2 text-sm text-slate-500 mb-8 bg-slate-50 px-3 py-2 rounded-lg border border-slate-100">
-                   <Clock className="w-4 h-4" />
-                   已售 {p.sales} 件
+                  <Clock className="w-4 h-4" />
+                  已售 {p.sales} 件
                 </div>
 
                 <ul className="space-y-4 mb-8">
@@ -462,23 +462,23 @@ function Products({ onSelectProduct }: { onSelectProduct: (product: any, quantit
                 <div className="flex justify-between items-center text-sm mb-2">
                   <span className="font-medium text-slate-700">数量</span>
                   <div className="flex items-center justify-between border border-slate-200 rounded-full w-24 bg-slate-50 p-0.5">
-                     <button 
-                       onClick={(e) => { e.stopPropagation(); updateQty(p.id, -1); }}
-                       className="w-7 h-7 rounded-full bg-transparent flex items-center justify-center text-slate-500 hover:bg-slate-200 transition-colors">
-                       <Minus className="w-4 h-4" />
-                     </button>
-                     <span className="font-semibold text-slate-900">{getQty(p.id)}</span>
-                     <button 
-                       onClick={(e) => { e.stopPropagation(); updateQty(p.id, 1); }}
-                       className={cn("w-7 h-7 rounded-full flex items-center justify-center text-white transition-colors", p.buttonColor)}>
-                       <Plus className="w-4 h-4" />
-                     </button>
+                    <button
+                      onClick={(e) => { e.stopPropagation(); updateQty(p.id, -1); }}
+                      className="w-7 h-7 rounded-full bg-transparent flex items-center justify-center text-slate-500 hover:bg-slate-200 transition-colors">
+                      <Minus className="w-4 h-4" />
+                    </button>
+                    <span className="font-semibold text-slate-900">{getQty(p.id)}</span>
+                    <button
+                      onClick={(e) => { e.stopPropagation(); updateQty(p.id, 1); }}
+                      className={cn("w-7 h-7 rounded-full flex items-center justify-center text-white transition-colors", p.buttonColor)}>
+                      <Plus className="w-4 h-4" />
+                    </button>
                   </div>
                 </div>
                 <div className="flex items-center gap-2 text-emerald-600 text-sm font-medium mb-4">
                   <ShieldCheck className="w-4 h-4" /> 30 天退款保证
                 </div>
-                <button 
+                <button
                   onClick={(e) => { e.stopPropagation(); onSelectProduct(p, getQty(p.id)); }}
                   className={cn("w-full py-4 rounded-xl text-white font-bold text-lg shadow-md hover:shadow-lg transition-all", p.buttonColor)}
                 >
@@ -518,7 +518,7 @@ function Payment() {
                 <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 blur-2xl"></div>
                 <div className="flex items-center gap-4 mb-2">
                   <div className="w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center shrink-0">
-                    <svg className="w-7 h-7 text-white fill-current" viewBox="0 0 24 24"><path d="M12,2A10,10,0,1,0,22,12,10.011,10.011,0,0,0,12,2Zm1.91,15.11a7.485,7.485,0,0,1-3.82,0V16.5H8v-1.6h2.09V13.3H7.5V11.7h2.59V10H7v-1.6h3.09V6.3h1.6V8.4H14.8v1.6H11.69v1.7h2.61V13.3H11.69v1.6H16.5v1.6H13.91Z"/></svg>
+                    <svg className="w-7 h-7 text-white fill-current" viewBox="0 0 24 24"><path d="M12,2A10,10,0,1,0,22,12,10.011,10.011,0,0,0,12,2Zm1.91,15.11a7.485,7.485,0,0,1-3.82,0V16.5H8v-1.6h2.09V13.3H7.5V11.7h2.59V10H7v-1.6h3.09V6.3h1.6V8.4H14.8v1.6H11.69v1.7h2.61V13.3H11.69v1.6H16.5v1.6H13.91Z" /></svg>
                   </div>
                   <div className="flex-1">
                     <h3 className="text-xl font-bold text-white flex items-center gap-2">Alipay 支付宝 <CheckCircle2 className="w-5 h-5 text-blue-400" /></h3>
@@ -538,7 +538,7 @@ function Payment() {
               <div className="bg-white/5 border border-white/5 rounded-2xl p-6 hover:bg-white/10 transition-colors cursor-pointer">
                 <div className="flex items-center gap-4 mb-2">
                   <div className="w-12 h-12 bg-amber-500 rounded-xl flex items-center justify-center shrink-0">
-                    <svg className="w-7 h-7 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                    <svg className="w-7 h-7 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" /></svg>
                   </div>
                   <div>
                     <h3 className="text-xl font-bold text-white">BEP20 (USDT)</h3>
@@ -588,7 +588,7 @@ function Payment() {
               <div className="animate-in fade-in duration-300">
                 <div className="text-center mb-8">
                   <div className="inline-flex items-center justify-center px-4 py-2 bg-blue-500/10 text-blue-400 rounded-full text-sm font-medium border border-blue-500/20 mb-4 gap-2">
-                    <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12,2A10,10,0,1,0,22,12,10.011,10.011,0,0,0,12,2Zm1.91,15.11a7.485,7.485,0,0,1-3.82,0V16.5H8v-1.6h2.09V13.3H7.5V11.7h2.59V10H7v-1.6h3.09V6.3h1.6V8.4H14.8v1.6H11.69v1.7h2.61V13.3H11.69v1.6H16.5v1.6H13.91Z"/></svg>
+                    <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12,2A10,10,0,1,0,22,12,10.011,10.011,0,0,0,12,2Zm1.91,15.11a7.485,7.485,0,0,1-3.82,0V16.5H8v-1.6h2.09V13.3H7.5V11.7h2.59V10H7v-1.6h3.09V6.3h1.6V8.4H14.8v1.6H11.69v1.7h2.61V13.3H11.69v1.6H16.5v1.6H13.91Z" /></svg>
                     支付宝/Qris & bep20
                   </div>
                   <h3 className="text-2xl font-bold text-white mb-2">扫码付款</h3>
@@ -617,7 +617,7 @@ function Payment() {
               <div className="animate-in fade-in duration-300">
                 <div className="text-center mb-8">
                   <div className="inline-flex items-center justify-center px-4 py-2 bg-amber-500/10 text-amber-500 rounded-full text-sm font-medium border border-amber-500/20 mb-4 gap-2">
-                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" /></svg>
                     BEP20 Binance
                   </div>
                   <h3 className="text-2xl font-bold text-white mb-2">通过 BEP20 支付</h3>
@@ -626,7 +626,7 @@ function Payment() {
 
                 <div className="bg-[#2a2b36] border border-white/5 rounded-3xl p-6 mx-auto w-48 h-48 flex flex-col items-center justify-center mb-8 shadow-inner shadow-black/20">
                   <div className="w-16 h-16 bg-amber-500 rounded-2xl flex items-center justify-center mb-4 shadow-lg shadow-amber-500/20">
-                    <svg className="w-8 h-8 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                    <svg className="w-8 h-8 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" /></svg>
                   </div>
                   <div className="text-amber-500 font-bold tracking-wider">USDT / BEP20</div>
                 </div>
@@ -666,9 +666,9 @@ function About() {
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div className="order-2 lg:order-1 relative">
             <div className="absolute -inset-4 bg-rose-50 rounded-[2.5rem] transform -rotate-2 -z-10"></div>
-            <img 
-              src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800&h=600" 
-              alt="Programmer working with AI" 
+            <img
+              src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800&h=600"
+              alt="Programmer working with AI"
               className="rounded-3xl shadow-2xl object-cover w-full h-[500px]"
             />
           </div>
@@ -677,7 +677,7 @@ function About() {
               关于我们
             </div>
             <h2 className="text-4xl lg:text-5xl font-bold text-slate-900 mb-6 leading-tight">
-              可信赖的平台 <br/>
+              可信赖的平台 <br />
               提供 <span className="text-rose-500">高级 AI</span>
             </h2>
             <p className="text-lg text-slate-600 mb-6 leading-relaxed">
@@ -686,18 +686,18 @@ function About() {
             <p className="text-lg text-slate-600 mb-10 leading-relaxed">
               凭借超过2年的行业经验，我们已服务数千名来自不同背景的用户——开发者、内容创作者、研究人员及各行业专业人士。
             </p>
-            
+
             <div className="grid grid-cols-2 gap-6">
               <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100">
                 <div className="text-rose-500 mb-2">
-                  <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                  <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>
                 </div>
                 <div className="text-3xl font-bold text-slate-900 mb-1">2,500+</div>
                 <div className="text-slate-500">活跃用户</div>
               </div>
               <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100">
                 <div className="text-rose-500 mb-2">
-                  <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                  <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" /><rect x="14" y="14" width="7" height="7" /><rect x="3" y="14" width="7" height="7" /></svg>
                 </div>
                 <div className="text-3xl font-bold text-slate-900 mb-1">6</div>
                 <div className="text-slate-500">AI 工具可选</div>
@@ -776,7 +776,7 @@ function Contact() {
     <div id="contact" className="py-24 bg-white relative overflow-hidden">
       {/* Decorative background shapes */}
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-slate-100 to-transparent"></div>
-      
+
       <div className="container mx-auto px-4 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-16">
           <div className="lg:pr-8">
@@ -784,7 +784,7 @@ function Contact() {
               联系我们
             </div>
             <h2 className="text-4xl lg:text-5xl font-bold text-slate-900 mb-6 leading-tight">
-              有问题？<br/>
+              有问题？<br />
               <span className="text-rose-500">联系我们</span>
             </h2>
             <p className="text-lg text-slate-600 mb-10 leading-relaxed">
@@ -792,13 +792,13 @@ function Contact() {
             </p>
 
             <div className="bg-amber-50 rounded-2xl p-6 border border-amber-100 mb-8 flex gap-4">
-               <div className="bg-amber-100 p-2 text-amber-600 rounded-lg h-fit">
-                 <Zap className="w-6 h-6" />
-               </div>
-               <div>
-                 <h4 className="font-bold text-amber-900 mb-1">批发优惠</h4>
-                 <p className="text-amber-700/80 text-sm">大量购买可享批发价，请联系下方客服洽谈。</p>
-               </div>
+              <div className="bg-amber-100 p-2 text-amber-600 rounded-lg h-fit">
+                <Zap className="w-6 h-6" />
+              </div>
+              <div>
+                <h4 className="font-bold text-amber-900 mb-1">批发优惠</h4>
+                <p className="text-amber-700/80 text-sm">大量购买可享批发价，请联系下方客服洽谈。</p>
+              </div>
             </div>
 
             <div className="space-y-6">
@@ -813,7 +813,7 @@ function Contact() {
               </a>
               <a href="#" className="flex items-center gap-4 group">
                 <div className="w-14 h-14 bg-rose-50 rounded-2xl flex items-center justify-center text-rose-500 group-hover:bg-rose-500 group-hover:text-white transition-colors">
-                  <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 4 10 8 10-8"/></svg>
+                  <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="2" /><path d="m2 4 10 8 10-8" /></svg>
                 </div>
                 <div>
                   <h4 className="font-bold text-slate-900">Email</h4>
@@ -827,31 +827,31 @@ function Contact() {
             <form className="space-y-6">
               <div>
                 <label className="block text-sm font-semibold text-slate-900 mb-2">姓名</label>
-                <input 
-                  type="text" 
-                  placeholder="请输入您的姓名" 
+                <input
+                  type="text"
+                  placeholder="请输入您的姓名"
                   className="w-full px-5 py-4 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-rose-500/50 focus:border-rose-500 transition-all"
                 />
               </div>
               <div>
                 <label className="block text-sm font-semibold text-slate-900 mb-2">邮箱</label>
-                <input 
-                  type="email" 
-                  placeholder="email@example.com" 
+                <input
+                  type="email"
+                  placeholder="email@example.com"
                   className="w-full px-5 py-4 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-rose-500/50 focus:border-rose-500 transition-all"
                 />
               </div>
               <div>
                 <label className="block text-sm font-semibold text-slate-900 mb-2">留言</label>
-                <textarea 
-                  rows={4} 
-                  placeholder="在此输入您的留言..." 
+                <textarea
+                  rows={4}
+                  placeholder="在此输入您的留言..."
                   className="w-full px-5 py-4 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-rose-500/50 focus:border-rose-500 transition-all resize-none"
                 ></textarea>
                 <p className="text-xs text-slate-400 mt-2 text-right">最多 500 个字符</p>
               </div>
-              <button 
-                type="button" 
+              <button
+                type="button"
                 className="w-full py-4 rounded-xl bg-rose-500 hover:bg-rose-600 text-white font-bold text-lg shadow-md hover:shadow-xl hover:shadow-rose-500/20 transition-all active:scale-95"
               >
                 发送留言
@@ -871,19 +871,19 @@ function Footer() {
         <div className="text-center max-w-2xl mx-auto mb-20">
           <h2 className="text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
             现在就开始使用
-            <br/>
+            <br />
             <span className="text-rose-500">高级 AI 工具</span>
           </h2>
           <p className="text-slate-400 text-lg mb-10">
             不要错过提升生产力的机会。价格实惠，即时激活。
           </p>
           <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
-             <a href="#products" className="px-8 py-4 bg-rose-500 hover:bg-rose-600 text-white rounded-xl font-bold transition-colors inline-flex items-center gap-2 shadow-lg shadow-rose-500/20">
-               选择套餐 <ChevronDown className="w-5 h-5 -rotate-90" />
-             </a>
-             <a href="#" className="px-8 py-4 bg-white/10 hover:bg-white/20 text-white rounded-xl font-bold transition-all border border-white/10 backdrop-blur-sm">
-               免费注册
-             </a>
+            <a href="#products" className="px-8 py-4 bg-rose-500 hover:bg-rose-600 text-white rounded-xl font-bold transition-colors inline-flex items-center gap-2 shadow-lg shadow-rose-500/20">
+              选择套餐 <ChevronDown className="w-5 h-5 -rotate-90" />
+            </a>
+            <a href="#" className="px-8 py-4 bg-white/10 hover:bg-white/20 text-white rounded-xl font-bold transition-all border border-white/10 backdrop-blur-sm">
+              免费注册
+            </a>
           </div>
         </div>
 
@@ -891,7 +891,7 @@ function Footer() {
           <div className="col-span-2 lg:col-span-2">
             <div className="flex items-center gap-2 mb-6">
               <div className="w-10 h-10 bg-rose-500 rounded-lg flex items-center justify-center">
-                 <Bot className="w-6 h-6 text-white" />
+                <Bot className="w-6 h-6 text-white" />
               </div>
               <span className="text-xl font-bold text-white">
                 ZhipengsiClaudee
@@ -902,7 +902,7 @@ function Footer() {
               可信赖的高级 AI 工具访问平台。价格实惠，即时激活，全天候支持。
             </p>
           </div>
-          
+
           <div>
             <h4 className="text-white font-bold mb-6">产品</h4>
             <ul className="space-y-4">
@@ -913,7 +913,7 @@ function Footer() {
               <li><a href="#" className="text-slate-400 hover:text-white transition-colors">Gpt Pro</a></li>
             </ul>
           </div>
-          
+
           <div>
             <h4 className="text-white font-bold mb-6">支付方式</h4>
             <ul className="space-y-4">
@@ -923,7 +923,7 @@ function Footer() {
               <li><a href="#" className="text-slate-400 hover:text-white transition-colors">Transfer Bank</a></li>
             </ul>
           </div>
-          
+
           <div>
             <h4 className="text-white font-bold mb-6">帮助</h4>
             <ul className="space-y-4">
@@ -997,11 +997,11 @@ function CheckoutModal({ product, initialQuantity, onClose }: { product: any, in
             <p className="text-xs text-slate-500 mb-1">交易编号</p>
             <p className="font-mono font-bold text-slate-800">{transactionCode}</p>
           </div>
-          <a 
-            href={`https://t.me/ZhipengsiClaudee?text=${encodeURIComponent(`交易编号: ${transactionCode}\n我已完成付款，这是我的付款凭证：`)}`} 
-            target="_blank" 
+          <a
+            href={`https://t.me/ZhipengsiClaudee?text=${encodeURIComponent(`交易编号: ${transactionCode}\n我已完成付款，这是我的付款凭证：`)}`}
+            target="_blank"
             rel="noreferrer"
-            onClick={onClose} 
+            onClick={onClose}
             className="w-full py-3 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-bold transition-colors block"
           >
             前往 Telegram 并发送凭证
@@ -1014,32 +1014,32 @@ function CheckoutModal({ product, initialQuantity, onClose }: { product: any, in
   return (
     <div className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4" onClick={handleOverlayClick}>
       <div className="w-full max-w-md bg-slate-50 sm:rounded-3xl rounded-t-3xl overflow-hidden relative shadow-2xl transition-all">
-        
+
         <div className={cn("pt-10 pb-20 px-6 text-center text-white relative transition-colors duration-500", themeColor)}>
           <button onClick={onClose} className="absolute top-4 right-4 w-8 h-8 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-colors">
             <X className="w-5 h-5 text-white" />
           </button>
-          
+
           <div className="w-16 h-16 bg-white rounded-2xl mx-auto flex items-center justify-center mb-4 shadow-sm">
-             <ShoppingCart className={cn("w-8 h-8 transition-colors duration-500", textColor)} />
+            <ShoppingCart className={cn("w-8 h-8 transition-colors duration-500", textColor)} />
           </div>
           <h2 className="text-2xl font-bold mb-1 tracking-wide">确认订单</h2>
           <p className="text-sm text-white/90">核对信息后前往 Telegram 付款</p>
         </div>
 
         <div className="relative -mt-12 px-4 pb-8 max-h-[75vh] overflow-y-auto">
-          
+
           <div className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
             <div className="flex justify-between items-start mb-4">
-               <div>
-                 <div className="text-xs text-slate-500 mb-1">购买产品</div>
-                 <div className="font-bold text-slate-900 text-lg">{product.name}</div>
-               </div>
-               <div className="text-right">
-                 <div className="text-xs text-slate-500 mb-1">单价</div>
-                 <div className="font-bold text-slate-900 text-lg leading-none">¥{product.price}</div>
-                 <div className="text-xs text-slate-400 mt-1">≈ IDR {formatIdr(idrPrice)}</div>
-               </div>
+              <div>
+                <div className="text-xs text-slate-500 mb-1">购买产品</div>
+                <div className="font-bold text-slate-900 text-lg">{product.name}</div>
+              </div>
+              <div className="text-right">
+                <div className="text-xs text-slate-500 mb-1">单价</div>
+                <div className="font-bold text-slate-900 text-lg leading-none">¥{product.price}</div>
+                <div className="text-xs text-slate-400 mt-1">≈ IDR {formatIdr(idrPrice)}</div>
+              </div>
             </div>
 
             <div className="h-px bg-slate-100 my-4"></div>
@@ -1047,13 +1047,13 @@ function CheckoutModal({ product, initialQuantity, onClose }: { product: any, in
             <div className="flex justify-between items-center mb-4">
               <div className="text-sm text-slate-600 font-medium">购买数量</div>
               <div className="flex items-center gap-4">
-                 <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="w-7 h-7 rounded-full border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-50">
-                   <Minus className="w-4 h-4" />
-                 </button>
-                 <span className="font-bold text-lg w-4 text-center">{quantity}</span>
-                 <button onClick={() => setQuantity(quantity + 1)} className={cn("w-7 h-7 rounded-full flex items-center justify-center text-white shadow-sm transition-colors duration-500", themeColor)}>
-                   <Plus className="w-4 h-4" />
-                 </button>
+                <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="w-7 h-7 rounded-full border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-50">
+                  <Minus className="w-4 h-4" />
+                </button>
+                <span className="font-bold text-lg w-4 text-center">{quantity}</span>
+                <button onClick={() => setQuantity(quantity + 1)} className={cn("w-7 h-7 rounded-full flex items-center justify-center text-white shadow-sm transition-colors duration-500", themeColor)}>
+                  <Plus className="w-4 h-4" />
+                </button>
               </div>
             </div>
 
@@ -1069,52 +1069,52 @@ function CheckoutModal({ product, initialQuantity, onClose }: { product: any, in
           </div>
 
           <div className="mt-4 mb-4 grid grid-cols-2 gap-3">
-             <div 
-               onClick={() => setPaymentMethod('qris')}
-               className={cn(
-                 "p-3 rounded-xl border-2 cursor-pointer transition-all duration-300 relative overflow-hidden group hover:-translate-y-1 hover:shadow-md",
-                 paymentMethod === 'qris' ? "border-[#1ea1f1] bg-blue-50" : "border-slate-200 bg-white"
-               )}
-             >
-                <div className="flex items-center gap-2 relative z-10">
-                  <div className={cn("w-4 h-4 rounded-full border flex items-center justify-center transition-colors", paymentMethod === 'qris' ? "border-[#1ea1f1]" : "border-slate-300")}>
-                     {paymentMethod === 'qris' && <div className="w-2 h-2 rounded-full bg-[#1ea1f1]"></div>}
-                  </div>
-                  <span className={cn("font-bold text-sm transition-colors", paymentMethod === 'qris' ? "text-[#1ea1f1]" : "text-slate-600")}>QRIS / Alipay</span>
+            <div
+              onClick={() => setPaymentMethod('qris')}
+              className={cn(
+                "p-3 rounded-xl border-2 cursor-pointer transition-all duration-300 relative overflow-hidden group hover:-translate-y-1 hover:shadow-md",
+                paymentMethod === 'qris' ? "border-[#1ea1f1] bg-blue-50" : "border-slate-200 bg-white"
+              )}
+            >
+              <div className="flex items-center gap-2 relative z-10">
+                <div className={cn("w-4 h-4 rounded-full border flex items-center justify-center transition-colors", paymentMethod === 'qris' ? "border-[#1ea1f1]" : "border-slate-300")}>
+                  {paymentMethod === 'qris' && <div className="w-2 h-2 rounded-full bg-[#1ea1f1]"></div>}
                 </div>
-             </div>
+                <span className={cn("font-bold text-sm transition-colors", paymentMethod === 'qris' ? "text-[#1ea1f1]" : "text-slate-600")}>QRIS / Alipay</span>
+              </div>
+            </div>
 
-             <div 
-               onClick={() => setPaymentMethod('bep20')}
-               className={cn(
-                 "p-3 rounded-xl border-2 cursor-pointer transition-all duration-300 relative overflow-hidden group hover:-translate-y-1 hover:shadow-md",
-                 paymentMethod === 'bep20' ? "border-amber-500 bg-amber-50" : "border-slate-200 bg-white"
-               )}
-             >
-                <div className="flex items-center gap-2 relative z-10">
-                  <div className={cn("w-4 h-4 rounded-full border flex items-center justify-center transition-colors", paymentMethod === 'bep20' ? "border-amber-500" : "border-slate-300")}>
-                     {paymentMethod === 'bep20' && <div className="w-2 h-2 rounded-full bg-amber-500"></div>}
-                  </div>
-                  <span className={cn("font-bold text-sm transition-colors", paymentMethod === 'bep20' ? "text-amber-500" : "text-slate-600")}>BEP20 (USDT)</span>
+            <div
+              onClick={() => setPaymentMethod('bep20')}
+              className={cn(
+                "p-3 rounded-xl border-2 cursor-pointer transition-all duration-300 relative overflow-hidden group hover:-translate-y-1 hover:shadow-md",
+                paymentMethod === 'bep20' ? "border-amber-500 bg-amber-50" : "border-slate-200 bg-white"
+              )}
+            >
+              <div className="flex items-center gap-2 relative z-10">
+                <div className={cn("w-4 h-4 rounded-full border flex items-center justify-center transition-colors", paymentMethod === 'bep20' ? "border-amber-500" : "border-slate-300")}>
+                  {paymentMethod === 'bep20' && <div className="w-2 h-2 rounded-full bg-amber-500"></div>}
                 </div>
-             </div>
+                <span className={cn("font-bold text-sm transition-colors", paymentMethod === 'bep20' ? "text-amber-500" : "text-slate-600")}>BEP20 (USDT)</span>
+              </div>
+            </div>
           </div>
 
           <div className={cn("bg-white rounded-2xl p-5 mt-4 shadow-sm border-2 text-center transition-colors duration-500", paymentMethod === 'bep20' ? 'border-amber-100' : 'border-blue-50')}>
             {paymentMethod === 'qris' ? (
               <div className="bg-slate-50 p-2 rounded-xl mb-4 border border-slate-100 inline-block">
-                 <img src={qrisImg} alt="QRIS Payment" className="w-[200px] h-auto rounded-lg" />
+                <img src={qrisImg} alt="QRIS Payment" className="w-[200px] h-auto rounded-lg" />
               </div>
             ) : (
               <div className="bg-slate-50 p-4 rounded-xl mb-4 border border-slate-100">
-                 <div className="w-16 h-16 bg-amber-500 rounded-2xl mx-auto flex items-center justify-center mb-3 shadow-md shadow-amber-500/20">
-                    <svg className="w-8 h-8 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-                 </div>
-                 <div className="text-sm font-bold text-amber-600 mb-1">USDT (BEP20)</div>
-                 <div className="text-xs text-slate-500 font-mono bg-white p-2 rounded border break-all select-all">0x36152b220b1b1b3b436124d21847d9f89fba7118</div>
+                <div className="w-16 h-16 bg-amber-500 rounded-2xl mx-auto flex items-center justify-center mb-3 shadow-md shadow-amber-500/20">
+                  <svg className="w-8 h-8 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" /></svg>
+                </div>
+                <div className="text-sm font-bold text-amber-600 mb-1">USDT (BEP20)</div>
+                <div className="text-xs text-slate-500 font-mono bg-white p-2 rounded border break-all select-all">0x36152b220b1b1b3b436124d21847d9f89fba7118</div>
               </div>
             )}
-            
+
             <div className="mb-4">
               <label className={cn(
                 "flex flex-col items-center justify-center w-full h-24 border-2 border-dashed rounded-xl cursor-pointer transition-colors",
@@ -1137,8 +1137,8 @@ function CheckoutModal({ product, initialQuantity, onClose }: { product: any, in
                 <input type="file" className="hidden" accept="image/*" onChange={handleUpload} />
               </label>
             </div>
-            
-            <button 
+
+            <button
               onClick={handleSubmit}
               className={cn(
                 "w-full py-3.5 text-white rounded-xl font-bold flex items-center justify-center gap-2 transition-colors",
