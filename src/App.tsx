@@ -108,16 +108,18 @@ const products = [
     id: 'gpt-pro-5x',
     name: 'Gpt Pro 5 x',
     desc: 'OpenAI 旗舰模型，极速响应',
-    price: 130,
-    unit: '/月',
+    price: 160,
+    unit: '/四十一万',
     sales: '1,102',
     badge: '超值',
     badgeColor: 'bg-purple-500 text-white',
     icon: <MessageSquare className="w-8 h-8 text-purple-600" />,
     features: [
-      'GPT-4o 完整访问',
-      '高级数据分析',
-      '插件与实时联网'
+      '无限 GPT-4 & GPT-5 访问',
+      '128K tokens 上下文窗口',
+      '高级联网与代码执行',
+      'DALL·E 3 图像生成',
+      '自定义 GPT 商店'
     ],
     buttonColor: 'bg-purple-600 hover:bg-purple-700',
     image: gptImg
@@ -126,16 +128,18 @@ const products = [
     id: 'gpt-pro-20x',
     name: 'Gpt Pro 20 x',
     desc: 'OpenAI 最高权限，适合高频使用者',
-    price: 180,
-    unit: '/月',
+    price: 240,
+    unit: '/六十五万',
     sales: '430',
     badge: '旗舰',
     badgeColor: 'bg-indigo-600 text-white',
     icon: <MessageSquare className="w-8 h-8 text-indigo-700" />,
     features: [
-      '优先 GPT-4o 极速响应',
-      '自定义 GPTs 创建',
-      '企业级高级接口'
+      '无限 GPT-4 & GPT-5 访问',
+      '128K tokens 上下文窗口',
+      '高级联网与代码执行',
+      'DALL·E 3 图像生成',
+      '自定义 GPT 商店'
     ],
     buttonColor: 'bg-indigo-600 hover:bg-indigo-700',
     image: gptImg
@@ -280,7 +284,7 @@ function Navbar({ isScrolled, user, onLoginClick }: { isScrolled: boolean, user:
               <Bot className="w-6 h-6 text-white" />
             </div>
             <span className={cn("text-xl font-bold transition-colors", isScrolled ? "text-slate-900" : "text-white")}>
-              ZhipengsiClaudee
+              Zangxhi-Ai
             </span>
             <CheckCircle2 className="w-5 h-5 text-blue-500 fill-white/10 ml-1" />
           </div>
@@ -396,19 +400,19 @@ function Products({ onSelectProduct }: { onSelectProduct: (product: any, quantit
   };
 
   return (
-    <div id="products" className="py-24 bg-slate-50">
+    <div id="products" className="py-24 bg-[#0c0e1a]">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center justify-center px-4 py-1.5 rounded-full bg-rose-100 text-rose-600 text-sm font-semibold tracking-wide mb-6">
+          <div className="inline-flex items-center justify-center px-4 py-1.5 rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20 text-sm font-semibold tracking-wide mb-6">
             产品目录
           </div>
-          <h2 className="text-4xl lg:text-5xl font-bold tracking-tight text-slate-900 mb-6">
+          <h2 className="text-4xl lg:text-5xl font-bold tracking-tight text-white mb-6">
             选择你的 <span className="text-rose-500">常用 AI 工具</span>
           </h2>
-          <p className="text-lg text-slate-600 mb-8">
+          <p className="text-lg text-slate-300/90 mb-8">
             以实惠价格完整访问高级 AI 工具。所有套餐包含支持和更新。
           </p>
-          <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-emerald-50 border border-emerald-100 text-emerald-600 font-medium shadow-sm">
+          <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-medium shadow-sm">
             <ShieldCheck className="w-5 h-5" />
             所有产品 30 天退款保证
           </div>
@@ -646,7 +650,7 @@ function Payment() {
                   </div>
                 </div>
 
-                <a href="https://t.me/ZhipengsiClaudee" target="_blank" className="w-full py-4 bg-amber-500 hover:bg-amber-600 text-slate-900 rounded-xl font-bold flex items-center justify-center gap-2 transition-all shadow-lg shadow-amber-500/25">
+                <a href="https://t.me/Zangxhi-Ai" target="_blank" className="w-full py-4 bg-amber-500 hover:bg-amber-600 text-slate-900 rounded-xl font-bold flex items-center justify-center gap-2 transition-all shadow-lg shadow-amber-500/25">
                   <Send className="w-5 h-5" />
                   联系 Telegram 获取地址
                 </a>
@@ -681,7 +685,7 @@ function About() {
               提供 <span className="text-rose-500">高级 AI</span>
             </h2>
             <p className="text-lg text-slate-600 mb-6 leading-relaxed">
-              ZhipengsiClaudee 是一个以实惠价格提供高级 AI 工具访问权限的平台。我们致力提供最佳服务，即时激活，全天候支持。
+              Zangxhi-Ai 是一个以实惠价格提供高级 AI 工具访问权限的平台。我们致力提供最佳服务，即时激活，全天候支持。
             </p>
             <p className="text-lg text-slate-600 mb-10 leading-relaxed">
               凭借超过2年的行业经验，我们已服务数千名来自不同背景的用户——开发者、内容创作者、研究人员及各行业专业人士。
@@ -808,7 +812,7 @@ function Contact() {
                 </div>
                 <div>
                   <h4 className="font-bold text-slate-900">电报</h4>
-                  <p className="text-rose-500 group-hover:underline">@zhipengsi</p>
+                  <p className="text-rose-500 group-hover:underline">@Zangxhi88</p>
                 </div>
               </a>
               <a href="#" className="flex items-center gap-4 group">
@@ -817,7 +821,7 @@ function Contact() {
                 </div>
                 <div>
                   <h4 className="font-bold text-slate-900">Email</h4>
-                  <p className="text-slate-500 group-hover:underline">support@zhipengsiclaudee.com</p>
+                  <p className="text-slate-500 group-hover:underline">support@zangxhi-ai.com</p>
                 </div>
               </a>
             </div>
@@ -894,7 +898,7 @@ function Footer() {
                 <Bot className="w-6 h-6 text-white" />
               </div>
               <span className="text-xl font-bold text-white">
-                ZhipengsiClaudee
+                Zangxhi-Ai
               </span>
               <CheckCircle2 className="w-5 h-5 text-blue-500 fill-white/10 ml-1" />
             </div>
@@ -937,7 +941,7 @@ function Footer() {
         </div>
 
         <div className="text-center text-slate-500 border-t border-white/5 pt-8">
-          <p>© 2026 ZhipengsiClaudee. All rights reserved.</p>
+          <p>© 2026 Zangxhi-Ai. All rights reserved.</p>
         </div>
       </div>
     </footer>
@@ -998,7 +1002,7 @@ function CheckoutModal({ product, initialQuantity, onClose }: { product: any, in
             <p className="font-mono font-bold text-slate-800">{transactionCode}</p>
           </div>
           <a
-            href={`https://t.me/ZhipengsiClaudee?text=${encodeURIComponent(`交易编号: ${transactionCode}\n我已完成付款，这是我的付款凭证：`)}`}
+            href={`https://t.me/Zangxhi-Ai?text=${encodeURIComponent(`交易编号: ${transactionCode}\n我已完成付款，这是我的付款凭证：`)}`}
             target="_blank"
             rel="noreferrer"
             onClick={onClose}
