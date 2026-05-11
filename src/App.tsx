@@ -421,8 +421,8 @@ function Products({ onSelectProduct }: { onSelectProduct: (product: any, quantit
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {products.map((p) => (
             <div key={p.id} className={cn(
-              "bg-white rounded-3xl p-8 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 hover:scale-[1.02] cursor-pointer relative flex flex-col group",
-              p.highlighted ? "ring-2 ring-rose-500 shadow-xl" : "border border-slate-100 shadow-sm"
+              "bg-[#15182b] rounded-3xl p-8 transition-all duration-300 hover:shadow-2xl hover:shadow-black/50 hover:-translate-y-1 hover:scale-[1.02] cursor-pointer relative flex flex-col group",
+              p.highlighted ? "ring-2 ring-rose-500 shadow-lg shadow-rose-500/20" : "border border-white/10 shadow-sm"
             )}>
               {/* Badge */}
               <div className={cn(
@@ -434,44 +434,44 @@ function Products({ onSelectProduct }: { onSelectProduct: (product: any, quantit
               </div>
 
               <div className="mb-6 h-48 rounded-2xl overflow-hidden relative">
-                <div className="absolute inset-0 bg-slate-900/10 mix-blend-multiply group-hover:opacity-0 transition-opacity z-10"></div>
+                <div className="absolute inset-0 bg-slate-900/40 mix-blend-multiply group-hover:opacity-0 transition-opacity z-10"></div>
                 <img src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
               </div>
 
               <div className="flex-1">
-                <h3 className="text-2xl font-bold mb-2">{p.name}</h3>
-                <p className="text-slate-500 text-sm mb-6 line-clamp-2 h-10">{p.desc}</p>
+                <h3 className="text-2xl font-bold mb-2 text-white">{p.name}</h3>
+                <p className="text-slate-400 text-sm mb-6 line-clamp-2 h-10">{p.desc}</p>
 
                 <div className="flex items-baseline gap-1 mb-6">
-                  <span className="text-4xl font-bold">¥{p.price}</span>
-                  <span className="text-slate-500 font-medium">{p.unit}</span>
+                  <span className="text-4xl font-bold text-white">¥{p.price}</span>
+                  <span className="text-slate-400 font-medium">{p.unit}</span>
                 </div>
 
-                <div className="flex items-center gap-2 text-sm text-slate-500 mb-8 bg-slate-50 px-3 py-2 rounded-lg border border-slate-100">
-                  <Clock className="w-4 h-4" />
+                <div className="flex items-center gap-2 text-sm text-slate-300 mb-8 bg-white/5 px-3 py-2 rounded-lg border border-white/10 backdrop-blur-sm">
+                  <Clock className="w-4 h-4 text-slate-400" />
                   已售 {p.sales} 件
                 </div>
 
                 <ul className="space-y-4 mb-8">
                   {p.features.map((feature, i) => (
                     <li key={i} className="flex items-start gap-3">
-                      <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
-                      <span className="text-slate-700">{feature}</span>
+                      <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
+                      <span className="text-slate-300">{feature}</span>
                     </li>
                   ))}
                 </ul>
               </div>
 
-              <div className="mt-auto pt-6 border-t border-slate-100 space-y-4">
+              <div className="mt-auto pt-6 border-t border-white/10 space-y-4">
                 <div className="flex justify-between items-center text-sm mb-2">
-                  <span className="font-medium text-slate-700">数量</span>
-                  <div className="flex items-center justify-between border border-slate-200 rounded-full w-24 bg-slate-50 p-0.5">
+                  <span className="font-medium text-slate-300">数量</span>
+                  <div className="flex items-center justify-between border border-white/10 rounded-full w-24 bg-white/5 p-0.5 backdrop-blur-sm">
                     <button
                       onClick={(e) => { e.stopPropagation(); updateQty(p.id, -1); }}
-                      className="w-7 h-7 rounded-full bg-transparent flex items-center justify-center text-slate-500 hover:bg-slate-200 transition-colors">
+                      className="w-7 h-7 rounded-full bg-transparent flex items-center justify-center text-slate-400 hover:bg-white/10 hover:text-white transition-colors">
                       <Minus className="w-4 h-4" />
                     </button>
-                    <span className="font-semibold text-slate-900">{getQty(p.id)}</span>
+                    <span className="font-semibold text-white">{getQty(p.id)}</span>
                     <button
                       onClick={(e) => { e.stopPropagation(); updateQty(p.id, 1); }}
                       className={cn("w-7 h-7 rounded-full flex items-center justify-center text-white transition-colors", p.buttonColor)}>
@@ -479,12 +479,12 @@ function Products({ onSelectProduct }: { onSelectProduct: (product: any, quantit
                     </button>
                   </div>
                 </div>
-                <div className="flex items-center gap-2 text-emerald-600 text-sm font-medium mb-4">
+                <div className="flex items-center gap-2 text-emerald-400 text-sm font-medium mb-4">
                   <ShieldCheck className="w-4 h-4" /> 30 天退款保证
                 </div>
                 <button
                   onClick={(e) => { e.stopPropagation(); onSelectProduct(p, getQty(p.id)); }}
-                  className={cn("w-full py-4 rounded-xl text-white font-bold text-lg shadow-md hover:shadow-lg transition-all", p.buttonColor)}
+                  className={cn("w-full py-4 rounded-xl text-white font-bold text-lg shadow-lg hover:shadow-xl transition-all hover:-translate-y-0.5 active:translate-y-0", p.buttonColor)}
                 >
                   立即购买
                 </button>
@@ -650,7 +650,7 @@ function Payment() {
                   </div>
                 </div>
 
-                <a href="https://t.me/Zangxhi-Ai" target="_blank" className="w-full py-4 bg-amber-500 hover:bg-amber-600 text-slate-900 rounded-xl font-bold flex items-center justify-center gap-2 transition-all shadow-lg shadow-amber-500/25">
+                <a href="https://t.me/Zangxhi88" target="_blank" className="w-full py-4 bg-amber-500 hover:bg-amber-600 text-slate-900 rounded-xl font-bold flex items-center justify-center gap-2 transition-all shadow-lg shadow-amber-500/25">
                   <Send className="w-5 h-5" />
                   联系 Telegram 获取地址
                 </a>
@@ -1002,7 +1002,7 @@ function CheckoutModal({ product, initialQuantity, onClose }: { product: any, in
             <p className="font-mono font-bold text-slate-800">{transactionCode}</p>
           </div>
           <a
-            href={`https://t.me/Zangxhi-Ai?text=${encodeURIComponent(`交易编号: ${transactionCode}\n我已完成付款，这是我的付款凭证：`)}`}
+            href={`https://t.me/Zangxhi88?text=${encodeURIComponent(`交易编号: ${transactionCode}\n我已完成付款，这是我的付款凭证：`)}`}
             target="_blank"
             rel="noreferrer"
             onClick={onClose}
