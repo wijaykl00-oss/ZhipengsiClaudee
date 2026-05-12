@@ -29,6 +29,7 @@ import cursorImg from '../foto/cursor.jpg';
 import gptImg from '../foto/gpt.png';
 import backgroundImg from '../foto/Background.png';
 import qrisImg from '../foto/Qrisbaru.jpeg';
+import backgroundpbImg from '../foto/backgroundpb.jpeg';
 
 const products = [
   {
@@ -421,9 +422,14 @@ function Products({ onSelectProduct }: { onSelectProduct: (product: any, quantit
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {products.map((p) => (
             <div key={p.id} className={cn(
-              "bg-[#15182b] rounded-3xl p-8 transition-all duration-300 hover:shadow-2xl hover:shadow-black/50 hover:-translate-y-1 hover:scale-[1.02] cursor-pointer relative flex flex-col group",
+              "rounded-3xl p-8 transition-all duration-300 hover:shadow-2xl hover:shadow-black/50 hover:-translate-y-1 hover:scale-[1.02] cursor-pointer relative flex flex-col group overflow-hidden",
               p.highlighted ? "ring-2 ring-rose-500 shadow-lg shadow-rose-500/20" : "border border-white/10 shadow-sm"
-            )}>
+            )}
+            style={{
+              backgroundImage: `linear-gradient(to bottom, rgba(21, 24, 43, 0.85), rgba(21, 24, 43, 0.95)), url(${backgroundpbImg})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            }}>
               {/* Badge */}
               <div className={cn(
                 "absolute top-0 right-8 -translate-y-1/2 px-4 py-1.5 rounded-full text-sm font-bold shadow-md flex items-center gap-1",
