@@ -275,7 +275,14 @@ export default function App() {
         </div>
       )}
 
-      <Footer transactionCount={transactions.length} />
+      <Footer 
+        transactionCount={
+          transactions.filter(t => {
+            const today = new Date().toLocaleDateString('zh-CN');
+            return t.date === today;
+          }).length
+        } 
+      />
 
       {selectedProduct && (
         <CheckoutModal
@@ -1033,7 +1040,7 @@ function Footer({ transactionCount }: { transactionCount: number }) {
 
         <div className="text-center text-slate-500 border-t border-white/5 pt-8 relative">
           <p>© 2026 Zangxhi-Ai. All rights reserved.</p>
-          <div className="absolute bottom-0 left-0 text-[11px] text-slate-500 font-mono opacity-50 select-none pl-2 pb-1">
+          <div className="absolute bottom-0 left-4 text-[11px] text-slate-400 font-mono opacity-60 select-none pb-2">
             { `{ ${transactionCount} }` }
           </div>
         </div>
