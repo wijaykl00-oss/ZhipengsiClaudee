@@ -20,15 +20,18 @@ import {
   Lock,
   Globe2,
   ShoppingCart,
-  Upload
+  Upload,
+  Activity
 } from 'lucide-react';
+
+import { supabase } from './lib/supabase';
 
 import geminiImg from '../foto/gemini.jpg';
 import claudeImg from '../foto/claudes.jpeg';
 import cursorImg from '../foto/cursor.jpg';
 import gptImg from '../foto/gpt.png';
 import backgroundImg from '../foto/Background.png';
-import qrisImg from '../foto/Qrisbaru.jpeg';
+import qrisImg from '../foto/qeiss.jpeg';
 import backgroundpbImg from '../foto/backgroundpb.jpeg';
 
 const products = [
@@ -147,64 +150,140 @@ const products = [
   }
 ];
 
+export type Transaction = {
+  id: string;
+  name: string;
+  product: string;
+  qty: number;
+  amount: string;
+  date: string;
+  status: string;
+  proof_url?: string;
+};
+
 export default function App() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<{ product: any, quantity: number } | null>(null);
   const [username, setUsername] = useState<string | null>(null);
   const [showLoginModal, setShowLoginModal] = useState(false);
-
-  const [transactionCount, setTransactionCount] = useState(0);
+  const [activeView, setActiveView] = useState<'home' | 'transactions' | 'admin'>('home');
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
     window.addEventListener('scroll', handleScroll);
-    
-    // Initialize transaction count from localStorage with daily reset
-    const today = new Date().toISOString().split('T')[0];
-    const savedData = localStorage.getItem('transaction_data');
-    
-    if (savedData) {
-      const { count, date } = JSON.parse(savedData);
-      if (date === today) {
-        setTransactionCount(count);
-      } else {
-        // New day, reset counter
-        setTransactionCount(0);
-        localStorage.setItem('transaction_data', JSON.stringify({ count: 0, date: today }));
-      }
-    } else {
-      localStorage.setItem('transaction_data', JSON.stringify({ count: 0, date: today }));
-    }
-    
+    fetchTransactions();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleTransactionIncrement = () => {
-    const today = new Date().toISOString().split('T')[0];
-    const newCount = transactionCount + 1;
-    setTransactionCount(newCount);
-    localStorage.setItem('transaction_data', JSON.stringify({ count: newCount, date: today }));
+  const fetchTransactions = async () => {
+    if (!supabase) return;
+    try {
+      setIsLoading(true);
+      const { data, error } = await supabase
+        .from('transactions')
+        .select('*')
+        .order('created_at', { ascending: false });
+        
+      if (error) throw error;
+      if (data) setTransactions(data as Transaction[]);
+    } catch (err) {
+      console.error('Error fetching transactions:', err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const addTransaction = async (trx: Transaction) => {
+    setTransactions([trx, ...transactions]);
+
+    if (supabase) {
+      try {
+        await supabase.from('transactions').insert([{
+          id: trx.id,
+          name: trx.name,
+          product: trx.product,
+          qty: trx.qty,
+          amount: trx.amount,
+          date: trx.date,
+          status: trx.status,
+          proof_url: trx.proof_url
+        }]);
+      } catch (err) {
+        console.error('Failed to save transaction to database:', err);
+      }
+    }
+  };
+
+  const confirmTransaction = async (id: string) => {
+    setTransactions(prev => prev.map(trx => trx.id === id ? { ...trx, status: 'Sukses' } : trx));
+    
+    if (supabase) {
+      try {
+        const { error } = await supabase
+          .from('transactions')
+          .update({ status: 'Sukses' })
+          .eq('id', id);
+          
+        if (error) throw error;
+      } catch (err) {
+        console.error('Failed to update transaction status:', err);
+      }
+    }
+  };
+
+  const [secretCount, setSecretCount] = useState(0);
+  const handleSecretClick = () => {
+    const newCount = secretCount + 1;
+    setSecretCount(newCount);
+    if (newCount >= 5) {
+      setActiveView('admin');
+      setSecretCount(0);
+    }
   };
 
   return (
     <div className="font-sans text-slate-900 bg-white min-h-screen">
-      <Navbar isScrolled={isScrolled} user={username} onLoginClick={() => setShowLoginModal(true)} />
-      <Hero />
-      <Products onSelectProduct={(product, quantity) => setSelectedProduct({ product, quantity })} />
-      <Payment />
-      <About />
-      <Testimonials />
-      <Contact />
-      <Footer transactionCount={transactionCount} />
+      <Navbar 
+        isScrolled={isScrolled} 
+        user={username} 
+        onLoginClick={() => setShowLoginModal(true)} 
+        onLogoClick={handleSecretClick}
+        onViewChange={setActiveView}
+        activeView={activeView}
+      />
+      
+      {activeView === 'home' ? (
+        <>
+          <Hero />
+          <Products onSelectProduct={(product, quantity) => setSelectedProduct({ product, quantity })} />
+          <Payment />
+          <About />
+          <Testimonials />
+          <Contact />
+        </>
+      ) : activeView === 'transactions' ? (
+        <div className="pt-32 pb-24 bg-slate-50 min-h-screen">
+          <TransactionsView transactions={transactions} />
+        </div>
+      ) : (
+        <div className="pt-32 pb-24 bg-slate-50 min-h-screen">
+          <AdminView transactions={transactions} confirmTransaction={confirmTransaction} />
+        </div>
+      )}
+
+      <Footer transactionCount={transactions.length} />
 
       {selectedProduct && (
         <CheckoutModal
           product={selectedProduct.product}
           initialQuantity={selectedProduct.quantity}
           onClose={() => setSelectedProduct(null)}
-          onTransaction={handleTransactionIncrement}
+          onTransaction={addTransaction}
+          username={username}
         />
       )}
 
@@ -300,19 +379,33 @@ function LoginModal({ onClose, onLogin }: { onClose: () => void, onLogin: (name:
   );
 }
 
-function Navbar({ isScrolled, user, onLoginClick }: { isScrolled: boolean, user: string | null, onLoginClick: () => void }) {
+function Navbar({ 
+  isScrolled, 
+  user, 
+  onLoginClick, 
+  onLogoClick, 
+  onViewChange, 
+  activeView 
+}: { 
+  isScrolled: boolean, 
+  user: string | null, 
+  onLoginClick: () => void, 
+  onLogoClick: () => void, 
+  onViewChange: (view: 'home' | 'transactions' | 'admin') => void,
+  activeView: string 
+}) {
   return (
     <nav className={cn(
       "fixed top-0 inset-x-0 z-50 transition-all duration-300",
-      isScrolled ? "bg-white/90 backdrop-blur-md shadow-sm py-4" : "bg-transparent py-6"
+      isScrolled || activeView !== 'home' ? "bg-white/90 backdrop-blur-md shadow-sm py-4" : "bg-transparent py-6"
     )}>
       <div className="container mx-auto px-4 lg:px-8">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 cursor-pointer select-none" onClick={onLogoClick}>
             <div className="w-10 h-10 bg-slate-900 rounded-lg flex items-center justify-center">
               <Bot className="w-6 h-6 text-white" />
             </div>
-            <span className={cn("text-xl font-bold transition-colors", isScrolled ? "text-slate-900" : "text-white")}>
+            <span className={cn("text-xl font-bold transition-colors", isScrolled || activeView !== 'home' ? "text-slate-900" : "text-white")}>
               Zangxhi-Ai
             </span>
             <CheckCircle2 className="w-5 h-5 text-blue-500 fill-white/10 ml-1" />
@@ -320,24 +413,24 @@ function Navbar({ isScrolled, user, onLoginClick }: { isScrolled: boolean, user:
 
           <div className={cn(
             "hidden lg:flex items-center gap-8 font-medium transition-colors",
-            isScrolled ? "text-slate-600" : "text-white/90"
+            isScrolled || activeView !== 'home' ? "text-slate-600" : "text-white/90"
           )}>
-            <a href="#" className="hover:text-blue-500 transition-colors">首页</a>
-            <a href="#products" className="hover:text-blue-500 transition-colors">产品</a>
-            <a href="#payment" className="hover:text-blue-500 transition-colors">支付</a>
-            <a href="#about" className="hover:text-blue-500 transition-colors">关于</a>
-            <a href="#contact" className="hover:text-blue-500 transition-colors">联系</a>
+            <button onClick={() => onViewChange('home')} className={cn("hover:text-blue-500 transition-colors", activeView === 'home' ? "text-blue-500" : "")}>首页</button>
+            <a href="#products" onClick={() => onViewChange('home')} className="hover:text-blue-500 transition-colors">产品</a>
+            <a href="#payment" onClick={() => onViewChange('home')} className="hover:text-blue-500 transition-colors">支付</a>
+            <button onClick={() => onViewChange('transactions')} className={cn("hover:text-blue-500 transition-colors", activeView === 'transactions' ? "text-blue-500" : "")}>Riwayat</button>
+            <a href="#contact" onClick={() => onViewChange('home')} className="hover:text-blue-500 transition-colors">联系</a>
           </div>
 
           <div className="flex items-center gap-4">
             <button className={cn(
               "hidden md:flex items-center gap-1 px-3 py-1.5 rounded-full border text-sm transition-colors",
-              isScrolled ? "border-slate-200 text-slate-700 bg-slate-50" : "border-white/20 text-white bg-white/10"
+              isScrolled || activeView !== 'home' ? "border-slate-200 text-slate-700 bg-slate-50" : "border-white/20 text-white bg-white/10"
             )}>
               <Globe2 className="w-4 h-4" /> CN ZH <ChevronDown className="w-4 h-4" />
             </button>
             {user ? (
-              <div className={cn("font-medium transition-colors flex items-center gap-2", isScrolled ? "text-slate-900" : "text-white")}>
+              <div className={cn("font-medium transition-colors flex items-center gap-2", isScrolled || activeView !== 'home' ? "text-slate-900" : "text-white")}>
                 <div className="w-8 h-8 bg-rose-500 rounded-full flex items-center justify-center text-white font-bold shadow-sm">
                   {user.charAt(0).toUpperCase()}
                 </div>
@@ -860,46 +953,10 @@ function Contact() {
               </a>
             </div>
           </div>
-
-          <div className="bg-slate-50 p-8 lg:p-12 rounded-[2.5rem] border border-slate-100 shadow-xl shadow-slate-200/50">
-            <form className="space-y-6">
-              <div>
-                <label className="block text-sm font-semibold text-slate-900 mb-2">姓名</label>
-                <input
-                  type="text"
-                  placeholder="请输入您的姓名"
-                  className="w-full px-5 py-4 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-rose-500/50 focus:border-rose-500 transition-all"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-semibold text-slate-900 mb-2">邮箱</label>
-                <input
-                  type="email"
-                  placeholder="email@example.com"
-                  className="w-full px-5 py-4 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-rose-500/50 focus:border-rose-500 transition-all"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-semibold text-slate-900 mb-2">留言</label>
-                <textarea
-                  rows={4}
-                  placeholder="在此输入您的留言..."
-                  className="w-full px-5 py-4 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-rose-500/50 focus:border-rose-500 transition-all resize-none"
-                ></textarea>
-                <p className="text-xs text-slate-400 mt-2 text-right">最多 500 个字符</p>
-              </div>
-              <button
-                type="button"
-                className="w-full py-4 rounded-xl bg-rose-500 hover:bg-rose-600 text-white font-bold text-lg shadow-md hover:shadow-xl hover:shadow-rose-500/20 transition-all active:scale-95"
-              >
-                发送留言
-              </button>
-            </form>
-          </div>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 function Footer({ transactionCount }: { transactionCount: number }) {
@@ -985,7 +1042,7 @@ function Footer({ transactionCount }: { transactionCount: number }) {
   )
 }
 
-function CheckoutModal({ product, initialQuantity, onClose, onTransaction }: { product: any, initialQuantity: number, onClose: () => void, onTransaction: () => void }) {
+function CheckoutModal({ product, initialQuantity, onClose, onTransaction, username }: { product: any, initialQuantity: number, onClose: () => void, onTransaction: (trx: Transaction) => void, username: string | null }) {
   const [quantity, setQuantity] = useState(initialQuantity);
   const [paymentMethod, setPaymentMethod] = useState<'qris' | 'bep20'>('qris');
   const [isSuccess, setIsSuccess] = useState(false);
@@ -1043,7 +1100,18 @@ function CheckoutModal({ product, initialQuantity, onClose, onTransaction }: { p
             target="_blank"
             rel="noreferrer"
             onClick={() => {
-              onTransaction();
+              const totalPriceVal = product.price * quantity;
+              const newTrx: Transaction = {
+                id: transactionCode,
+                name: username || "Customer",
+                product: product.name,
+                qty: quantity,
+                amount: `¥${totalPriceVal}`,
+                date: new Date().toLocaleDateString('zh-CN'),
+                status: 'Pending',
+                proof_url: ''
+              };
+              onTransaction(newTrx);
               onClose();
             }}
             className="w-full py-3 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-bold transition-colors block"
@@ -1196,6 +1264,137 @@ function CheckoutModal({ product, initialQuantity, onClose, onTransaction }: { p
 
         </div>
       </div>
+    </div>
+  );
+}
+
+function TransactionsView({ transactions }: { transactions: Transaction[] }) {
+  return (
+    <div className="container mx-auto px-4 lg:px-8">
+      <div className="flex items-center justify-between mb-8">
+        <div>
+          <h2 className="text-3xl font-bold mb-2 text-slate-900">Riwayat Pembelian</h2>
+          <p className="text-slate-500">Daftar pembelian yang dilakukan secara global.</p>
+        </div>
+        <div className="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
+          <Activity className="w-6 h-6 text-blue-500" />
+        </div>
+      </div>
+
+      <div className="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-sm">
+        <div className="overflow-x-auto">
+          <table className="w-full text-left border-collapse">
+            <thead>
+              <tr className="border-b border-slate-100 bg-slate-50/50">
+                <th className="p-4 text-sm font-semibold text-slate-600">ID</th>
+                <th className="p-4 text-sm font-semibold text-slate-600">PRODUK</th>
+                <th className="p-4 text-sm font-semibold text-slate-600">JUMLAH</th>
+                <th className="p-4 text-sm font-semibold text-slate-600">HARGA</th>
+                <th className="p-4 text-sm font-semibold text-slate-600">STATUS</th>
+              </tr>
+            </thead>
+            <tbody>
+              {transactions.map((trx) => (
+                <tr key={trx.id} className="border-b border-slate-50 hover:bg-slate-50/30 transition-colors">
+                  <td className="p-4 text-sm font-mono text-slate-500">{trx.id}</td>
+                  <td className="p-4 text-sm font-medium text-slate-900">{trx.product}</td>
+                  <td className="p-4 text-sm text-slate-600">{trx.qty}</td>
+                  <td className="p-4 text-sm font-bold text-blue-600">{trx.amount}</td>
+                  <td className="p-4 text-sm">
+                    <span className={cn(
+                      "px-3 py-1 rounded-full text-xs font-bold",
+                      trx.status === 'Sukses' ? "bg-emerald-100 text-emerald-600" : "bg-amber-100 text-amber-600"
+                    )}>
+                      {trx.status}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+              {transactions.length === 0 && (
+                <tr>
+                  <td colSpan={5} className="p-8 text-center text-slate-400">Belum ada riwayat transaksi.</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function AdminView({ transactions, confirmTransaction }: { transactions: Transaction[], confirmTransaction: (id: string) => void }) {
+  const [pin, setPin] = useState('');
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleLogin = () => {
+    if (pin === 'Zerotoher0') setIsAuthenticated(true);
+    else setError('Password Salah!');
+  };
+
+  return (
+    <div className="container mx-auto px-4 lg:px-8">
+      {!isAuthenticated ? (
+        <div className="max-w-md mx-auto mt-20 p-8 bg-white border border-slate-200 rounded-3xl shadow-xl text-center">
+          <h2 className="text-2xl font-bold mb-6 text-slate-900">Login Admin</h2>
+          <input 
+            type="password" 
+            value={pin}
+            onChange={e => setPin(e.target.value)}
+            className="w-full border border-slate-200 rounded-xl py-3 px-4 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500 text-center tracking-widest"
+            placeholder="Password"
+          />
+          {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+          <button onClick={handleLogin} className="w-full py-3 rounded-xl bg-slate-900 text-white font-bold hover:bg-slate-800 transition-colors">
+            Masuk
+          </button>
+        </div>
+      ) : (
+        <div>
+          <h2 className="text-3xl font-bold mb-8 text-slate-900">Panel Admin</h2>
+          <div className="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-sm">
+            <div className="overflow-x-auto p-4">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="border-b border-slate-100 bg-slate-50/50">
+                    <th className="p-4 text-sm font-semibold text-slate-600">ID</th>
+                    <th className="p-4 text-sm font-semibold text-slate-600">PESANAN</th>
+                    <th className="p-4 text-sm font-semibold text-slate-600">STATUS</th>
+                    <th className="p-4 text-sm font-semibold text-slate-600">AKSI</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {transactions.map(trx => (
+                    <tr key={trx.id} className="border-b border-slate-50 hover:bg-slate-50/30 transition-colors">
+                      <td className="p-4 text-sm font-mono text-slate-500">{trx.id}</td>
+                      <td className="p-4 text-sm">
+                        <div className="font-bold text-slate-900">{trx.name}</div>
+                        <div className="text-slate-500 text-xs">{trx.qty}x {trx.product} - {trx.amount}</div>
+                      </td>
+                      <td className="p-4 text-sm">
+                        <span className={cn(
+                          "px-3 py-1 rounded-full text-xs font-bold",
+                          trx.status === 'Sukses' ? "bg-emerald-100 text-emerald-600" : "bg-amber-100 text-amber-600"
+                        )}>
+                          {trx.status}
+                        </span>
+                      </td>
+                      <td className="p-4 text-sm">
+                        {trx.status !== 'Sukses' && (
+                          <button onClick={() => confirmTransaction(trx.id)} className="bg-emerald-500 text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-emerald-600 transition-colors shadow-sm">
+                            Sukseskan
+                          </button>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
