@@ -153,13 +153,40 @@ export default function App() {
   const [username, setUsername] = useState<string | null>(null);
   const [showLoginModal, setShowLoginModal] = useState(false);
 
+  const [transactionCount, setTransactionCount] = useState(0);
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
     window.addEventListener('scroll', handleScroll);
+    
+    // Initialize transaction count from localStorage with daily reset
+    const today = new Date().toISOString().split('T')[0];
+    const savedData = localStorage.getItem('transaction_data');
+    
+    if (savedData) {
+      const { count, date } = JSON.parse(savedData);
+      if (date === today) {
+        setTransactionCount(count);
+      } else {
+        // New day, reset counter
+        setTransactionCount(0);
+        localStorage.setItem('transaction_data', JSON.stringify({ count: 0, date: today }));
+      }
+    } else {
+      localStorage.setItem('transaction_data', JSON.stringify({ count: 0, date: today }));
+    }
+    
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const handleTransactionIncrement = () => {
+    const today = new Date().toISOString().split('T')[0];
+    const newCount = transactionCount + 1;
+    setTransactionCount(newCount);
+    localStorage.setItem('transaction_data', JSON.stringify({ count: newCount, date: today }));
+  };
 
   return (
     <div className="font-sans text-slate-900 bg-white min-h-screen">
@@ -170,13 +197,14 @@ export default function App() {
       <About />
       <Testimonials />
       <Contact />
-      <Footer />
+      <Footer transactionCount={transactionCount} />
 
       {selectedProduct && (
         <CheckoutModal
           product={selectedProduct.product}
           initialQuantity={selectedProduct.quantity}
           onClose={() => setSelectedProduct(null)}
+          onTransaction={handleTransactionIncrement}
         />
       )}
 
@@ -874,7 +902,7 @@ function Contact() {
   )
 }
 
-function Footer() {
+function Footer({ transactionCount }: { transactionCount: number }) {
   return (
     <footer className="bg-[#0f111e] pt-24 pb-10">
       <div className="container mx-auto px-4 lg:px-8">
@@ -946,15 +974,18 @@ function Footer() {
           </div>
         </div>
 
-        <div className="text-center text-slate-500 border-t border-white/5 pt-8">
+        <div className="text-center text-slate-500 border-t border-white/5 pt-8 relative">
           <p>© 2026 Zangxhi-Ai. All rights reserved.</p>
+          <div className="absolute bottom-0 left-0 text-[10px] text-slate-700 font-mono opacity-30 select-none">
+            { `{ ${transactionCount} }` }
+          </div>
         </div>
       </div>
     </footer>
   )
 }
 
-function CheckoutModal({ product, initialQuantity, onClose }: { product: any, initialQuantity: number, onClose: () => void }) {
+function CheckoutModal({ product, initialQuantity, onClose, onTransaction }: { product: any, initialQuantity: number, onClose: () => void, onTransaction: () => void }) {
   const [quantity, setQuantity] = useState(initialQuantity);
   const [paymentMethod, setPaymentMethod] = useState<'qris' | 'bep20'>('qris');
   const [isSuccess, setIsSuccess] = useState(false);
@@ -1011,7 +1042,10 @@ function CheckoutModal({ product, initialQuantity, onClose }: { product: any, in
             href={`https://t.me/Zangxhi88?text=${encodeURIComponent(`交易编号: ${transactionCode}\n我已完成付款，这是我的付款凭证：`)}`}
             target="_blank"
             rel="noreferrer"
-            onClick={onClose}
+            onClick={() => {
+              onTransaction();
+              onClose();
+            }}
             className="w-full py-3 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-bold transition-colors block"
           >
             前往 Telegram 并发送凭证
