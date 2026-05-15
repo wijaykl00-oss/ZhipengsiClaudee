@@ -32,7 +32,7 @@ import claudeImg from '../foto/claudes.jpeg';
 import cursorImg from '../foto/cursor.jpg';
 import gptImg from '../foto/gpt.png';
 import backgroundImg from '../foto/Background.png';
-import qrisImg from '../foto/qeiss.jpeg';
+import qrisImg from '../foto/qriszhangxi.jpeg';
 import backgroundpbImg from '../foto/backgroundpb.jpeg';
 
 const products = [
