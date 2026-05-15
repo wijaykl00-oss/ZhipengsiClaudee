@@ -299,7 +299,8 @@ export default function App() {
         transactionCount={
           transactions.filter(t => {
             const today = getTodayDate();
-            return t.date === today;
+            const todayOld = new Date().toLocaleDateString('zh-CN');
+            return t.date === today || t.date === todayOld;
           }).length
         } 
       />
