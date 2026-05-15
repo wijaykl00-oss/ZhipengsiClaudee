@@ -161,13 +161,24 @@ export type Transaction = {
   proof_url?: string;
 };
 
+const getTodayDate = () => {
+  const d = new Date();
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
+
 export default function App() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<{ product: any, quantity: number } | null>(null);
   const [username, setUsername] = useState<string | null>(null);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [activeView, setActiveView] = useState<'home' | 'transactions' | 'admin'>('home');
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [transactions, setTransactions] = useState<Transaction[]>(() => {
+    const saved = localStorage.getItem('transactions');
+    return saved ? JSON.parse(saved) : [];
+  });
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -179,8 +190,17 @@ export default function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    if (transactions.length > 0) {
+      localStorage.setItem('transactions', JSON.stringify(transactions));
+    }
+  }, [transactions]);
+
   const fetchTransactions = async () => {
-    if (!supabase) return;
+    if (!supabase) {
+      console.warn('Supabase not connected. Using local data only.');
+      return;
+    }
     try {
       setIsLoading(true);
       const { data, error } = await supabase
@@ -278,7 +298,7 @@ export default function App() {
       <Footer 
         transactionCount={
           transactions.filter(t => {
-            const today = new Date().toLocaleDateString('zh-CN');
+            const today = getTodayDate();
             return t.date === today;
           }).length
         } 
@@ -1114,7 +1134,7 @@ function CheckoutModal({ product, initialQuantity, onClose, onTransaction, usern
                 product: product.name,
                 qty: quantity,
                 amount: `¥${totalPriceVal}`,
-                date: new Date().toLocaleDateString('zh-CN'),
+                date: getTodayDate(),
                 status: 'Pending',
                 proof_url: ''
               };
