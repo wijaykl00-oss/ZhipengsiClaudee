@@ -208,7 +208,7 @@ export default function App() {
         .from('transactions')
         .select('*')
         .order('created_at', { ascending: false });
-        
+
       if (error) throw error;
       if (data) setTransactions(data as Transaction[]);
     } catch (err) {
@@ -241,14 +241,14 @@ export default function App() {
 
   const confirmTransaction = async (id: string) => {
     setTransactions(prev => prev.map(trx => trx.id === id ? { ...trx, status: 'Sukses' } : trx));
-    
+
     if (supabase) {
       try {
         const { error } = await supabase
           .from('transactions')
           .update({ status: 'Sukses' })
           .eq('id', id);
-          
+
         if (error) throw error;
       } catch (err) {
         console.error('Failed to update transaction status:', err);
@@ -268,15 +268,15 @@ export default function App() {
 
   return (
     <div className="font-sans text-slate-900 bg-white min-h-screen">
-      <Navbar 
-        isScrolled={isScrolled} 
-        user={username} 
-        onLoginClick={() => setShowLoginModal(true)} 
+      <Navbar
+        isScrolled={isScrolled}
+        user={username}
+        onLoginClick={() => setShowLoginModal(true)}
         onLogoClick={handleSecretClick}
         onViewChange={setActiveView}
         activeView={activeView}
       />
-      
+
       {activeView === 'home' ? (
         <>
           <Hero />
@@ -296,14 +296,14 @@ export default function App() {
         </div>
       )}
 
-      <Footer 
+      <Footer
         transactionCount={
           transactions.filter(t => {
             const today = getTodayDate();
             const todayOld = new Date().toLocaleDateString('zh-CN');
             return t.date === today || t.date === todayOld;
           }).length
-        } 
+        }
       />
 
       {selectedProduct && (
@@ -408,20 +408,20 @@ function LoginModal({ onClose, onLogin }: { onClose: () => void, onLogin: (name:
   );
 }
 
-function Navbar({ 
-  isScrolled, 
-  user, 
-  onLoginClick, 
-  onLogoClick, 
-  onViewChange, 
-  activeView 
-}: { 
-  isScrolled: boolean, 
-  user: string | null, 
-  onLoginClick: () => void, 
-  onLogoClick: () => void, 
+function Navbar({
+  isScrolled,
+  user,
+  onLoginClick,
+  onLogoClick,
+  onViewChange,
+  activeView
+}: {
+  isScrolled: boolean,
+  user: string | null,
+  onLoginClick: () => void,
+  onLogoClick: () => void,
   onViewChange: (view: 'home' | 'transactions' | 'admin') => void,
-  activeView: string 
+  activeView: string
 }) {
   return (
     <nav className={cn(
@@ -574,11 +574,11 @@ function Products({ onSelectProduct }: { onSelectProduct: (product: any, quantit
               "rounded-3xl p-8 transition-all duration-300 hover:shadow-2xl hover:shadow-black/50 hover:-translate-y-1 hover:scale-[1.02] cursor-pointer relative flex flex-col group",
               p.highlighted ? "ring-2 ring-rose-500 shadow-lg shadow-rose-500/20" : "border border-white/10 shadow-sm"
             )}
-            style={{
-              backgroundImage: `linear-gradient(to bottom, rgba(21, 24, 43, 0.4), rgba(21, 24, 43, 0.8)), url(${backgroundpbImg})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-            }}>
+              style={{
+                backgroundImage: `linear-gradient(to bottom, rgba(21, 24, 43, 0.4), rgba(21, 24, 43, 0.8)), url(${backgroundpbImg})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+              }}>
               {/* Badge */}
               <div className={cn(
                 "absolute top-0 right-8 -translate-y-1/2 px-4 py-1.5 rounded-full text-sm font-bold shadow-md flex items-center gap-1",
@@ -1062,7 +1062,7 @@ function Footer({ transactionCount }: { transactionCount: number }) {
         <div className="text-center text-slate-500 border-t border-white/5 pt-8 relative">
           <p>© 2026 Zangxhi-Ai. All rights reserved.</p>
           <div className="absolute bottom-0 left-4 text-[11px] text-slate-400 font-mono opacity-60 select-none pb-2">
-            { `{ ${transactionCount} }` }
+            {`{ ${transactionCount} }`}
           </div>
         </div>
       </div>
@@ -1366,8 +1366,8 @@ function AdminView({ transactions, confirmTransaction }: { transactions: Transac
       {!isAuthenticated ? (
         <div className="max-w-md mx-auto mt-20 p-8 bg-white border border-slate-200 rounded-3xl shadow-xl text-center">
           <h2 className="text-2xl font-bold mb-6 text-slate-900">Login Admin</h2>
-          <input 
-            type="password" 
+          <input
+            type="password"
             value={pin}
             onChange={e => setPin(e.target.value)}
             className="w-full border border-slate-200 rounded-xl py-3 px-4 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500 text-center tracking-widest"
