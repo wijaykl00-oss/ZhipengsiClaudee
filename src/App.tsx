@@ -423,6 +423,16 @@ function Navbar({
   onViewChange: (view: 'home' | 'transactions' | 'admin') => void,
   activeView: string
 }) {
+  const [activeMenu, setActiveMenu] = useState('home');
+
+  useEffect(() => {
+    if (activeView !== 'home') {
+      setActiveMenu('');
+    } else if (!activeMenu) {
+      setActiveMenu('home');
+    }
+  }, [activeView]);
+
   return (
     <nav className={cn(
       "fixed top-0 inset-x-0 z-50 transition-all duration-300",
