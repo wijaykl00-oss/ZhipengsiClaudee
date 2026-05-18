@@ -444,10 +444,10 @@ function Navbar({
             "flex items-center gap-3 sm:gap-6 lg:gap-8 font-medium transition-colors text-xs sm:text-sm lg:text-base",
             isScrolled || activeView !== 'home' ? "text-slate-600" : "text-white/90"
           )}>
-            <button onClick={() => onViewChange('home')} className={cn("hover:text-blue-500 transition-colors", activeView === 'home' ? "text-blue-500" : "")}>首页</button>
-            <a href="#products" onClick={() => onViewChange('home')} className="hover:text-blue-500 transition-colors">产品</a>
-            <a href="#payment" onClick={() => onViewChange('home')} className="hover:text-blue-500 transition-colors">支付</a>
-            <a href="#contact" onClick={() => onViewChange('home')} className="hover:text-blue-500 transition-colors">联系</a>
+            <button onClick={() => { onViewChange('home'); setActiveMenu('home'); window.scrollTo({top: 0, behavior: 'smooth'}); }} className={cn("transition-all duration-300 hover:text-blue-500 hover:[text-shadow:0_0_12px_rgba(59,130,246,0.9)]", activeMenu === 'home' && activeView === 'home' ? "text-blue-600 font-bold [text-shadow:0_0_12px_rgba(59,130,246,0.5)]" : "")}>首页</button>
+            <a href="#products" onClick={() => { onViewChange('home'); setActiveMenu('products'); }} className={cn("transition-all duration-300 hover:text-blue-500 hover:[text-shadow:0_0_12px_rgba(59,130,246,0.9)]", activeMenu === 'products' && activeView === 'home' ? "text-blue-600 font-bold [text-shadow:0_0_12px_rgba(59,130,246,0.5)]" : "")}>产品</a>
+            <a href="#payment" onClick={() => { onViewChange('home'); setActiveMenu('payment'); }} className={cn("transition-all duration-300 hover:text-blue-500 hover:[text-shadow:0_0_12px_rgba(59,130,246,0.9)]", activeMenu === 'payment' && activeView === 'home' ? "text-blue-600 font-bold [text-shadow:0_0_12px_rgba(59,130,246,0.5)]" : "")}>支付</a>
+            <a href="#contact" onClick={() => { onViewChange('home'); setActiveMenu('contact'); }} className={cn("transition-all duration-300 hover:text-blue-500 hover:[text-shadow:0_0_12px_rgba(59,130,246,0.9)]", activeMenu === 'contact' && activeView === 'home' ? "text-blue-600 font-bold [text-shadow:0_0_12px_rgba(59,130,246,0.5)]" : "")}>联系</a>
           </div>
 
           <div className="flex items-center gap-4">
