@@ -58,7 +58,8 @@ const products = [
     id: 'claude-5x',
     name: 'Claude 5 x',
     desc: 'Anthropic Claude 深度思考与推理能力',
-    price: 250,
+    price: 278,
+    idrPrice: 721727,
     unit: '/月',
     sales: '2,891',
     badge: '最畅销',
@@ -76,7 +77,8 @@ const products = [
     id: 'claude-20x',
     name: 'Claude 20 x',
     desc: '面向企业和专业用户的最强 Claude',
-    price: 475,
+    price: 500,
+    idrPrice: 1298067,
     unit: '/月',
     sales: '678',
     badge: '专业版',
@@ -133,7 +135,8 @@ const products = [
     id: 'gpt-pro-20x',
     name: 'Gpt Pro 20 x',
     desc: 'OpenAI 最高权限，适合高频使用者',
-    price: 240,
+    price: 320,
+    idrPrice: 830762,
     unit: '/月',
     sales: '430',
     badge: '旗舰',
@@ -1106,9 +1109,9 @@ function CheckoutModal({ product, initialQuantity, onClose, onTransaction, usern
     if (e.target === e.currentTarget) onClose();
   };
 
-  const idrPrice = product.price * EXCHANGE_RATE;
+  const idrPrice = product.idrPrice || (product.price * EXCHANGE_RATE);
   const totalPrice = product.price * quantity;
-  const totalIdr = totalPrice * EXCHANGE_RATE;
+  const totalIdr = product.idrPrice ? (product.idrPrice * quantity) : (totalPrice * EXCHANGE_RATE);
 
   const formatIdr = (num: number) => {
     return new Intl.NumberFormat('id-ID').format(num);
