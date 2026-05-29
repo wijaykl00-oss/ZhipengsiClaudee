@@ -86,7 +86,7 @@ const products = [
     icon: <BrainCircuit className="w-8 h-8 text-slate-800" />,
     features: [
       '无限深度思考',
-      '50万 tokens 上下文窗口',
+      '100万 tokens 上下文窗口',
       '企业级安全防护'
     ],
     buttonColor: 'bg-slate-900 hover:bg-slate-800',
@@ -105,7 +105,7 @@ const products = [
     features: [
       '无限 AI 代码补全',
       '无限慢速请求',
-      '500 次/月快速请求'
+      '10k 次/月快速请求'
     ],
     buttonColor: 'bg-emerald-500 hover:bg-emerald-600',
     highlighted: true,
