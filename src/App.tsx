@@ -508,75 +508,21 @@ function Hero() {
               <ShieldCheck className="w-4 h-4 text-emerald-400" />
               可信赖的高级 AI 平台
             </div>
-            <div className="relative p-8 md:p-10 mb-8 title-wavy-bg overflow-hidden group/title">
-              {/* Dynamic flowing background waves */}
-              <div className="absolute inset-0 z-0 pointer-events-none opacity-30 group-hover/title:opacity-40 transition-opacity overflow-hidden">
-                <svg className="absolute w-[300%] h-[150%] -top-1/4 -left-1/2 animate-wave-slow" viewBox="0 0 1200 120" preserveAspectRatio="none">
-                  <path d="M0,60 C150,100 350,20 500,60 C650,100 850,20 1000,60 C1150,100 1300,20 1500,60 L1500,120 L0,120 Z" fill="url(#title-grad-1)" />
-                </svg>
-                <svg className="absolute w-[300%] h-[150%] -top-1/4 -left-1/2 animate-wave-fast opacity-50" viewBox="0 0 1200 120" preserveAspectRatio="none">
-                  <path d="M0,50 C200,10 400,90 600,50 C800,10 1000,90 1200,50 C1400,10 1600,90 1800,50 L1800,120 L0,120 Z" fill="url(#title-grad-2)" />
-                </svg>
-                <svg className="hidden">
-                  <defs>
-                    <linearGradient id="title-grad-1" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="#4f46e5" />
-                      <stop offset="50%" stopColor="#7c3aed" />
-                      <stop offset="100%" stopColor="#c084fc" />
-                    </linearGradient>
-                    <linearGradient id="title-grad-2" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="#c084fc" />
-                      <stop offset="50%" stopColor="#ec4899" />
-                      <stop offset="100%" stopColor="#f43f5e" />
-                    </linearGradient>
-                  </defs>
-                </svg>
-              </div>
+            <h1 className="text-5xl lg:text-[5rem] font-bold font-sans tracking-tight leading-[1.15] mb-8 text-glow-active">
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-100 to-slate-200">
+                以实惠价格
+              </span>
+              <br />
+              使用 <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-400 to-indigo-400 drop-shadow-[0_0_8px_rgba(168,85,247,0.3)]">高级 AI</span>
+              <br />
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-100 to-slate-200">
+                工具
+              </span>
+            </h1>
 
-              {/* Title Text with glow effect */}
-              <h1 className="relative z-10 text-5xl lg:text-[5rem] font-bold font-sans tracking-tight leading-[1.15] text-glow-active">
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-100 to-slate-200">
-                  以实惠价格
-                </span>
-                <br />
-                使用 <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-400 to-indigo-400 drop-shadow-[0_0_15px_rgba(168,85,247,0.5)]">高级 AI</span>
-                <br />
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-100 to-slate-200">
-                  工具
-                </span>
-              </h1>
-            </div>
-
-            <div className="relative p-6 md:p-8 mb-10 max-w-2xl pink-wavy-card overflow-hidden group/card">
-              {/* Dynamic pink waves background */}
-              <div className="absolute inset-0 z-0 pointer-events-none opacity-20 group-hover/card:opacity-35 transition-opacity overflow-hidden">
-                <svg className="absolute w-[300%] h-[150%] bottom-0 left-0 animate-wave-slow" viewBox="0 0 1200 120" preserveAspectRatio="none">
-                  <path d="M0,80 C150,120 350,40 500,80 C650,120 850,40 1000,80 C1150,120 1300,40 1500,80 L1500,120 L0,120 Z" fill="url(#pink-grad-1)" />
-                </svg>
-                <svg className="absolute w-[300%] h-[150%] bottom-0 left-0 animate-wave-fast opacity-60" viewBox="0 0 1200 120" preserveAspectRatio="none">
-                  <path d="M0,70 C200,30 400,110 600,70 C800,30 1000,110 1200,70 C1400,30 1600,110 1800,70 L1800,120 L0,120 Z" fill="url(#pink-grad-2)" />
-                </svg>
-                <svg className="hidden">
-                  <defs>
-                    <linearGradient id="pink-grad-1" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="#db2777" />
-                      <stop offset="50%" stopColor="#ec4899" />
-                      <stop offset="100%" stopColor="#f43f5e" />
-                    </linearGradient>
-                    <linearGradient id="pink-grad-2" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="#fda4af" />
-                      <stop offset="50%" stopColor="#f472b6" />
-                      <stop offset="100%" stopColor="#fb7185" />
-                    </linearGradient>
-                  </defs>
-                </svg>
-              </div>
-
-              {/* Description Text */}
-              <p className="relative z-10 text-lg md:text-xl text-rose-100 font-light leading-relaxed">
-                购买 Gemini Ultra、Claude 5x/20x 和 Cursor Ultra 的访问权限，价格实惠。即时激活，全天候支持。
-              </p>
-            </div>
+            <p className="text-xl md:text-2xl mb-10 max-w-2xl font-light leading-relaxed aesthetic-desc animate-aesthetic-float">
+              购买 Gemini Ultra、Claude 5x/20x 和 Cursor Ultra 的访问权限，价格实惠。即时激活，全天候支持。
+            </p>
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
               <a href="#products" className="w-full sm:w-auto px-8 py-4 bg-purple-600 hover:bg-purple-700 text-white rounded-xl font-medium transition-transform hover:scale-105 active:scale-95 inline-flex items-center justify-center gap-2 shadow-lg shadow-purple-500/25">
                 查看套餐 <ChevronDown className="w-5 h-5" />
