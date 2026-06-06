@@ -1,1 +1,66 @@
 @import "tailwindcss";
+
+/* Keyframes for wave flow */
+@keyframes wave-flow {
+  0% { transform: translateX(0) translateZ(0) scaleY(1); }
+  50% { transform: translateX(-25%) translateZ(0) scaleY(0.85); }
+  100% { transform: translateX(-50%) translateZ(0) scaleY(1); }
+}
+
+.animate-wave-slow {
+  animation: wave-flow 20s linear infinite;
+}
+
+.animate-wave-fast {
+  animation: wave-flow 12s linear infinite reverse;
+}
+
+/* Keyframes for glowing text */
+@keyframes glow-pulse {
+  0% {
+    text-shadow: 0 0 8px rgba(168, 85, 247, 0.5), 0 0 15px rgba(168, 85, 247, 0.2);
+    filter: drop-shadow(0 0 4px rgba(168, 85, 247, 0.4));
+  }
+  100% {
+    text-shadow: 0 0 20px rgba(168, 85, 247, 0.9), 0 0 35px rgba(236, 72, 153, 0.6);
+    filter: drop-shadow(0 0 12px rgba(168, 85, 247, 0.8)) drop-shadow(0 0 25px rgba(236, 72, 153, 0.5));
+  }
+}
+
+.text-glow-active {
+  animation: glow-pulse 2.5s ease-in-out infinite alternate;
+}
+
+/* Glassmorphic pink wavy card */
+.pink-wavy-card {
+  background: linear-gradient(135deg, rgba(244, 63, 94, 0.15) 0%, rgba(236, 72, 153, 0.12) 50%, rgba(219, 39, 119, 0.18) 100%);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(236, 72, 153, 0.25);
+  box-shadow: 0 8px 32px 0 rgba(236, 72, 153, 0.15), inset 0 1px 1px 0 rgba(255, 255, 255, 0.1);
+  border-radius: 40px 15px 35px 20px / 20px 35px 15px 40px;
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.pink-wavy-card:hover {
+  border-radius: 20px 35px 15px 40px / 40px 15px 35px 20px;
+  border-color: rgba(236, 72, 153, 0.45);
+  box-shadow: 0 12px 40px 0 rgba(236, 72, 153, 0.25), inset 0 1px 2px 0 rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+/* Wavy background for title */
+.title-wavy-bg {
+  border-radius: 30px 50px 30px 50px / 50px 30px 50px 30px;
+  background: linear-gradient(135deg, rgba(79, 70, 229, 0.1) 0%, rgba(124, 58, 237, 0.15) 50%, rgba(192, 132, 252, 0.08) 100%);
+  border: 1px solid rgba(168, 85, 247, 0.15);
+  box-shadow: 0 4px 20px 0 rgba(168, 85, 247, 0.05);
+  transition: all 0.6s ease-in-out;
+}
+
+.title-wavy-bg:hover {
+  border-radius: 50px 30px 50px 30px / 30px 50px 30px 50px;
+  background: linear-gradient(135deg, rgba(79, 70, 229, 0.15) 0%, rgba(124, 58, 237, 0.2) 50%, rgba(192, 132, 252, 0.12) 100%);
+  border-color: rgba(168, 85, 247, 0.3);
+  box-shadow: 0 8px 30px 0 rgba(168, 85, 247, 0.15);
+}
