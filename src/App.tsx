@@ -331,7 +331,7 @@ export default function App() {
       )}
 
       <button className="fixed bottom-6 right-6 bg-slate-900 hover:bg-slate-800 text-white rounded-full py-3 px-6 shadow-xl flex items-center gap-2 transition-all hover:scale-105 z-50">
-        <Headphones className="w-5 h-5 text-rose-500" />
+        <Headphones className="w-5 h-5 text-purple-500" />
         <span className="font-medium">Talk with Us</span>
       </button>
     </div>
@@ -369,7 +369,7 @@ function LoginModal({ onClose, onLogin }: { onClose: () => void, onLogin: (name:
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="请输入您的用户名"
-                className="w-full px-5 py-4 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-rose-500/50 focus:border-rose-500 transition-all"
+                className="w-full px-5 py-4 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition-all"
                 autoFocus
                 required
               />
@@ -382,7 +382,7 @@ function LoginModal({ onClose, onLogin }: { onClose: () => void, onLogin: (name:
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="example@gmail.com"
-                className="w-full px-5 py-4 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-rose-500/50 focus:border-rose-500 transition-all"
+                className="w-full px-5 py-4 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition-all"
                 required
               />
             </div>
@@ -394,14 +394,14 @@ function LoginModal({ onClose, onLogin }: { onClose: () => void, onLogin: (name:
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="请输入您的密码"
-                className="w-full px-5 py-4 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-rose-500/50 focus:border-rose-500 transition-all"
+                className="w-full px-5 py-4 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition-all"
                 required
               />
             </div>
 
             <button
               type="submit"
-              className="w-full py-4 rounded-xl bg-rose-500 hover:bg-rose-600 text-white font-bold text-lg shadow-md hover:shadow-xl hover:shadow-rose-500/20 transition-all active:scale-95 flex items-center justify-center gap-2 cursor-pointer"
+              className="w-full py-4 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-lg shadow-md hover:shadow-xl hover:shadow-purple-500/20 transition-all active:scale-95 flex items-center justify-center gap-2 cursor-pointer"
             >
               继续
             </button>
@@ -449,7 +449,7 @@ function Navbar({
               <Bot className="w-6 h-6 text-white" />
             </div>
             <span className={cn("text-xl font-bold transition-colors", isScrolled || activeView !== 'home' ? "text-slate-900" : "text-white")}>
-              Zangxhi-Ai
+              Nexus open-AI
             </span>
             <CheckCircle2 className="w-5 h-5 text-blue-500 fill-white/10 ml-1" />
           </div>
@@ -473,13 +473,13 @@ function Navbar({
             </button>
             {user ? (
               <div className={cn("font-medium transition-colors flex items-center gap-2", isScrolled || activeView !== 'home' ? "text-slate-900" : "text-white")}>
-                <div className="w-8 h-8 bg-rose-500 rounded-full flex items-center justify-center text-white font-bold shadow-sm">
+                <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold shadow-sm">
                   {user.charAt(0).toUpperCase()}
                 </div>
                 <span className="hidden md:block">{user}</span>
               </div>
             ) : (
-              <button type="button" onClick={onLoginClick} className="bg-rose-500 hover:bg-rose-600 text-white px-6 py-2.5 rounded-lg font-bold transition-colors cursor-pointer shadow-md">
+              <button type="button" onClick={onLoginClick} className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2.5 rounded-lg font-bold transition-colors cursor-pointer shadow-md">
                 登录
               </button>
             )}
@@ -492,26 +492,26 @@ function Navbar({
 
 function Hero() {
   return (
-    <div className="relative pt-32 pb-24 lg:pt-40 lg:pb-32 overflow-hidden bg-[#0c0e1a] text-white selection:bg-rose-500/30">
+    <div className="relative pt-32 pb-24 lg:pt-40 lg:pb-32 overflow-hidden bg-[#0c0e1a] text-white selection:bg-purple-500/30">
       <div className="absolute inset-0 z-0">
         <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-blue-600/10 rounded-full blur-[120px] mix-blend-screen opacity-50 transform translate-x-1/3 -translate-y-1/3"></div>
-        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-rose-600/10 rounded-full blur-[100px] mix-blend-screen opacity-50 transform -translate-x-1/4 translate-y-1/4"></div>
+        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-purple-600/10 rounded-full blur-[100px] mix-blend-screen opacity-50 transform -translate-x-1/4 translate-y-1/4"></div>
         <div className="absolute inset-0 bg-cover bg-center opacity-30 mix-blend-overlay" style={{ backgroundImage: `url(${backgroundImg})` }}></div>
         {/* Network connections simulation base overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-[#0c0e1a] to-transparent"></div>
       </div>
-
+ 
       <div className="container mx-auto px-4 lg:px-8 relative z-10">
         <div className="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-          <div className="lg:col-span-7">
+          <div className="lg:col-span-6">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-800/50 text-blue-200 text-sm font-medium mb-8 backdrop-blur-md border border-white/10 shadow-[0_0_15px_rgba(59,130,246,0.1)]">
               <ShieldCheck className="w-4 h-4 text-emerald-400" />
               可信赖的高级 AI 平台
             </div>
-            <h1 className="text-5xl lg:text-[5.5rem] font-bold font-sans tracking-tight leading-[1.1] mb-8">
+            <h1 className="text-5xl lg:text-[5rem] font-bold font-sans tracking-tight leading-[1.15] mb-8">
               以实惠价格
               <br />
-              使用 <span className="text-rose-500 drop-shadow-sm">高级 AI</span>
+              使用 <span className="text-purple-400 drop-shadow-sm">高级 AI</span>
               <br />
               工具
             </h1>
@@ -519,7 +519,7 @@ function Hero() {
               购买 Gemini Ultra、Claude 5x/20x 和 Cursor Ultra 的访问权限，价格实惠。即时激活，全天候支持。
             </p>
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-              <a href="#products" className="w-full sm:w-auto px-8 py-4 bg-rose-500 hover:bg-rose-600 text-white rounded-xl font-medium transition-transform hover:scale-105 active:scale-95 inline-flex items-center justify-center gap-2 shadow-lg shadow-rose-500/25">
+              <a href="#products" className="w-full sm:w-auto px-8 py-4 bg-purple-600 hover:bg-purple-700 text-white rounded-xl font-medium transition-transform hover:scale-105 active:scale-95 inline-flex items-center justify-center gap-2 shadow-lg shadow-purple-500/25">
                 查看套餐 <ChevronDown className="w-5 h-5" />
               </a>
               <a href="#payment" className="w-full sm:w-auto px-8 py-4 bg-white/5 hover:bg-white/10 text-white rounded-xl font-medium transition-all border border-white/10 backdrop-blur-md inline-flex items-center justify-center shadow-lg hover:border-white/20">
@@ -527,24 +527,31 @@ function Hero() {
               </a>
             </div>
           </div>
-
-          <div className="lg:col-span-5 relative">
+ 
+          <div className="lg:col-span-6 relative">
             <div className="relative z-10 bg-slate-900/60 backdrop-blur-2xl border border-white/10 rounded-3xl p-6 shadow-[0_0_40px_rgba(0,0,0,0.5)]">
-              <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
                 {products.map((p) => (
-                  <div key={p.id} className="group flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-white/10 transition-all duration-300">
-                    <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-xl bg-slate-800/80 flex items-center justify-center border border-white/5 overflow-hidden group-hover:scale-110 transition-transform duration-300">
-                        <img src={p.image} alt={p.name} className="w-full h-full object-cover" />
-                      </div>
-                      <span className="font-semibold text-lg tracking-wide">{p.name}</span>
+                  <div
+                    key={p.id}
+                    className="group flex items-center gap-3 p-3.5 rounded-2xl bg-white/5 border border-white/5 hover:bg-purple-500/15 hover:border-purple-400/30 hover:shadow-[0_0_25px_rgba(168,85,247,0.3)] hover:scale-[1.05] hover:-translate-y-1 active:scale-[0.97] transition-all duration-300 ease-out cursor-pointer"
+                  >
+                    <div className="w-10 h-10 rounded-xl bg-slate-800/80 flex items-center justify-center border border-white/5 overflow-hidden shrink-0 group-hover:scale-110 transition-transform duration-300">
+                      <img src={p.image} alt={p.name} className="w-full h-full object-cover" />
                     </div>
-                    <span className="font-bold text-xl drop-shadow-sm">¥{p.price}</span>
+                    <div className="flex-1 min-w-0">
+                      <div className="font-semibold text-sm truncate tracking-wide text-slate-200 group-hover:text-white transition-colors">
+                        {p.name}
+                      </div>
+                      <div className="font-bold text-base text-purple-400 drop-shadow-sm mt-0.5">
+                        ¥{p.price}
+                      </div>
+                    </div>
                   </div>
                 ))}
               </div>
             </div>
-
+ 
             {/* Decorative glowing orbs behind cards */}
             <div className="absolute -top-10 -right-10 w-32 h-32 bg-blue-500/20 rounded-full blur-2xl"></div>
             <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-purple-500/20 rounded-full blur-2xl"></div>
@@ -552,7 +559,7 @@ function Hero() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 function Products({ onSelectProduct }: { onSelectProduct: (product: any, quantity: number) => void }) {
@@ -567,11 +574,11 @@ function Products({ onSelectProduct }: { onSelectProduct: (product: any, quantit
     <div id="products" className="py-24 bg-[#0c0e1a]">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center justify-center px-4 py-1.5 rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20 text-sm font-semibold tracking-wide mb-6">
+          <div className="inline-flex items-center justify-center px-4 py-1.5 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20 text-sm font-semibold tracking-wide mb-6">
             产品目录
           </div>
           <h2 className="text-4xl lg:text-5xl font-bold tracking-tight text-white mb-6">
-            选择你的 <span className="text-rose-500">常用 AI 工具</span>
+            选择你的 <span className="text-purple-400">常用 AI 工具</span>
           </h2>
           <p className="text-lg text-slate-300/90 mb-8">
             以实惠价格完整访问高级 AI 工具。所有套餐包含支持和更新。
@@ -586,7 +593,7 @@ function Products({ onSelectProduct }: { onSelectProduct: (product: any, quantit
           {products.map((p) => (
             <div key={p.id} className={cn(
               "rounded-3xl p-8 transition-all duration-300 hover:shadow-2xl hover:shadow-black/50 hover:-translate-y-1 hover:scale-[1.02] cursor-pointer relative flex flex-col group",
-              p.highlighted ? "ring-2 ring-rose-500 shadow-lg shadow-rose-500/20" : "border border-white/10 shadow-sm"
+              p.highlighted ? "ring-2 ring-purple-500 shadow-lg shadow-purple-500/20" : "border border-white/10 shadow-sm"
             )}
               style={{
                 backgroundImage: `linear-gradient(to bottom, rgba(21, 24, 43, 0.4), rgba(21, 24, 43, 0.8)), url(${backgroundpbImg})`,
@@ -680,7 +687,7 @@ function Payment() {
             <h2 className="text-4xl lg:text-5xl font-bold mb-6">
               支付方式
               <br />
-              <span className="text-rose-500">简单安全</span>
+              <span className="text-purple-400">简单安全</span>
             </h2>
             <p className="text-lg text-slate-400 mb-10 max-w-lg">
               我们支持支付宝付款，处理快速、安全可靠，扫码即可完成支付。
@@ -730,17 +737,17 @@ function Payment() {
 
             <div className="grid grid-cols-3 gap-4 mt-10">
               <div className="text-center p-4 bg-white/5 rounded-xl border border-white/5">
-                <Clock className="w-6 h-6 text-rose-400 mx-auto mb-2" />
+                <Clock className="w-6 h-6 text-purple-400 mx-auto mb-2" />
                 <div className="font-bold text-lg">&lt; 5 分钟</div>
                 <div className="text-sm text-slate-400">支付处理</div>
               </div>
               <div className="text-center p-4 bg-white/5 rounded-xl border border-white/5">
-                <Zap className="w-6 h-6 text-rose-400 mx-auto mb-2" />
+                <Zap className="w-6 h-6 text-purple-400 mx-auto mb-2" />
                 <div className="font-bold text-lg">即时</div>
                 <div className="text-sm text-slate-400">账号激活</div>
               </div>
               <div className="text-center p-4 bg-white/5 rounded-xl border border-white/5">
-                <ShieldCheck className="w-6 h-6 text-rose-400 mx-auto mb-2" />
+                <ShieldCheck className="w-6 h-6 text-purple-400 mx-auto mb-2" />
                 <div className="font-bold text-lg">100%</div>
                 <div className="text-sm text-slate-400">交易安全</div>
               </div>
@@ -838,7 +845,7 @@ function About() {
       <div className="container mx-auto px-4 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div className="order-2 lg:order-1 relative">
-            <div className="absolute -inset-4 bg-rose-50 rounded-[2.5rem] transform -rotate-2 -z-10"></div>
+            <div className="absolute -inset-4 bg-purple-50 rounded-[2.5rem] transform -rotate-2 -z-10"></div>
             <img
               src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800&h=600"
               alt="Programmer working with AI"
@@ -846,15 +853,15 @@ function About() {
             />
           </div>
           <div className="order-1 lg:order-2">
-            <div className="inline-flex py-1.5 px-4 rounded-full bg-rose-50 text-rose-600 text-sm font-semibold mb-6">
+            <div className="inline-flex py-1.5 px-4 rounded-full bg-purple-50 text-purple-600 text-sm font-semibold mb-6">
               关于我们
             </div>
             <h2 className="text-4xl lg:text-5xl font-bold text-slate-900 mb-6 leading-tight">
               可信赖的平台 <br />
-              提供 <span className="text-rose-500">高级 AI</span>
+              提供 <span className="text-purple-500">高级 AI</span>
             </h2>
             <p className="text-lg text-slate-600 mb-6 leading-relaxed">
-              Zangxhi-Ai 是一个以实惠价格提供高级 AI 工具访问权限的平台。我们致力提供最佳服务，即时激活，全天候支持。
+              Nexus open-AI 是一个以实惠价格提供高级 AI 工具访问权限的平台。我们致力提供最佳服务，即时激活，全天候支持。
             </p>
             <p className="text-lg text-slate-600 mb-10 leading-relaxed">
               凭借超过2年的行业经验，我们已服务数千名来自不同背景的用户——开发者、内容创作者、研究人员及各行业专业人士。
@@ -862,14 +869,14 @@ function About() {
 
             <div className="grid grid-cols-2 gap-6">
               <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100">
-                <div className="text-rose-500 mb-2">
+                <div className="text-purple-500 mb-2">
                   <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>
                 </div>
                 <div className="text-3xl font-bold text-slate-900 mb-1">2,500+</div>
                 <div className="text-slate-500">活跃用户</div>
               </div>
               <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100">
-                <div className="text-rose-500 mb-2">
+                <div className="text-purple-500 mb-2">
                   <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" /><rect x="14" y="14" width="7" height="7" /><rect x="3" y="14" width="7" height="7" /></svg>
                 </div>
                 <div className="text-3xl font-bold text-slate-900 mb-1">6</div>
@@ -909,11 +916,11 @@ function Testimonials() {
     <div className="py-24 bg-slate-50">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex py-1.5 px-4 rounded-full bg-rose-100 text-rose-600 text-sm font-semibold mb-4">
+          <div className="inline-flex py-1.5 px-4 rounded-full bg-purple-100 text-purple-600 text-sm font-semibold mb-4">
             用户评价
           </div>
           <h2 className="text-4xl lg:text-5xl font-bold text-slate-900 mb-6">
-            深受 <span className="text-rose-500">数千用户信赖</span>
+            深受 <span className="text-purple-500">数千用户信赖</span>
           </h2>
           <p className="text-lg text-slate-600">
             看看已使用我们服务的用户怎么说。
@@ -953,12 +960,12 @@ function Contact() {
       <div className="container mx-auto px-4 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-16">
           <div className="lg:pr-8">
-            <div className="inline-flex py-1.5 px-4 rounded-full bg-rose-50 text-rose-600 text-sm font-semibold mb-6">
+            <div className="inline-flex py-1.5 px-4 rounded-full bg-purple-50 text-purple-600 text-sm font-semibold mb-6">
               联系我们
             </div>
             <h2 className="text-4xl lg:text-5xl font-bold text-slate-900 mb-6 leading-tight">
               有问题？<br />
-              <span className="text-rose-500">联系我们</span>
+              <span className="text-purple-500">联系我们</span>
             </h2>
             <p className="text-lg text-slate-600 mb-10 leading-relaxed">
               我们的客服团队全天候就绪。可通过右侧表单或以下联系方式直接联系我们。
@@ -976,21 +983,21 @@ function Contact() {
 
             <div className="space-y-6">
               <a href="#" className="flex items-center gap-4 group">
-                <div className="w-14 h-14 bg-rose-50 rounded-2xl flex items-center justify-center text-rose-500 group-hover:bg-rose-500 group-hover:text-white transition-colors">
+                <div className="w-14 h-14 bg-purple-50 rounded-2xl flex items-center justify-center text-purple-500 group-hover:bg-purple-500 group-hover:text-white transition-colors">
                   <Send className="w-6 h-6" />
                 </div>
                 <div>
                   <h4 className="font-bold text-slate-900">电报</h4>
-                  <p className="text-rose-500 group-hover:underline">@Zangxhi88</p>
+                  <p className="text-purple-500 group-hover:underline">@Zangxhi88</p>
                 </div>
               </a>
               <a href="#" className="flex items-center gap-4 group">
-                <div className="w-14 h-14 bg-rose-50 rounded-2xl flex items-center justify-center text-rose-500 group-hover:bg-rose-500 group-hover:text-white transition-colors">
+                <div className="w-14 h-14 bg-purple-50 rounded-2xl flex items-center justify-center text-purple-500 group-hover:bg-purple-500 group-hover:text-white transition-colors">
                   <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="2" /><path d="m2 4 10 8 10-8" /></svg>
                 </div>
                 <div>
                   <h4 className="font-bold text-slate-900">Email</h4>
-                  <p className="text-slate-500 group-hover:underline">support@zangxhi-ai.com</p>
+                  <p className="text-slate-500 group-hover:underline">support@nexusopenai.com</p>
                 </div>
               </a>
             </div>
@@ -1009,13 +1016,13 @@ function Footer({ transactionCount }: { transactionCount: number }) {
           <h2 className="text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
             现在就开始使用
             <br />
-            <span className="text-rose-500">高级 AI 工具</span>
+            <span className="text-purple-400">高级 AI 工具</span>
           </h2>
           <p className="text-slate-400 text-lg mb-10">
             不要错过提升生产力的机会。价格实惠，即时激活。
           </p>
           <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
-            <a href="#products" className="px-8 py-4 bg-rose-500 hover:bg-rose-600 text-white rounded-xl font-bold transition-colors inline-flex items-center gap-2 shadow-lg shadow-rose-500/20">
+            <a href="#products" className="px-8 py-4 bg-purple-600 hover:bg-purple-700 text-white rounded-xl font-bold transition-colors inline-flex items-center gap-2 shadow-lg shadow-purple-500/20">
               选择套餐 <ChevronDown className="w-5 h-5 -rotate-90" />
             </a>
             <a href="#" className="px-8 py-4 bg-white/10 hover:bg-white/20 text-white rounded-xl font-bold transition-all border border-white/10 backdrop-blur-sm">
@@ -1027,11 +1034,11 @@ function Footer({ transactionCount }: { transactionCount: number }) {
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 border-t border-white/10 pt-16 mb-16">
           <div className="col-span-2 lg:col-span-2">
             <div className="flex items-center gap-2 mb-6">
-              <div className="w-10 h-10 bg-rose-500 rounded-lg flex items-center justify-center">
+              <div className="w-10 h-10 bg-purple-600 rounded-lg flex items-center justify-center">
                 <Bot className="w-6 h-6 text-white" />
               </div>
               <span className="text-xl font-bold text-white">
-                Zangxhi-Ai
+                Nexus open-AI
               </span>
               <CheckCircle2 className="w-5 h-5 text-blue-500 fill-white/10 ml-1" />
             </div>
@@ -1074,7 +1081,7 @@ function Footer({ transactionCount }: { transactionCount: number }) {
         </div>
 
         <div className="text-center text-slate-500 border-t border-white/5 pt-8 relative">
-          <p>© 2026 Zangxhi-Ai. All rights reserved.</p>
+          <p>© 2026 Nexus open-AI. All rights reserved.</p>
           <div className="absolute bottom-0 left-4 text-[11px] text-slate-400 font-mono opacity-60 select-none pb-2">
             {`{ ${transactionCount} }`}
           </div>
