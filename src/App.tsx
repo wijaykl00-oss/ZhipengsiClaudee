@@ -1279,17 +1279,10 @@ function CheckoutModal({
                         ? "text-amber-700 bg-amber-50 border-amber-200"
                         : "text-blue-700 bg-blue-50 border-blue-200"
                     )}>
-                      {selectedOption === '充到' ? '充到 (Isi Ulang)' : '成品'}
+                      {selectedOption}
                     </span>
                   )}
                 </div>
-                {selectedOption === '充到' && (
-                  <p className="text-xs text-slate-500 mt-1">
-                    <span className="text-amber-600 font-medium">
-                      * 充到 = untuk isi ulang (recharge ke akun Anda sendiri)
-                    </span>
-                  </p>
-                )}
               </div>
               <div className="text-right">
                 <div className="text-xs text-slate-500 mb-1">单价</div>
