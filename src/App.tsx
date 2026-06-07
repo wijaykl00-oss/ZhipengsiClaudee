@@ -1279,21 +1279,15 @@ function CheckoutModal({
                         ? "text-amber-700 bg-amber-50 border-amber-200"
                         : "text-blue-700 bg-blue-50 border-blue-200"
                     )}>
-                      {selectedOption === '充到' ? '充到 (Isi Ulang)' : '成品 (Produk Jadi)'}
+                      {selectedOption === '充到' ? '充到 (Isi Ulang)' : '成品'}
                     </span>
                   )}
                 </div>
-                {selectedOption && (
+                {selectedOption === '充到' && (
                   <p className="text-xs text-slate-500 mt-1">
-                    {selectedOption === '充到' ? (
-                      <span className="text-amber-600 font-medium">
-                        * 充到 = untuk isi ulang (recharge ke akun Anda sendiri)
-                      </span>
-                    ) : (
-                      <span className="text-blue-600 font-medium">
-                        * 成品 = untuk produk jadinya (akun siap pakai)
-                      </span>
-                    )}
+                    <span className="text-amber-600 font-medium">
+                      * 充到 = untuk isi ulang (recharge ke akun Anda sendiri)
+                    </span>
                   </p>
                 )}
               </div>
