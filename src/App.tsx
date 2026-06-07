@@ -176,7 +176,7 @@ const getTodayDate = () => {
 
 export default function App() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState<{ product: any, quantity: number } | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState<{ product: any, quantity: number, selectedOption?: '充到' | '成品' } | null>(null);
   const [username, setUsername] = useState<string | null>(null);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [activeView, setActiveView] = useState<'home' | 'transactions' | 'admin'>('home');
@@ -284,7 +284,7 @@ export default function App() {
       {activeView === 'home' ? (
         <>
           <Hero />
-          <Products onSelectProduct={(product, quantity) => setSelectedProduct({ product, quantity })} />
+          <Products onSelectProduct={(product, quantity, selectedOption) => setSelectedProduct({ product, quantity, selectedOption })} />
           <Payment />
           <About />
           <Testimonials />
@@ -567,8 +567,15 @@ function Hero() {
   );
 }
 
-function Products({ onSelectProduct }: { onSelectProduct: (product: any, quantity: number) => void }) {
+function Products({ onSelectProduct }: { onSelectProduct: (product: any, quantity: number, selectedOption?: '充到' | '成品') => void }) {
   const [quantities, setQuantities] = useState<Record<string, number>>({});
+  const [selectedOptions, setSelectedOptions] = useState<Record<string, '充到' | '成品'>>({
+    'claude-5x': '成品',
+    'claude-20x': '成品',
+    'gpt-pro-5x': '成品',
+    'gpt-pro-20x': '成品',
+  });
+  const OPTIONS_SUPPORTED_PRODUCTS = ['claude-5x', 'claude-20x', 'gpt-pro-5x', 'gpt-pro-20x'];
 
   const getQty = (id: string) => quantities[id] || 1;
   const updateQty = (id: string, delta: number) => {
@@ -621,7 +628,44 @@ function Products({ onSelectProduct }: { onSelectProduct: (product: any, quantit
 
               <div className="flex-1">
                 <h3 className="text-2xl font-bold mb-2 text-white">{p.name}</h3>
-                <p className="text-slate-400 text-sm mb-6 line-clamp-2 h-10">{p.desc}</p>
+                <p className="text-slate-400 text-sm mb-4 line-clamp-2 h-10">{p.desc}</p>
+
+                {OPTIONS_SUPPORTED_PRODUCTS.includes(p.id) && (
+                  <div className="mb-4">
+                    <div className="flex p-0.5 bg-white/5 border border-white/10 rounded-full backdrop-blur-sm relative">
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedOptions(prev => ({ ...prev, [p.id]: '充到' }));
+                        }}
+                        className={cn(
+                          "flex-1 py-1.5 text-center text-xs font-semibold rounded-full transition-all duration-300 cursor-pointer z-10",
+                          (selectedOptions[p.id] || '成品') === '充到'
+                            ? `${p.buttonColor} text-white shadow-md`
+                            : "text-slate-400 hover:text-white"
+                        )}
+                      >
+                        充到
+                      </button>
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedOptions(prev => ({ ...prev, [p.id]: '成品' }));
+                        }}
+                        className={cn(
+                          "flex-1 py-1.5 text-center text-xs font-semibold rounded-full transition-all duration-300 cursor-pointer z-10",
+                          (selectedOptions[p.id] || '成品') === '成品'
+                            ? `${p.buttonColor} text-white shadow-md`
+                            : "text-slate-400 hover:text-white"
+                        )}
+                      >
+                        成品
+                      </button>
+                    </div>
+                  </div>
+                )}
 
                 <div className="flex items-baseline gap-1 mb-6">
                   <span className="text-4xl font-bold text-white">¥{p.price}</span>
@@ -664,7 +708,14 @@ function Products({ onSelectProduct }: { onSelectProduct: (product: any, quantit
                   <ShieldCheck className="w-4 h-4" /> 30 天退款保证
                 </div>
                 <button
-                  onClick={(e) => { e.stopPropagation(); onSelectProduct(p, getQty(p.id)); }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onSelectProduct(
+                      p,
+                      getQty(p.id),
+                      OPTIONS_SUPPORTED_PRODUCTS.includes(p.id) ? (selectedOptions[p.id] || '成品') : undefined
+                    );
+                  }}
                   className={cn("w-full py-4 rounded-xl text-white font-bold text-lg shadow-lg hover:shadow-xl transition-all hover:-translate-y-0.5 active:translate-y-0", p.buttonColor)}
                 >
                   立即购买
@@ -1096,7 +1147,21 @@ function Footer({ transactionCount }: { transactionCount: number }) {
   )
 }
 
-function CheckoutModal({ product, initialQuantity, onClose, onTransaction, username }: { product: any, initialQuantity: number, onClose: () => void, onTransaction: (trx: Transaction) => void, username: string | null }) {
+function CheckoutModal({
+  product,
+  initialQuantity,
+  selectedOption,
+  onClose,
+  onTransaction,
+  username
+}: {
+  product: any,
+  initialQuantity: number,
+  selectedOption?: '充到' | '成品',
+  onClose: () => void,
+  onTransaction: (trx: Transaction) => void,
+  username: string | null
+}) {
   const [quantity, setQuantity] = useState(initialQuantity);
   const [paymentMethod, setPaymentMethod] = useState<'qris' | 'bep20'>('qris');
   const [isSuccess, setIsSuccess] = useState(false);
@@ -1150,7 +1215,9 @@ function CheckoutModal({ product, initialQuantity, onClose, onTransaction, usern
             <p className="font-mono font-bold text-slate-800">{transactionCode}</p>
           </div>
           <a
-            href={`https://t.me/Zangxhi88?text=${encodeURIComponent(`交易编号: ${transactionCode}\n我已完成付款，这是我的付款凭证：`)}`}
+            href={`https://t.me/Zangxhi88?text=${encodeURIComponent(
+              `交易编号: ${transactionCode}\n产品: ${product.name}${selectedOption ? ` (${selectedOption})` : ''}\n数量: ${quantity}\n我已完成付款，这是我的付款凭证：`
+            )}`}
             target="_blank"
             rel="noreferrer"
             onClick={() => {
@@ -1158,7 +1225,7 @@ function CheckoutModal({ product, initialQuantity, onClose, onTransaction, usern
               const newTrx: Transaction = {
                 id: transactionCode,
                 name: username || "Customer",
-                product: product.name,
+                product: selectedOption ? `${product.name} (${selectedOption})` : product.name,
                 qty: quantity,
                 amount: `¥${totalPriceVal}`,
                 date: getTodayDate(),
@@ -1199,7 +1266,14 @@ function CheckoutModal({ product, initialQuantity, onClose, onTransaction, usern
             <div className="flex justify-between items-start mb-4">
               <div>
                 <div className="text-xs text-slate-500 mb-1">购买产品</div>
-                <div className="font-bold text-slate-900 text-lg">{product.name}</div>
+                <div className="font-bold text-slate-900 text-lg flex items-center gap-2">
+                  {product.name}
+                  {selectedOption && (
+                    <span className="text-xs font-semibold px-2 py-0.5 rounded-full text-slate-600 bg-slate-100 border border-slate-200">
+                      {selectedOption}
+                    </span>
+                  )}
+                </div>
               </div>
               <div className="text-right">
                 <div className="text-xs text-slate-500 mb-1">单价</div>
