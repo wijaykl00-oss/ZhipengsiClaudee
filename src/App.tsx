@@ -314,6 +314,7 @@ export default function App() {
         <CheckoutModal
           product={selectedProduct.product}
           initialQuantity={selectedProduct.quantity}
+          selectedOption={selectedProduct.selectedOption}
           onClose={() => setSelectedProduct(null)}
           onTransaction={addTransaction}
           username={username}
@@ -508,14 +509,17 @@ function Hero() {
               <ShieldCheck className="w-4 h-4 text-emerald-400" />
               可信赖的高级 AI 平台
             </div>
-            <h1 className="text-5xl lg:text-[5rem] font-bold font-sans tracking-tight leading-[1.15] mb-8 text-glow-active">
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-100 to-slate-200">
+            <h1 className="text-5xl lg:text-[5rem] font-bold font-sans tracking-tight leading-[1.15] mb-8">
+              <span className="text-glow-white">
                 以实惠价格
               </span>
               <br />
-              使用 <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-400 to-indigo-400 drop-shadow-[0_0_8px_rgba(168,85,247,0.3)]">高级 AI</span>
+              <span className="text-glow-white">使用 </span>
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-400 to-indigo-400 text-glow-color">
+                高级 AI
+              </span>
               <br />
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-100 to-slate-200">
+              <span className="text-glow-white">
                 工具
               </span>
             </h1>
@@ -1266,14 +1270,32 @@ function CheckoutModal({
             <div className="flex justify-between items-start mb-4">
               <div>
                 <div className="text-xs text-slate-500 mb-1">购买产品</div>
-                <div className="font-bold text-slate-900 text-lg flex items-center gap-2">
+                <div className="font-bold text-slate-900 text-lg flex items-center gap-2 flex-wrap">
                   {product.name}
                   {selectedOption && (
-                    <span className="text-xs font-semibold px-2 py-0.5 rounded-full text-slate-600 bg-slate-100 border border-slate-200">
-                      {selectedOption}
+                    <span className={cn(
+                      "text-xs font-semibold px-2 py-0.5 rounded-full border shadow-sm",
+                      selectedOption === '充到'
+                        ? "text-amber-700 bg-amber-50 border-amber-200"
+                        : "text-blue-700 bg-blue-50 border-blue-200"
+                    )}>
+                      {selectedOption === '充到' ? '充到 (Isi Ulang)' : '成品 (Produk Jadi)'}
                     </span>
                   )}
                 </div>
+                {selectedOption && (
+                  <p className="text-xs text-slate-500 mt-1">
+                    {selectedOption === '充到' ? (
+                      <span className="text-amber-600 font-medium">
+                        * 充到 = untuk isi ulang (recharge ke akun Anda sendiri)
+                      </span>
+                    ) : (
+                      <span className="text-blue-600 font-medium">
+                        * 成品 = untuk produk jadinya (akun siap pakai)
+                      </span>
+                    )}
+                  </p>
+                )}
               </div>
               <div className="text-right">
                 <div className="text-xs text-slate-500 mb-1">单价</div>
