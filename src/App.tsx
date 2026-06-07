@@ -514,6 +514,7 @@ function Hero() {
                 以实惠价格
               </span>
               <br />
+              {/* Forced HMR update for hero text */}
               <span className="text-glow-white">使用 </span>
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-400 to-indigo-400 text-glow-color">
                 高级 AI
