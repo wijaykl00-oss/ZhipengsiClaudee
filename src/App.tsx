@@ -31,7 +31,7 @@ import geminiImg from '../foto/gemini.jpg';
 import claudeImg from '../foto/claudes.jpeg';
 import cursorImg from '../foto/cursor.jpg';
 import gptImg from '../foto/gpt.png';
-import backgroundImg from '../foto/Background.png';
+import backgroundVideo from '../foto/Background1.mp4';
 import qrisImg from '../foto/qrisbb.jpeg';
 import backgroundpbImg from '../foto/backgroundpb.jpeg';
 
@@ -494,12 +494,19 @@ function Navbar({
 function Hero() {
   return (
     <div className="relative pt-32 pb-24 lg:pt-40 lg:pb-32 overflow-hidden bg-[#0c0e1a] text-white selection:bg-purple-500/30">
-      <div className="absolute inset-0 z-0">
+      <div className="absolute inset-x-0 top-0 bottom-[-2px] z-0">
         <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-blue-600/10 rounded-full blur-[120px] mix-blend-screen opacity-50 transform translate-x-1/3 -translate-y-1/3"></div>
         <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-purple-600/10 rounded-full blur-[100px] mix-blend-screen opacity-50 transform -translate-x-1/4 translate-y-1/4"></div>
-        <div className="absolute inset-0 bg-cover bg-center opacity-30 mix-blend-overlay" style={{ backgroundImage: `url(${backgroundImg})` }}></div>
+        <video
+          className="absolute inset-x-0 top-0 bottom-[-2px] w-full h-full object-cover opacity-70 mix-blend-screen"
+          src={backgroundVideo}
+          autoPlay
+          loop
+          muted
+          playsInline
+        />
         {/* Network connections simulation base overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0c0e1a] to-transparent"></div>
+        <div className="absolute inset-x-0 top-0 bottom-[-2px] bg-gradient-to-t from-[#0c0e1a] to-transparent"></div>
       </div>
  
       <div className="container mx-auto px-4 lg:px-8 relative z-10">
