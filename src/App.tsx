@@ -34,6 +34,7 @@ import gptImg from '../foto/gpt.png';
 import backgroundVideo from '../foto/Background1.mp4';
 import qrisImg from '../foto/qrisbb.jpeg';
 import backgroundpbImg from '../foto/backgroundpb.jpeg';
+import productBackgroundVideo from '../foto/Background2.mp4';
 
 const products = [
   {
@@ -616,29 +617,35 @@ function Products({ onSelectProduct }: { onSelectProduct: (product: any, quantit
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {products.map((p) => (
             <div key={p.id} className={cn(
-              "rounded-3xl p-8 transition-all duration-300 hover:shadow-2xl hover:shadow-black/50 hover:-translate-y-1 hover:scale-[1.02] cursor-pointer relative flex flex-col group",
+              "rounded-3xl p-8 transition-all duration-300 hover:shadow-2xl hover:shadow-black/50 hover:-translate-y-1 hover:scale-[1.02] cursor-pointer relative flex flex-col group overflow-hidden",
               p.highlighted ? "ring-2 ring-purple-500 shadow-lg shadow-purple-500/20" : "border border-white/10 shadow-sm"
-            )}
-              style={{
-                backgroundImage: `linear-gradient(to bottom, rgba(21, 24, 43, 0.4), rgba(21, 24, 43, 0.8)), url(${backgroundpbImg})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-              }}>
+            )}>
+              {/* Loop Background Video */}
+              <video
+                className="absolute inset-0 w-full h-full object-cover opacity-45 pointer-events-none z-0"
+                src={productBackgroundVideo}
+                autoPlay
+                loop
+                muted
+                playsInline
+              />
+              <div className="absolute inset-0 bg-gradient-to-b from-[#15182b]/60 to-[#15182b]/90 pointer-events-none z-0"></div>
+
               {/* Badge */}
               <div className={cn(
-                "absolute top-0 right-8 -translate-y-1/2 px-4 py-1.5 rounded-full text-sm font-bold shadow-md flex items-center gap-1",
+                "absolute top-0 right-8 -translate-y-1/2 px-4 py-1.5 rounded-full text-sm font-bold shadow-md flex items-center gap-1 z-10",
                 p.badgeColor
               )}>
                 {p.highlighted && <Zap className="w-4 h-4 fill-white" />}
                 {p.badge}
               </div>
 
-              <div className="mb-6 aspect-square rounded-2xl overflow-hidden relative">
+              <div className="mb-6 aspect-square rounded-2xl overflow-hidden relative z-10">
                 <div className="absolute inset-0 bg-slate-900/40 mix-blend-multiply group-hover:opacity-0 transition-opacity z-10 pointer-events-none"></div>
                 <img src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
               </div>
 
-              <div className="flex-1">
+              <div className="flex-1 relative z-10">
                 <h3 className="text-2xl font-bold mb-2 text-white">{p.name}</h3>
                 <p className="text-slate-400 text-sm mb-4 line-clamp-2 h-10">{p.desc}</p>
 
@@ -699,7 +706,7 @@ function Products({ onSelectProduct }: { onSelectProduct: (product: any, quantit
                 </ul>
               </div>
 
-              <div className="mt-auto pt-6 border-t border-white/10 space-y-4">
+              <div className="mt-auto pt-6 border-t border-white/10 space-y-4 relative z-10">
                 <div className="flex justify-between items-center text-sm mb-2">
                   <span className="font-medium text-slate-300">数量</span>
                   <div className="flex items-center justify-between border border-white/10 rounded-full w-24 bg-white/5 p-0.5 backdrop-blur-sm">
