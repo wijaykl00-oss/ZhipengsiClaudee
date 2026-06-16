@@ -32,7 +32,7 @@ import claudeImg from '../foto/claudes.jpeg';
 import cursorImg from '../foto/cursor.jpg';
 import gptImg from '../foto/gpt.png';
 import backgroundVideo from '../foto/Background1.mp4';
-import qrisImg from '../foto/qrlgi.jpeg';
+import qrisImg from '../foto/qrtjtu.jpeg';
 import backgroundpbImg from '../foto/backgroundpb.jpeg';
 import productBackgroundVideo from '../foto/Background2.mp4';
 
