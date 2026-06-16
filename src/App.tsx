@@ -186,6 +186,18 @@ export default function App() {
     return saved ? JSON.parse(saved) : [];
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [activeFlashId, setActiveFlashId] = useState<string | null>(null);
+
+  const handleProductClick = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+    setActiveFlashId(id);
+    setTimeout(() => {
+      setActiveFlashId((current) => current === id ? null : current);
+    }, 2500);
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -284,8 +296,11 @@ export default function App() {
 
       {activeView === 'home' ? (
         <>
-          <Hero />
-          <Products onSelectProduct={(product, quantity, selectedOption) => setSelectedProduct({ product, quantity, selectedOption })} />
+          <Hero onProductClick={handleProductClick} />
+          <Products
+            onSelectProduct={(product, quantity, selectedOption) => setSelectedProduct({ product, quantity, selectedOption })}
+            activeFlashId={activeFlashId}
+          />
           <Payment />
           <About />
           <Testimonials />
@@ -492,7 +507,7 @@ function Navbar({
   );
 }
 
-function Hero() {
+function Hero({ onProductClick }: { onProductClick: (id: string) => void }) {
   return (
     <div className="relative pt-32 pb-24 lg:pt-40 lg:pb-32 overflow-hidden bg-[#0c0e1a] text-white selection:bg-purple-500/30">
       <div className="absolute inset-x-0 top-0 bottom-[-2px] z-0">
@@ -552,12 +567,7 @@ function Hero() {
                 {products.map((p) => (
                   <div
                     key={p.id}
-                    onClick={() => {
-                      const el = document.getElementById(p.id);
-                      if (el) {
-                        el.scrollIntoView({ behavior: 'smooth' });
-                      }
-                    }}
+                    onClick={() => onProductClick(p.id)}
                     className="group flex items-center gap-3 p-3.5 rounded-2xl bg-white/5 border border-white/5 hover:bg-purple-500/15 hover:border-purple-400/30 hover:shadow-[0_0_25px_rgba(168,85,247,0.3)] hover:scale-[1.05] hover:-translate-y-1 active:scale-[0.97] transition-all duration-300 ease-out cursor-pointer"
                   >
                     <div className="w-10 h-10 rounded-xl bg-slate-800/80 flex items-center justify-center border border-white/5 overflow-hidden shrink-0 group-hover:scale-110 transition-transform duration-300">
@@ -586,7 +596,13 @@ function Hero() {
   );
 }
 
-function Products({ onSelectProduct }: { onSelectProduct: (product: any, quantity: number, selectedOption?: '充到' | '成品') => void }) {
+function Products({
+  onSelectProduct,
+  activeFlashId
+}: {
+  onSelectProduct: (product: any, quantity: number, selectedOption?: '充到' | '成品') => void,
+  activeFlashId: string | null
+}) {
   const [quantities, setQuantities] = useState<Record<string, number>>({});
   const [selectedOptions, setSelectedOptions] = useState<Record<string, '充到' | '成品'>>({
     'claude-5x': '成品',
@@ -624,7 +640,11 @@ function Products({ onSelectProduct }: { onSelectProduct: (product: any, quantit
           {products.map((p) => (
             <div key={p.id} id={p.id} className={cn(
               "scroll-mt-24 rounded-3xl p-8 transition-all duration-300 hover:shadow-2xl hover:shadow-black/50 hover:-translate-y-1 hover:scale-[1.02] cursor-pointer relative flex flex-col group overflow-hidden",
-              p.highlighted ? "ring-2 ring-purple-500 shadow-lg shadow-purple-500/20" : "border border-white/10 shadow-sm"
+              activeFlashId === p.id
+                ? "flash-glow-active"
+                : p.highlighted
+                  ? "ring-2 ring-purple-500 shadow-lg shadow-purple-500/20"
+                  : "border border-white/10 shadow-sm"
             )}>
               {/* Loop Background Video */}
               <video
