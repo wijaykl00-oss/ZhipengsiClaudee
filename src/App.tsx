@@ -43,6 +43,7 @@ const products = [
     desc: '可邀请5位家庭成员，账号为个人专属',
     price: 210,
     idrPrice: 550871,
+    usdPrice: 31.06,
     unit: '/月',
     sales: '1,243',
     badge: '热门',
@@ -62,6 +63,7 @@ const products = [
     desc: 'Anthropic Claude 深度思考与推理能力',
     price: 320,
     idrPrice: 839442,
+    usdPrice: 47.33,
     unit: '/月',
     sales: '2,891',
     badge: '最畅销',
@@ -78,9 +80,10 @@ const products = [
   {
     id: 'claude-20x',
     name: 'Claude 20 x',
-    desc: '面向企业和专业用户的最强 Claude',
+    desc: '面向企业 and 专业用户的最强 Claude',
     price: 550,
     idrPrice: 1442757,
+    usdPrice: 81.35,
     unit: '/月',
     sales: '678',
     badge: '专业版',
@@ -100,6 +103,7 @@ const products = [
     desc: '无限功能的 AI 代码编辑器，专为开发者打造',
     price: 360,
     idrPrice: 967959,
+    usdPrice: 53.24,
     unit: '/月',
     sales: '4,572',
     badge: '本周最畅销',
@@ -120,6 +124,7 @@ const products = [
     desc: 'OpenAI 旗舰模型，极速响应',
     price: 340,
     idrPrice: 891886,
+    usdPrice: 50.29,
     unit: '/月',
     sales: '1,102',
     badge: '超值',
@@ -141,6 +146,7 @@ const products = [
     desc: 'OpenAI 最高权限，适合高频使用者',
     price: 570,
     idrPrice: 1495221,
+    usdPrice: 84.30,
     unit: '/月',
     sales: '430',
     badge: '旗舰',
@@ -1268,13 +1274,14 @@ function CheckoutModal({
             target="_blank"
             rel="noreferrer"
             onClick={() => {
-              const totalPriceVal = product.price * quantity;
               const newTrx: Transaction = {
                 id: transactionCode,
                 name: username || "Customer",
                 product: selectedOption ? `${product.name} (${selectedOption})` : product.name,
                 qty: quantity,
-                amount: `¥${totalPriceVal}`,
+                amount: paymentMethod === 'bep20'
+                  ? `$${(product.usdPrice * quantity).toFixed(2)}`
+                  : `¥${product.price * quantity}`,
                 date: getTodayDate(),
                 status: 'Pending',
                 proof_url: ''
@@ -1329,8 +1336,12 @@ function CheckoutModal({
               </div>
               <div className="text-right">
                 <div className="text-xs text-slate-500 mb-1">单价</div>
-                <div className="font-bold text-slate-900 text-lg leading-none">¥{product.price}</div>
-                <div className="text-xs text-slate-400 mt-1">≈ IDR {formatIdr(idrPrice)}</div>
+                <div className="font-bold text-slate-900 text-lg leading-none">
+                  {paymentMethod === 'bep20' ? `$${product.usdPrice}` : `¥${product.price}`}
+                </div>
+                {paymentMethod !== 'bep20' && (
+                  <div className="text-xs text-slate-400 mt-1">≈ IDR {formatIdr(idrPrice)}</div>
+                )}
               </div>
             </div>
 
@@ -1354,8 +1365,12 @@ function CheckoutModal({
             <div className="flex justify-between items-end">
               <div className="text-sm text-slate-600 font-medium">总金额</div>
               <div className="text-right">
-                <div className={cn("font-bold text-2xl leading-none mb-1 transition-colors duration-500", textColor)}>¥{totalPrice}</div>
-                <div className="text-xs text-slate-400">≈ IDR {formatIdr(totalIdr)} <span className="text-amber-500">*</span></div>
+                <div className={cn("font-bold text-2xl leading-none mb-1 transition-colors duration-500", textColor)}>
+                  {paymentMethod === 'bep20' ? `$${(product.usdPrice * quantity).toFixed(2)}` : `¥${totalPrice}`}
+                </div>
+                {paymentMethod !== 'bep20' && (
+                  <div className="text-xs text-slate-400">≈ IDR {formatIdr(totalIdr)} <span className="text-amber-500">*</span></div>
+                )}
               </div>
             </div>
           </div>
