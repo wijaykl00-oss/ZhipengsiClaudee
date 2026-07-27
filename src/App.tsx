@@ -935,7 +935,7 @@ function Payment() {
                   </div>
                 </div>
 
-                <a href="https://t.me/Zangxhi88" target="_blank" className="w-full py-4 bg-amber-500 hover:bg-amber-600 text-slate-900 rounded-xl font-bold flex items-center justify-center gap-2 transition-all shadow-lg shadow-amber-500/25">
+                <a href="https://t.me/Zaykunnn88" target="_blank" className="w-full py-4 bg-amber-500 hover:bg-amber-600 text-slate-900 rounded-xl font-bold flex items-center justify-center gap-2 transition-all shadow-lg shadow-amber-500/25">
                   <Send className="w-5 h-5" />
                   联系 Telegram 获取地址
                 </a>
@@ -1091,13 +1091,13 @@ function Contact() {
             </div>
 
             <div className="space-y-6">
-              <a href="#" className="flex items-center gap-4 group">
+              <a href="https://t.me/Zaykunnn88" target="_blank" rel="noreferrer" className="flex items-center gap-4 group">
                 <div className="w-14 h-14 bg-purple-50 rounded-2xl flex items-center justify-center text-purple-500 group-hover:bg-purple-500 group-hover:text-white transition-colors">
                   <Send className="w-6 h-6" />
                 </div>
                 <div>
                   <h4 className="font-bold text-slate-900">电报</h4>
-                  <p className="text-purple-500 group-hover:underline">@Zangxhi88</p>
+                  <p className="text-purple-500 group-hover:underline">@Zaykunnn88</p>
                 </div>
               </a>
               <a href="#" className="flex items-center gap-4 group">
@@ -1268,7 +1268,7 @@ function CheckoutModal({
             <p className="font-mono font-bold text-slate-800">{transactionCode}</p>
           </div>
           <a
-            href={`https://t.me/Zangxhi88?text=${encodeURIComponent(
+            href={`https://t.me/Zaykunnn88?text=${encodeURIComponent(
               `交易编号: ${transactionCode}\n产品: ${product.name}${selectedOption ? ` (${selectedOption})` : ''}\n数量: ${quantity}\n我已完成付款，这是我的付款凭证：`
             )}`}
             target="_blank"
