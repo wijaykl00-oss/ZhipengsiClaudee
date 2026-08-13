@@ -122,9 +122,9 @@ const products = [
     id: 'gpt-pro-5x',
     name: 'Gpt Pro 5 x',
     desc: 'OpenAI 旗舰模型，极速响应',
-    price: 340,
-    idrPrice: 891886,
-    usdPrice: 50.29,
+    price: 410,
+    idrPrice: 1085514,
+    usdPrice: 60.8,
     unit: '/月',
     sales: '1,102',
     badge: '超值',
@@ -144,9 +144,9 @@ const products = [
     id: 'gpt-pro-20x',
     name: 'Gpt Pro 20 x',
     desc: 'OpenAI 最高权限，适合高频使用者',
-    price: 570,
-    idrPrice: 1495221,
-    usdPrice: 84.30,
+    price: 649,
+    idrPrice: 1718290,
+    usdPrice: 96.2,
     unit: '/月',
     sales: '430',
     badge: '旗舰',
@@ -1219,6 +1219,9 @@ function CheckoutModal({
   const [paymentMethod, setPaymentMethod] = useState<'qris' | 'bep20'>('qris');
   const [isSuccess, setIsSuccess] = useState(false);
   const [proofFile, setProofFile] = useState<File | null>(null);
+  const [useCoupon, setUseCoupon] = useState(true);
+  const [couponCode, setCouponCode] = useState('');
+  const [contactInfo, setContactInfo] = useState('');
   const [transactionCode] = useState(() => 'TRX-' + Math.random().toString(36).substring(2, 11).toUpperCase());
   const EXCHANGE_RATE = 2532;
 
@@ -1229,6 +1232,10 @@ function CheckoutModal({
   };
 
   const handleSubmit = () => {
+    if (!contactInfo.trim()) {
+      alert('请输入联系方式方便查询订单！');
+      return;
+    }
     if (!proofFile) {
       alert('请先上传付款凭证！');
       return;
@@ -1269,14 +1276,14 @@ function CheckoutModal({
           </div>
           <a
             href={`https://t.me/Zaykunnn88?text=${encodeURIComponent(
-              `交易编号: ${transactionCode}\n产品: ${product.name}${selectedOption ? ` (${selectedOption})` : ''}\n数量: ${quantity}\n我已完成付款，这是我的付款凭证：`
+              `交易编号: ${transactionCode}\n产品: ${product.name}${selectedOption ? ` (${selectedOption})` : ''}\n数量: ${quantity}\n联系方式: ${contactInfo}${useCoupon && couponCode.trim() ? `\n优惠券: ${couponCode}` : ''}\n我已完成付款，这是我的付款凭证：`
             )}`}
             target="_blank"
             rel="noreferrer"
             onClick={() => {
               const newTrx: Transaction = {
                 id: transactionCode,
-                name: username || "Customer",
+                name: contactInfo.trim() || username || "Customer",
                 product: selectedOption ? `${product.name} (${selectedOption})` : product.name,
                 qty: quantity,
                 amount: paymentMethod === 'bep20'
@@ -1421,6 +1428,46 @@ function CheckoutModal({
                 <div className="text-xs text-slate-500 font-mono bg-white p-2 rounded border break-all select-all">0x4dfaf6ef2c859284401c30899c751910d7164d74</div>
               </div>
             )}
+
+            {/* Coupon & Contact Info Inputs */}
+            <div className="space-y-3 mb-4 text-left">
+              <div className="flex items-center gap-2">
+                <label className="flex items-center gap-1.5 cursor-pointer select-none shrink-0">
+                  <input
+                    type="checkbox"
+                    checked={useCoupon}
+                    onChange={(e) => setUseCoupon(e.target.checked)}
+                    className="w-4 h-4 rounded text-blue-600 focus:ring-blue-500 border-slate-300 cursor-pointer"
+                  />
+                  <span className="text-sm font-semibold text-slate-700">使用优惠券</span>
+                </label>
+                <input
+                  type="text"
+                  value={couponCode}
+                  onChange={(e) => setCouponCode(e.target.value)}
+                  disabled={!useCoupon}
+                  placeholder="请输入优惠券"
+                  className="flex-1 px-3 py-2 text-sm border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 disabled:bg-slate-100 disabled:opacity-50 bg-white"
+                />
+              </div>
+
+              <div className="flex items-center border border-slate-200 rounded-xl bg-white px-3 py-2 focus-within:ring-2 focus-within:ring-blue-500/50 transition-all">
+                <span className="text-sm font-semibold text-slate-700 shrink-0 mr-3 flex items-center">
+                  <span className="text-red-500 font-bold mr-0.5">*</span>联系方式
+                </span>
+                <input
+                  type="text"
+                  value={contactInfo}
+                  onChange={(e) => setContactInfo(e.target.value)}
+                  placeholder="请输入联系方式方便查询订单"
+                  className="w-full text-sm outline-none bg-transparent text-slate-800 placeholder-slate-400"
+                />
+              </div>
+
+              <p className="text-xs text-slate-400 leading-relaxed px-1">
+                【建议】填写手机号,如填邮箱,卡密将同时发送至邮箱。
+              </p>
+            </div>
 
             <div className="mb-4">
               <label className={cn(
