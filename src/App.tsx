@@ -354,11 +354,6 @@ export default function App() {
           }}
         />
       )}
-
-      <button className="fixed bottom-6 right-6 bg-slate-900 hover:bg-slate-800 text-white rounded-full py-3 px-6 shadow-xl flex items-center gap-2 transition-all hover:scale-105 z-50">
-        <Headphones className="w-5 h-5 text-purple-500" />
-        <span className="font-medium">Talk with Us</span>
-      </button>
     </div>
   );
 }
