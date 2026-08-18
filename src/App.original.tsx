@@ -1,6 +1,5 @@
 // Trigger redeploy for environment variables update
 import React, { useState, useEffect } from 'react';
-import Maintenance from './Maintenance';
 import { cn } from './lib/utils';
 import {
   Bot,
@@ -184,14 +183,7 @@ const getTodayDate = () => {
   return `${year}-${month}-${day}`;
 };
 
-// Set to false to restore original site
-const IS_MAINTENANCE_MODE = true;
-
 export default function App() {
-  if (IS_MAINTENANCE_MODE) {
-    return <Maintenance />;
-  }
-
   const [isScrolled, setIsScrolled] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<{ product: any, quantity: number, selectedOption?: '充到' | '成品' } | null>(null);
   const [username, setUsername] = useState<string | null>(null);
