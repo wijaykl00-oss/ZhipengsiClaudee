@@ -153,7 +153,7 @@ const products = [
     badgeColor: 'bg-indigo-600 text-white',
     icon: <MessageSquare className="w-8 h-8 text-indigo-700" />,
     features: [
-      '无限 GPT-4 & GPT-5 访问',
+      '无限 GPT-5 & GPT-6 访问',
       '1M tokens 上下文窗口',
       '高级联网与代码执行',
       'DALL·E 3 图像生成',
