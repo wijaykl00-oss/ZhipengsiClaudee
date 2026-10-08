@@ -141,8 +141,8 @@ const products = [
     image: gptImg
   },
   {
-    id: 'gpt-pro-20x',
-    name: 'Gpt Pro 20 x',
+    id: 'gpt-pro-25x',
+    name: 'Gpt Pro 25 x',
     desc: 'OpenAI 最高权限，适合高频使用者',
     price: 649,
     idrPrice: 1718290,
@@ -611,9 +611,9 @@ function Products({
     'claude-5x': '成品',
     'claude-20x': '成品',
     'gpt-pro-5x': '成品',
-    'gpt-pro-20x': '成品',
+    'gpt-pro-25x': '成品',
   });
-  const OPTIONS_SUPPORTED_PRODUCTS = ['claude-5x', 'claude-20x', 'gpt-pro-5x', 'gpt-pro-20x'];
+  const OPTIONS_SUPPORTED_PRODUCTS = ['claude-5x', 'claude-20x', 'gpt-pro-5x', 'gpt-pro-25x'];
 
   const getQty = (id: string) => quantities[id] || 1;
   const updateQty = (id: string, delta: number) => {
