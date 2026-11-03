@@ -1,6 +1,7 @@
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
+import fs from 'fs';
 import {defineConfig, loadEnv} from 'vite';
 
 export default defineConfig(({mode}) => {
@@ -10,7 +11,20 @@ export default defineConfig(({mode}) => {
     build: {
       outDir: 'dist/shop',
     },
-    plugins: [react(), tailwindcss()],
+    plugins: [
+      react(),
+      tailwindcss(),
+      {
+        name: 'copy-redirects-to-dist-root',
+        closeBundle() {
+          const publicRedirects = path.resolve(__dirname, 'public/_redirects');
+          const distRedirects = path.resolve(__dirname, 'dist/_redirects');
+          if (fs.existsSync(publicRedirects)) {
+            fs.copyFileSync(publicRedirects, distRedirects);
+          }
+        },
+      },
+    ],
     define: {
       'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),
     },
