@@ -1095,13 +1095,13 @@ function Contact() {
                   <p className="text-purple-500 group-hover:underline">@Zaykunnn88</p>
                 </div>
               </a>
-              <a href="#" className="flex items-center gap-4 group">
+              <a href="mailto:contactcenter@nexusopenai.com" className="flex items-center gap-4 group">
                 <div className="w-14 h-14 bg-purple-50 rounded-2xl flex items-center justify-center text-purple-500 group-hover:bg-purple-500 group-hover:text-white transition-colors">
                   <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="2" /><path d="m2 4 10 8 10-8" /></svg>
                 </div>
                 <div>
                   <h4 className="font-bold text-slate-900">Email</h4>
-                  <p className="text-slate-500 group-hover:underline">support@nexusopenai.com</p>
+                  <p className="text-slate-500 group-hover:underline">contactcenter@nexusopenai.com</p>
                 </div>
               </a>
             </div>
