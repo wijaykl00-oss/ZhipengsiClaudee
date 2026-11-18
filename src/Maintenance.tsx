@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import backgroundVideo from '../foto/Background1.mp4';
 import {
   AlertTriangle,
   Lock,
@@ -46,14 +47,22 @@ export default function Maintenance({ onAdminBypass }: MaintenanceProps) {
 
   return (
     <div className="min-h-screen w-full relative flex items-center justify-center p-4 sm:p-6 md:p-8 overflow-hidden bg-[#070814] text-white selection:bg-purple-500/30">
-      {/* Cosmic background effects */}
+      {/* Cosmic background effects & Video */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="w-full h-full object-cover opacity-45 scale-105"
+          src={backgroundVideo}
+        />
         {/* Soft cosmic glow blobs */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] sm:w-[900px] sm:h-[900px] bg-gradient-to-tr from-purple-700/15 via-blue-600/15 to-indigo-500/10 rounded-full blur-[130px] opacity-70" />
-        <div className="absolute -top-32 -right-32 w-96 h-96 bg-purple-600/15 rounded-full blur-[100px] opacity-60" />
-        <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-blue-600/15 rounded-full blur-[100px] opacity-60" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] sm:w-[900px] sm:h-[900px] bg-gradient-to-tr from-purple-700/20 via-blue-600/20 to-indigo-500/15 rounded-full blur-[130px] opacity-70" />
+        <div className="absolute -top-32 -right-32 w-96 h-96 bg-purple-600/20 rounded-full blur-[100px] opacity-60" />
+        <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-blue-600/20 rounded-full blur-[100px] opacity-60" />
         {/* Star dust / subtle radial mask */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-[#070814]/60 to-[#070814]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-[#070814]/50 to-[#070814]/90" />
       </div>
 
       {/* Main Glass Card */}

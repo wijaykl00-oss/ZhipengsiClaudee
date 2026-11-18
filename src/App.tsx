@@ -1,6 +1,14 @@
 // Trigger redeploy for environment variables update
 import React, { useState, useEffect } from 'react';
+import Maintenance from './Maintenance';
 import { cn } from './lib/utils';
+
+// ==========================================
+// MAINTENANCE MODE TOGGLE
+// Set to true to display the administrative maintenance page
+// Set to false to restore original website
+// ==========================================
+export const MAINTENANCE_MODE = true;
 import {
   Bot,
   CheckCircle2,
@@ -290,6 +298,15 @@ export default function App() {
       setSecretCount(0);
     }
   };
+
+  // If maintenance mode is enabled, display the maintenance page on main view
+  if (MAINTENANCE_MODE && activeView !== 'admin') {
+    return (
+      <Maintenance
+        onAdminBypass={() => setActiveView('admin')}
+      />
+    );
+  }
 
   return (
     <div className="font-sans text-slate-900 bg-white min-h-screen">
